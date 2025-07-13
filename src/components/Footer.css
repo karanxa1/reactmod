@@ -250,6 +250,11 @@
   transition: all 0.3s ease;
   padding: 0.3rem 0;
   position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
 }
 
 .footer-link::before {
@@ -376,6 +381,29 @@
   text-align: center;
 }
 
+.newsletter-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Bottom Section */
 .footer-bottom {
   padding: 2rem 0;
@@ -405,6 +433,9 @@
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.3s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .bottom-link:hover {

@@ -7,7 +7,7 @@ const FAQ = () => {
 
   const faqs = [
     {
-      question: "How do I download apps from Jar MOD?",
+      question: "How do I download apps from MODZ?",
       answer: "To download apps, click on any app card, join our Telegram channel, confirm your membership, and then click the download button. All downloads are safe and verified."
     },
     {
@@ -59,7 +59,7 @@ const FAQ = () => {
         <div className="page-header">
           <h1 className="page-title">Frequently Asked Questions</h1>
           <p className="page-subtitle">
-            Find answers to common questions about Jar MOD and our apps
+            Find answers to common questions about MODZ and our apps
           </p>
         </div>
         

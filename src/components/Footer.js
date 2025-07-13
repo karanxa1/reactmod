@@ -10,7 +10,7 @@ const Footer = () => {
   };
 
   const handleEmailClick = () => {
-    window.open('mailto:support@jarmod.com', '_blank');
+    window.open('mailto:support@modz.com', '_blank');
   };
 
   const handleNewsletterSubmit = (e) => {
@@ -24,6 +24,14 @@ const Footer = () => {
   };
 
   const currentYear = new Date().getFullYear();
+
+  const handleFooterLinkClick = (href, linkName) => {
+    if (href.startsWith('http')) {
+      window.open(href, '_blank');
+    } else {
+      alert(`${linkName} - Coming Soon! Join our Telegram channel for updates.`);
+    }
+  };
 
   const footerLinks = {
     company: [
@@ -97,7 +105,7 @@ const Footer = () => {
               <div className="footer-brand">
                 <div className="brand-logo">
                   <span className="logo-icon">📱</span>
-                  <span className="logo-text">Jar MOD</span>
+                  <span className="logo-text">MODZ</span>
                 </div>
                 <p className="brand-description">
                   Your premium destination for mobile applications. Join our exclusive 
@@ -127,9 +135,12 @@ const Footer = () => {
                 <ul className="footer-links">
                   {footerLinks.company.map((link, index) => (
                     <li key={index}>
-                      <a href={link.href} className="footer-link">
+                      <button 
+                        onClick={() => handleFooterLinkClick(link.href, link.name)}
+                        className="footer-link"
+                      >
                         {link.name}
-                      </a>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -141,9 +152,12 @@ const Footer = () => {
                 <ul className="footer-links">
                   {footerLinks.support.map((link, index) => (
                     <li key={index}>
-                      <a href={link.href} className="footer-link">
+                      <button 
+                        onClick={() => handleFooterLinkClick(link.href, link.name)}
+                        className="footer-link"
+                      >
                         {link.name}
-                      </a>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -155,9 +169,12 @@ const Footer = () => {
                 <ul className="footer-links">
                   {footerLinks.legal.map((link, index) => (
                     <li key={index}>
-                      <a href={link.href} className="footer-link">
+                      <button 
+                        onClick={() => handleFooterLinkClick(link.href, link.name)}
+                        className="footer-link"
+                      >
                         {link.name}
-                      </a>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -169,15 +186,12 @@ const Footer = () => {
                 <ul className="footer-links">
                   {footerLinks.community.map((link, index) => (
                     <li key={index}>
-                      <a 
-                        href={link.href} 
+                      <button 
+                        onClick={() => handleFooterLinkClick(link.href, link.name)}
                         className="footer-link"
-                        onClick={link.name === 'Telegram Channel' ? handleTelegramClick : undefined}
-                        target="_blank"
-                        rel="noopener noreferrer"
                       >
                         {link.name}
-                      </a>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -197,22 +211,32 @@ const Footer = () => {
                   delivered directly to your inbox.
                 </p>
               </div>
-              <div className="newsletter-form">
+              <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
                 <div className="input-group">
                   <input
                     type="email"
                     placeholder="Enter your email address"
                     className="newsletter-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
-                  <button className="newsletter-button">
-                    <span className="button-text">Subscribe</span>
+                  <button type="submit" className="newsletter-button">
+                    <span className="button-text">
+                      {isSubscribed ? '✓ Subscribed!' : 'Subscribe'}
+                    </span>
                     <span className="button-icon">📧</span>
                   </button>
                 </div>
+                {isSubscribed && (
+                  <div className="newsletter-success">
+                    Thank you for subscribing! You'll receive updates about new apps and exclusive content.
+                  </div>
+                )}
                 <p className="newsletter-note">
                   We respect your privacy. Unsubscribe at any time.
                 </p>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -222,13 +246,13 @@ const Footer = () => {
           <div className="container">
             <div className="bottom-content">
               <div className="copyright">
-                <p>&copy; {currentYear} Jar MOD. All rights reserved.</p>
+                <p>&copy; {currentYear} MODZ. All rights reserved.</p>
               </div>
               <div className="bottom-links">
-                <a href="#privacy" className="bottom-link">Privacy</a>
-                <a href="#terms" className="bottom-link">Terms</a>
-                <a href="#cookies" className="bottom-link">Cookies</a>
-                <a href="#sitemap" className="bottom-link">Sitemap</a>
+                <button onClick={() => handleFooterLinkClick('#privacy', 'Privacy Policy')} className="bottom-link">Privacy</button>
+                <button onClick={() => handleFooterLinkClick('#terms', 'Terms of Service')} className="bottom-link">Terms</button>
+                <button onClick={() => handleFooterLinkClick('#cookies', 'Cookie Policy')} className="bottom-link">Cookies</button>
+                <button onClick={() => handleFooterLinkClick('#sitemap', 'Sitemap')} className="bottom-link">Sitemap</button>
               </div>
               <div className="footer-badge">
                 <span className="badge-text">Made with</span>
