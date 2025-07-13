@@ -1,0 +1,562 @@
+.telegram-benefits {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.telegram-benefits::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 50%, rgba(0, 136, 204, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+  z-index: 1;
+}
+
+.benefits-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.benefits-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.benefits-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.title-icon {
+  font-size: 3.5rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+.benefits-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.benefits-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.tab-button {
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  color: #ccc;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, #0088cc, #005599);
+  border-color: #0088cc;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 136, 204, 0.3);
+}
+
+.benefits-content {
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.benefit-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.benefit-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s;
+}
+
+.benefit-card:hover::before {
+  left: 100%;
+}
+
+.benefit-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.benefit-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.benefit-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.benefit-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.benefit-description {
+  color: #ccc;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.community-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.community-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #0088cc;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 0.25rem;
+}
+
+.stat-trend {
+  font-size: 0.8rem;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.member-activity {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+}
+
+.activity-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-title::before {
+  content: '🔴';
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.activity-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0088cc, #005599);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.activity-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.activity-user {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.activity-action {
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+.activity-time {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.activity-status {
+  color: #10b981;
+  font-size: 1.2rem;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.testimonial-info {
+  flex: 1;
+}
+
+.testimonial-name {
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.verified-badge {
+  background: #10b981;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.testimonial-rating {
+  margin-top: 0.25rem;
+}
+
+.testimonial-text {
+  color: #ccc;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.benefits-cta {
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.progress-indicator {
+  margin-bottom: 2rem;
+}
+
+.progress-bar {
+  width: 300px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin: 0 auto 1rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0088cc, #10b981);
+  border-radius: 4px;
+  transition: width 0.1s ease;
+}
+
+.progress-text {
+  color: #ccc;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.join-telegram-btn {
+  background: linear-gradient(135deg, #0088cc, #005599);
+  color: white;
+  border: none;
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.join-telegram-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.join-telegram-btn:hover::before {
+  left: 100%;
+}
+
+.join-telegram-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 40px rgba(0, 136, 204, 0.4);
+}
+
+.btn-badge {
+  background: #10b981;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.trust-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.trust-icon {
+  font-size: 1.2rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .telegram-benefits {
+    padding: 2rem 1rem;
+  }
+  
+  .benefits-title {
+    font-size: 2rem;
+  }
+  
+  .benefits-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tab-button {
+    width: 200px;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .community-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .community-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .trust-indicators {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .join-telegram-btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .benefits-title {
+    font-size: 1.8rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .title-icon {
+    font-size: 2.5rem;
+  }
+  
+  .progress-bar {
+    width: 250px;
+  }
+} 

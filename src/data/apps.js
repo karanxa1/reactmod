@@ -6,9 +6,7 @@ export const apps = [
     logo: "https://github.com/karanxa1/images-/blob/main/WhatsApp%20Image%202025-07-13%20at%2013.18.55_cc8743db.jpg?raw=true",
     category: "Apps",
     version: "1.0.0",
-    fileSize: "8.5 MB",
-    badge: "NEW",
-    badgeColor: "blue",
+    fileSize: "108 MB",
     downloadLink: "https://www.mediafire.com/file/boco0jje3krxhkj/Insta_Vault.apk/file",
     features: [
       "🔐 Password Protection System with Telegram integration",
@@ -95,8 +93,6 @@ export const apps = [
     category: "Apps",
     version: "1.0.0",
     fileSize: "6.9 MB",
-    badge: "MOD",
-    badgeColor: "red",
     downloadLink: "https://example.com/download/livecapture",
     features: [
       "HD screen recording",
@@ -108,98 +104,6 @@ export const apps = [
     screenshots: [
       "https://github.com/karanxa1/images-/blob/main/ChatGPT%20Image%20Jul%2014,%202025,%2001_24_05%20AM.png?raw=true",
       "https://via.placeholder.com/600x400/2563eb/FFFFFF?text=Screenshot+2"
-    ]
-  },
-  {
-    id: 3,
-    name: "Big Small",
-    description: "AI-powered file compression and optimization tool that reduces file sizes while maintaining quality.",
-    logo: "https://via.placeholder.com/120x120/059669/FFFFFF?text=BS",
-    category: "Games",
-    version: "1.0",
-    fileSize: "6.8 MB",
-    badge: "NEW",
-    badgeColor: "blue",
-    downloadLink: "https://example.com/download/bigsmall",
-    features: [
-      "AI compression algorithm",
-      "Batch processing",
-      "Quality preservation",
-      "Multiple file formats",
-      "Fast processing"
-    ],
-    screenshots: [
-      "https://via.placeholder.com/600x400/059669/FFFFFF?text=Screenshot+1",
-      "https://via.placeholder.com/600x400/059669/FFFFFF?text=Screenshot+2"
-    ]
-  },
-  {
-    id: 4,
-    name: "ChatGPT",
-    description: "Advanced AI chatbot application with natural language processing and intelligent conversation capabilities.",
-    logo: "https://via.placeholder.com/120x120/1f2937/FFFFFF?text=CG",
-    category: "Apps",
-    version: "1.2025.084",
-    fileSize: "5.93 MB",
-    badge: "MOD",
-    badgeColor: "red",
-    downloadLink: "https://example.com/download/chatgpt",
-    features: [
-      "Natural language processing",
-      "Intelligent responses",
-      "Multiple conversation modes",
-      "Offline support",
-      "Custom prompts"
-    ],
-    screenshots: [
-      "https://via.placeholder.com/120x120/1f2937/FFFFFF?text=Screenshot+1",
-      "https://via.placeholder.com/120x120/1f2937/FFFFFF?text=Screenshot+2"
-    ]
-  },
-  {
-    id: 5,
-    name: "Photo Editor Pro",
-    description: "Professional photo editing suite with advanced filters, AI enhancements, and creative tools for photographers.",
-    logo: "https://via.placeholder.com/120x120/dc2626/FFFFFF?text=PE",
-    category: "Apps",
-    version: "2.1.5",
-    fileSize: "12.4 MB",
-    badge: "NEW",
-    badgeColor: "blue",
-    downloadLink: "https://example.com/download/photoeditor",
-    features: [
-      "Advanced filters",
-      "AI enhancements",
-      "Layer support",
-      "RAW processing",
-      "Batch editing"
-    ],
-    screenshots: [
-      "https://via.placeholder.com/600x400/dc2626/FFFFFF?text=Screenshot+1",
-      "https://via.placeholder.com/600x400/dc2626/FFFFFF?text=Screenshot+2"
-    ]
-  },
-  {
-    id: 6,
-    name: "Video Downloader",
-    description: "Download videos from multiple platforms with high quality options and fast download speeds.",
-    logo: "https://via.placeholder.com/120x120/7c3aed/FFFFFF?text=VD",
-    category: "Apps",
-    version: "3.0.2",
-    fileSize: "8.7 MB",
-    badge: "MOD",
-    badgeColor: "red",
-    downloadLink: "https://example.com/download/videodownloader",
-    features: [
-      "Multiple platform support",
-      "HD quality downloads",
-      "Fast download speeds",
-      "Batch downloads",
-      "Format conversion"
-    ],
-    screenshots: [
-      "https://via.placeholder.com/600x400/7c3aed/FFFFFF?text=Screenshot+1",
-      "https://via.placeholder.com/600x400/7c3aed/FFFFFF?text=Screenshot+2"
     ]
   }
 ]; 
