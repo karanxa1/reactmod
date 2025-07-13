@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import HeroSection from './HeroSection';
 import TelegramBenefits from './TelegramBenefits';
 import AppCard from './AppCard';
+import SkeletonCard from './SkeletonCard';
 import Footer from './Footer';
 import { apps } from '../data/apps';
 import './LandingPage.css';
 
 const LandingPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); // Simulate a 1.5 second loading time
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="landing-page">
       <Header />
@@ -22,9 +32,13 @@ const LandingPage = () => {
               Discover our carefully curated collection of premium mobile applications
             </p>
             <div className="apps-grid">
-              {apps.map((app) => (
-                <AppCard key={app.id} app={app} />
-              ))}
+              {isLoading
+                ? Array.from({ length: apps.length }).map((_, index) => (
+                    <SkeletonCard key={index} />
+                  ))
+                : apps.map((app, index) => (
+                    <AppCard key={app.id} app={app} index={index} />
+                  ))}
             </div>
           </section>
         </div>

@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import { Zap, HardDriveDownload } from 'lucide-react';
 import TelegramOverlay from './TelegramOverlay';
+import useTilt from '../hooks/useTilt';
 import './AppCard.css';
 
-const AppCard = ({ app }) => {
+const AppCard = ({ app, index }) => {
   const [showOverlay, setShowOverlay] = useState(false);
+  const tiltRef = useTilt({
+    max: 8,
+    speed: 400,
+    glare: true,
+    'max-glare': 0.1,
+    perspective: 1000,
+  });
 
   const getBadgeClass = (badgeColor) => {
     return badgeColor === 'blue' ? 'badge-new' : 'badge-mod';
@@ -19,9 +30,21 @@ const AppCard = ({ app }) => {
 
   return (
     <>
-      <div className="app-card" onClick={handleAppClick}>
+      <div 
+        className="app-card" 
+        onClick={handleAppClick} 
+        ref={tiltRef}
+        style={{ animationDelay: `${index * 100}ms` }}
+      >
         <div className="app-card-image">
-          <img src={app.logo} alt={app.name} />
+          <LazyLoadImage
+            alt={app.name}
+            src={app.logo}
+            effect="blur"
+            width="100%"
+            height="100%"
+            style={{ objectFit: 'cover' }}
+          />
           {app.badge && (
             <div className={`app-badge ${getBadgeClass(app.badgeColor)}`}>
               {app.badge}
@@ -35,11 +58,11 @@ const AppCard = ({ app }) => {
           
           <div className="app-details">
             <div className="app-version">
-              <span className="version-icon">⚡</span>
+              <Zap size={16} className="detail-icon" />
               <span>{app.version}</span>
             </div>
             <div className="app-size">
-              <span className="size-icon">📥</span>
+              <HardDriveDownload size={16} className="detail-icon" />
               <span>{app.fileSize}</span>
             </div>
           </div>

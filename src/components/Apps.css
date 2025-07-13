@@ -37,6 +37,64 @@
   margin-right: auto;
 }
 
+.controls-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 40px;
+}
+
+.filter-controls, .sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.controls-container span {
+  font-weight: 600;
+  color: #ccc;
+}
+
+.control-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ccc;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #667eea;
+  color: #fff;
+}
+
+.control-btn.active {
+  background: #667eea;
+  border-color: #667eea;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.sort-select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .apps-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

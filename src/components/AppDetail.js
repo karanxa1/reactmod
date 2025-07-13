@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import Header from './Header';
 import { apps } from '../data/apps';
 import './AppDetail.css';
@@ -117,7 +119,14 @@ const AppDetail = () => {
         
         <div className="app-detail-header">
           <div className="app-detail-logo">
-            <img src={app.logo} alt={app.name} />
+            <LazyLoadImage
+              alt={app.name}
+              src={app.logo}
+              effect="blur"
+              width="120px"
+              height="120px"
+              style={{ borderRadius: '20px', objectFit: 'cover' }}
+            />
             <div className={`app-badge ${getBadgeClass(app.badgeColor)}`}>
               {app.badge}
             </div>

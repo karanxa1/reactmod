@@ -1,25 +1,45 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './components/LandingPage';
-import AppDetail from './components/AppDetail';
-import Games from './components/Games';
-import Apps from './components/Apps';
-import Blog from './components/Blog';
-import FAQ from './components/FAQ';
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import PageTransition from './components/PageTransition';
 import './App.css';
+
+const LandingPage = lazy(() => import('./components/LandingPage'));
+const AppDetail = lazy(() => import('./components/AppDetail'));
+const Games = lazy(() => import('./components/Games'));
+const Apps = lazy(() => import('./components/Apps'));
+const Blog = lazy(() => import('./components/Blog'));
+const FAQ = lazy(() => import('./components/FAQ'));
+
+const LoadingFallback = () => (
+  <div className="loading-fallback">
+    <div className="spinner"></div>
+  </div>
+);
+
+const AppRoutes = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><LandingPage /></PageTransition>} />
+        <Route path="/app/:id" element={<PageTransition><AppDetail /></PageTransition>} />
+        <Route path="/games" element={<PageTransition><Games /></PageTransition>} />
+        <Route path="/apps" element={<PageTransition><Apps /></PageTransition>} />
+        <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
+        <Route path="/faq" element={<PageTransition><FAQ /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/app/:id" element={<AppDetail />} />
-          <Route path="/games" element={<Games />} />
-          <Route path="/apps" element={<Apps />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/faq" element={<FAQ />} />
-        </Routes>
+        <Suspense fallback={<LoadingFallback />}>
+          <AppRoutes />
+        </Suspense>
       </div>
     </Router>
   );

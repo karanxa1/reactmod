@@ -75,13 +75,6 @@
   justify-content: center;
 }
 
-.app-detail-logo img {
-  width: 120px;
-  height: 120px;
-  border-radius: 20px;
-  object-fit: cover;
-}
-
 .app-detail-logo .app-badge {
   position: absolute;
   top: -8px;

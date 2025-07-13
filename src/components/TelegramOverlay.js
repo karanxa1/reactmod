@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Smartphone, Check, Download, X } from 'lucide-react';
 import './TelegramOverlay.css';
 
 const TelegramOverlay = ({ app, isVisible, onClose }) => {
@@ -30,7 +31,7 @@ const TelegramOverlay = ({ app, isVisible, onClose }) => {
   return (
     <div className="telegram-overlay" onClick={handleOverlayClick}>
       <div className="telegram-overlay-content">
-        <button className="close-button" onClick={onClose}>×</button>
+        <button className="close-button" onClick={onClose}><X size={24} /></button>
         
         <div className="overlay-header">
           <img src={app.logo} alt={app.name} className="overlay-app-logo" />
@@ -39,7 +40,7 @@ const TelegramOverlay = ({ app, isVisible, onClose }) => {
         </div>
 
         <div className="telegram-section">
-          <div className="telegram-icon">📱</div>
+          <div className="telegram-icon"><Smartphone size={40} /></div>
           <h3>Join Our Telegram Channel</h3>
           <p>To download this app, please join our Telegram channel for updates and support.</p>
           
@@ -55,7 +56,7 @@ const TelegramOverlay = ({ app, isVisible, onClose }) => {
               checked={isChecked}
               onChange={handleCheckboxChange}
             />
-            <span className="checkmark"></span>
+            <span className="checkmark"><Check size={16} /></span>
             I have joined the Telegram channel
           </label>
         </div>
@@ -66,6 +67,7 @@ const TelegramOverlay = ({ app, isVisible, onClose }) => {
             onClick={handleDownload}
             disabled={!isChecked}
           >
+            <Download size={20} />
             {isChecked ? 'Download Now' : 'Join Telegram First'}
           </button>
         </div>

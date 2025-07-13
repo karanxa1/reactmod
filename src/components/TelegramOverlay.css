@@ -258,16 +258,16 @@
   box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
-.checkbox-container input[type="checkbox"]:checked + .checkmark::after {
-  content: "✓";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1);
+.checkmark svg {
   color: white;
-  font-weight: bold;
-  font-size: 16px;
-  animation: checkPop 0.3s ease-out;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s ease;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark svg {
+  opacity: 1;
+  transform: scale(1);
 }
 
 @keyframes checkPop {

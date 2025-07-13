@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Rocket, Key, MessageSquare, Gift, Lock, Zap, Target, Send } from 'lucide-react';
 import './TelegramBenefits.css';
 
 const TelegramBenefits = () => {
@@ -31,25 +32,25 @@ const TelegramBenefits = () => {
 
   const benefits = [
     {
-      icon: '🚀',
+      icon: <Rocket size={24} />,
       title: 'Early Access',
       description: 'Get new apps 24-48 hours before public release',
       badge: 'Exclusive'
     },
     {
-      icon: '🔑',
+      icon: <Key size={24} />,
       title: 'Access Codes',
       description: 'Receive unique download codes and passwords',
       badge: 'Premium'
     },
     {
-      icon: '💬',
+      icon: <MessageSquare size={24} />,
       title: 'Direct Support',
       description: '24/7 support from developers and community',
       badge: 'Priority'
     },
     {
-      icon: '🎁',
+      icon: <Gift size={24} />,
       title: 'Member Rewards',
       description: 'Exclusive giveaways and bonus content',
       badge: 'Free'
@@ -198,22 +199,22 @@ const TelegramBenefits = () => {
           </div>
           
           <button className="join-telegram-btn" onClick={handleJoinTelegram}>
-            <span className="btn-icon">🚀</span>
+            <Send size={18} />
             Join Telegram Channel
             <span className="btn-badge">Free</span>
           </button>
           
           <div className="trust-indicators">
             <div className="trust-item">
-              <span className="trust-icon">🔒</span>
+              <Lock size={16} className="trust-icon" />
               <span className="trust-text">100% Secure</span>
             </div>
             <div className="trust-item">
-              <span className="trust-icon">⚡</span>
+              <Zap size={16} className="trust-icon" />
               <span className="trust-text">Instant Access</span>
             </div>
             <div className="trust-item">
-              <span className="trust-icon">🎯</span>
+              <Target size={16} className="trust-icon" />
               <span className="trust-text">No Spam</span>
             </div>
           </div>
