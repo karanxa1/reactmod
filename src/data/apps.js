@@ -84,26 +84,5 @@ export const apps = [
       "https://github.com/karanxa1/images-/blob/main/WhatsApp%20Image%202025-07-13%20at%2013.18.55_cc8743db.jpg?raw=true",
       "https://via.placeholder.com/600x400/667eea/FFFFFF?text=Dashboard+View"
     ]
-  },
-  {
-    id: 2,
-    name: "Live Capture",
-    description: "Professional screen recording and live streaming application with advanced editing features and real-time filters.",
-    logo: "https://github.com/karanxa1/images-/blob/main/ChatGPT%20Image%20Jul%2014,%202025,%2001_24_05%20AM.png?raw=true",
-    category: "Apps",
-    version: "1.0.0",
-    fileSize: "6.9 MB",
-    downloadLink: "https://example.com/download/livecapture",
-    features: [
-      "HD screen recording",
-      "Live streaming support",
-      "Real-time filters",
-      "Video editing tools",
-      "Multiple export formats"
-    ],
-    screenshots: [
-      "https://github.com/karanxa1/images-/blob/main/ChatGPT%20Image%20Jul%2014,%202025,%2001_24_05%20AM.png?raw=true",
-      "https://via.placeholder.com/600x400/2563eb/FFFFFF?text=Screenshot+2"
-    ]
   }
 ]; 

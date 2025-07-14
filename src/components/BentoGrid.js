@@ -35,13 +35,7 @@ const bentoItems = [
     title: 'Community Support',
     description: 'Join our active Telegram community for 24/7 help and feedback.',
     className: 'bento-item-medium',
-  },
-   {
-    icon: <Camera size={32} />,
-    title: 'Live Capture MOD',
-    description: 'Unlock all pro features for free in our modified Live Capture app.',
-    className: 'bento-item-large',
-  },
+  }
 ];
 
 const BentoGridItem = ({ item, index }) => {

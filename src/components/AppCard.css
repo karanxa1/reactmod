@@ -39,7 +39,7 @@
 
 .app-card-image {
   position: relative;
-  height: 400px;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -300,7 +300,7 @@
 
 @media (max-width: 768px) {
   .app-card-image {
-    height: 320px;
+    height: 400px;
   }
   
   .app-name {
@@ -338,6 +338,6 @@
   }
   
   .app-card-image {
-    height: 280px;
+    height: 320px;
   }
 } 

@@ -77,7 +77,7 @@ const HeroSection = () => {
       </motion.div>
       
       <div className="hero-content">
-        <motion.div className="hero-text" style={{ y: yText }}>
+        <div className="hero-text">
           <h1 className="hero-title">
             <AnimatedText 
               text="Discover Premium"
@@ -123,7 +123,7 @@ const HeroSection = () => {
               Browse Apps
             </motion.button>
           </div>
-        </motion.div>
+        </div>
         
         <motion.div className={`stats-grid ${statsInView ? 'animate-fade-in' : ''}`} ref={statsRef} style={{ y: yStats }}>
           <div className="stat-item">

@@ -61,11 +61,9 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { name: 'Telegram', icon: '📱', href: 'https://t.me/keyisheremybaby', color: '#0088cc' },
-    { name: 'Twitter', icon: '🐦', href: '#twitter', color: '#1da1f2' },
-    { name: 'Instagram', icon: '📷', href: '#instagram', color: '#e4405f' },
-    { name: 'YouTube', icon: '📺', href: '#youtube', color: '#ff0000' },
-    { name: 'GitHub', icon: '💻', href: '#github', color: '#333' }
+    { name: 'Telegram Bot', icon: <img src="https://github.com/karanxa1/images-/blob/main/WhatsApp%20Image%202025-07-14%20at%2015.27.23_d780c05f.jpg?raw=true" alt="Telegram Bot" style={{width: '1.5em', height: '1.5em', borderRadius: '50%'}} />, href: 'https://t.me/FidelityXBot', color: '#0088cc' },
+    { name: 'YouTube', icon: '📺', href: 'https://youtube.com/@aryanchaudhari0091?si=cZGilLq0okHs3_2n', color: '#ff0000' },
+    { name: 'GitHub', icon: '💻', href: 'https://github.com/karanxa1', color: '#333' }
   ];
 
   const stats = [
@@ -118,7 +116,7 @@ const Footer = () => {
                       href={social.href}
                       className="social-link"
                       style={{ '--social-color': social.color }}
-                      onClick={social.name === 'Telegram' ? handleTelegramClick : undefined}
+                      onClick={social.name === 'Telegram Bot' ? handleTelegramClick : undefined}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
