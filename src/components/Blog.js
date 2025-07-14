@@ -8,10 +8,10 @@ import './Blog.css';
 export const blogPosts = [
   {
     id: 1,
-    title: "Welcome to MODZ Blog",
+    title: "Welcome to MODZY Blog",
     excerpt: "Stay updated with the latest app releases, tutorials, and community news.",
     date: "2024-01-15",
-    author: "MODZ Team",
+    author: "MODZY Team",
     category: "News"
   },
   {
@@ -40,7 +40,7 @@ const Blog = () => {
         <div className="page-header">
           <h1 className="page-title">Blog</h1>
           <p className="page-subtitle">
-            Latest news, tutorials, and insights from the MODZ community
+            Latest news, tutorials, and insights from the MODZY community
           </p>
         </div>
         

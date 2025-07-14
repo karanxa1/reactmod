@@ -14,7 +14,7 @@ const timelineEvents = [
   {
     icon: <UserPlus />,
     title: 'Become a Member',
-    description: 'Once in Telegram, you officially become part of the MODZ community. Welcome!',
+    description: 'Once in Telegram, you officially become part of the MODZY community. Welcome!',
     time: 'Step 2',
   },
   {

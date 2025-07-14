@@ -60,7 +60,7 @@ const BentoGrid = () => {
   return (
     <section className="bento-section">
       <div className="container">
-        <h2 className="bento-title gradient-text">Why Choose MODZ?</h2>
+        <h2 className="bento-title gradient-text">Why Choose MODZY?</h2>
         <AnimatedText
           text="We provide more than just apps. We offer a premium, secure, and community-driven experience."
           el="p"

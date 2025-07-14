@@ -10,7 +10,7 @@ const Footer = () => {
   };
 
   const handleEmailClick = () => {
-    window.open('mailto:support@modz.com', '_blank');
+    window.open('mailto:support@modzy.com', '_blank');
   };
 
   const handleNewsletterSubmit = (e) => {
@@ -103,7 +103,7 @@ const Footer = () => {
               <div className="footer-brand">
                 <div className="brand-logo">
                   <span className="logo-icon">📱</span>
-                  <span className="logo-text">MODZ</span>
+                  <span className="logo-text">MODZY</span>
                 </div>
                 <p className="brand-description">
                   Your premium destination for mobile applications. Join our exclusive 
@@ -244,7 +244,7 @@ const Footer = () => {
           <div className="container">
             <div className="bottom-content">
               <div className="copyright">
-                <p>&copy; {currentYear} MODZ. All rights reserved.</p>
+                <p>&copy; {currentYear} MODZY. All rights reserved.</p>
               </div>
               <div className="bottom-links">
                 <button onClick={() => handleFooterLinkClick('#privacy', 'Privacy Policy')} className="bottom-link">Privacy</button>

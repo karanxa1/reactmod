@@ -12,7 +12,7 @@ const FAQ = () => {
 
   const faqs = [
     {
-      question: "How do I download apps from MODZ?",
+      question: "How do I download apps from MODZY?",
       answer: "Simply browse our app collection, click on any app card, and you'll be prompted to join our Telegram channel. Once you've joined, you can download the app directly."
     },
     {
@@ -21,7 +21,7 @@ const FAQ = () => {
     },
     {
       question: "Do I need to pay for the apps?",
-      answer: "No, all apps on MODZ are completely free! Just join our Telegram channel and get instant access to premium applications."
+              answer: "No, all apps on MODZY are completely free! Just join our Telegram channel and get instant access to premium applications."
     },
     {
       question: "How often do you add new apps?",
@@ -107,7 +107,7 @@ const FAQ = () => {
         >
           <h1 className="page-title gradient-text">Frequently Asked Questions</h1>
           <p className="page-subtitle">
-            Find answers to common questions about MODZ and our apps
+            Find answers to common questions about MODZY and our apps
           </p>
         </motion.div>
         

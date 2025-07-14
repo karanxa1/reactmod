@@ -27,7 +27,7 @@ const Header = () => {
               <Smartphone size={24} />
             </div>
             <div className="logo-text">
-              <h1>MODZ</h1>
+              <h1>MODZY</h1>
               <p>Download & enjoy</p>
             </div>
           </Link>
