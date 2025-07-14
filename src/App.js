@@ -2,6 +2,8 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import PageTransition from './components/PageTransition';
+import CursorFollower from './components/CursorFollower';
+import BackgroundBlobs from './components/BackgroundBlobs';
 import './App.css';
 
 const LandingPage = lazy(() => import('./components/LandingPage'));
@@ -37,6 +39,8 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <BackgroundBlobs />
+        <CursorFollower />
         <Suspense fallback={<LoadingFallback />}>
           <AppRoutes />
         </Suspense>

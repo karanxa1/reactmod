@@ -73,8 +73,7 @@
   color: #667eea;
 }
 
-.nav-link.active::after {
-  content: '';
+.active-indicator {
   position: absolute;
   bottom: -8px;
   left: 0;

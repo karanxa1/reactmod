@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Rocket, Key, MessageSquare, Gift, Lock, Zap, Target, Send } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 import './TelegramBenefits.css';
 
 const TelegramBenefits = () => {
@@ -60,23 +66,37 @@ const TelegramBenefits = () => {
   const testimonials = [
     {
       name: 'Alex Rodriguez',
-      avatar: '👨‍💻',
+      avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
       rating: 5,
-      text: 'Amazing community! Got access to premium apps instantly.',
+      text: 'Amazing community! Got access to premium apps instantly and the support is top-notch. Highly recommend joining!',
       verified: true
     },
     {
       name: 'Sarah Chen',
-      avatar: '👩‍🎨',
+      avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
       rating: 5,
-      text: 'The support is incredible. Developers actually respond!',
+      text: 'The support is incredible. Developers actually respond and help you out. Best decision ever!',
       verified: true
     },
     {
       name: 'Mike Johnson',
-      avatar: '👨‍🚀',
+      avatar: 'https://randomuser.me/api/portraits/men/46.jpg',
       rating: 5,
-      text: 'Best decision ever. Early access to all new releases.',
+      text: 'I love getting early access to all the new releases. It feels like being part of an exclusive club.',
+      verified: true
+    },
+    {
+      name: 'Jessica Williams',
+      avatar: 'https://randomuser.me/api/portraits/women/33.jpg',
+      rating: 5,
+      text: "Found so many useful apps here that I couldn't find anywhere else. The community is super friendly too!",
+      verified: true
+    },
+    {
+      name: 'David Brown',
+      avatar: 'https://randomuser.me/api/portraits/men/51.jpg',
+      rating: 5,
+      text: '10/10. Secure, fast, and reliable. The member rewards are a great bonus. Keep up the great work!',
       verified: true
     }
   ];
@@ -92,7 +112,7 @@ const TelegramBenefits = () => {
     <section className="telegram-benefits">
       <div className="benefits-container">
         <div className="benefits-header">
-          <h2 className="benefits-title">
+          <h2 className="benefits-title gradient-text">
             <span className="title-icon">📱</span>
             Join Our Exclusive Community
           </h2>
@@ -168,25 +188,46 @@ const TelegramBenefits = () => {
           )}
 
           {activeTab === 'testimonials' && (
-            <div className="testimonials-grid">
+            <Swiper
+              effect={'coverflow'}
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={'auto'}
+              coverflowEffect={{
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+              }}
+              pagination={{ clickable: true }}
+              autoplay={{
+                delay: 4000,
+                disableOnInteraction: false,
+              }}
+              modules={[EffectCoverflow, Pagination, Autoplay]}
+              className="testimonials-swiper"
+            >
               {testimonials.map((testimonial, index) => (
-                <div key={index} className="testimonial-card">
-                  <div className="testimonial-header">
-                    <div className="testimonial-avatar">{testimonial.avatar}</div>
-                    <div className="testimonial-info">
-                      <div className="testimonial-name">
-                        {testimonial.name}
-                        {testimonial.verified && <span className="verified-badge">✓</span>}
-                      </div>
-                      <div className="testimonial-rating">
-                        {'⭐'.repeat(testimonial.rating)}
+                <SwiperSlide key={index}>
+                  <div className="testimonial-card">
+                    <div className="testimonial-header">
+                      <img src={testimonial.avatar} alt={testimonial.name} className="testimonial-avatar" />
+                      <div className="testimonial-info">
+                        <div className="testimonial-name">
+                          {testimonial.name}
+                          {testimonial.verified && <span className="verified-badge">✓</span>}
+                        </div>
+                        <div className="testimonial-rating">
+                          {'⭐'.repeat(testimonial.rating)}
+                        </div>
                       </div>
                     </div>
+                    <p className="testimonial-text">"{testimonial.text}"</p>
                   </div>
-                  <p className="testimonial-text">"{testimonial.text}"</p>
-                </div>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           )}
         </div>
 

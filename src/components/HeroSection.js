@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Send, Rocket, Zap, ShieldCheck, Gift, MessageSquare } from 'lucide-react';
+import AnimatedText from './AnimatedText';
 import './HeroSection.css';
 
 const HeroSection = () => {
@@ -35,8 +37,17 @@ const HeroSection = () => {
     animateCounter(145783, 'telegramMembers');
   }, []);
 
-  const { ref: titleRef, inView: titleInView } = useInView({ triggerOnce: true, threshold: 0.1 });
-  const { ref: descRef, inView: descInView } = useInView({ triggerOnce: true, threshold: 0.1, delay: 200 });
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+
+  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "200%"]);
+  const yStats = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+
   const { ref: buttonsRef, inView: buttonsInView } = useInView({ triggerOnce: true, threshold: 0.1, delay: 400 });
   const { ref: statsRef, inView: statsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const { ref: featuresRef, inView: featuresInView } = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -49,40 +60,72 @@ const HeroSection = () => {
     document.getElementById('apps-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const buttonVariants = {
+    hover: {
+      scale: 1.05
+    },
+    tap: {
+      scale: 0.95
+    }
+  };
+
   return (
-    <section className="hero-section">
-      <div className="hero-background">
+    <section className="hero-section" ref={sectionRef}>
+      <motion.div className="hero-background" style={{ y: yBg }}>
         <div className="hero-particles"></div>
         <div className="hero-gradient"></div>
-      </div>
+      </motion.div>
       
       <div className="hero-content">
-        <div className="hero-text">
-          <h1 className={`hero-title ${titleInView ? 'animate-fade-in-up' : ''}`} ref={titleRef}>
-            <span className="title-main">Discover Premium</span>
-            <span className="title-highlight">Mobile Apps</span>
+        <motion.div className="hero-text" style={{ y: yText }}>
+          <h1 className="hero-title">
+            <AnimatedText 
+              text="Discover Premium"
+              el="span"
+              className="title-main"
+              splitBy="letter"
+            />
+            <AnimatedText 
+              text="Mobile Apps"
+              el="span"
+              className="title-highlight gradient-text"
+              splitBy="letter"
+            />
           </h1>
           
-          <p className={`hero-description ${descInView ? 'animate-fade-in-up' : ''}`} ref={descRef}>
-            Join our exclusive Telegram community and get access to premium mobile applications, 
-            early releases, and exclusive content. Your gateway to the best mobile experience.
-          </p>
+          <AnimatedText 
+            text="Join our exclusive Telegram community and get access to premium mobile applications, early releases, and exclusive content. Your gateway to the best mobile experience."
+            el="p"
+            className="hero-description"
+          />
           
           <div className={`hero-buttons ${buttonsInView ? 'animate-fade-in-up' : ''}`} ref={buttonsRef}>
-            <button className="btn-primary" onClick={handleJoinTelegram}>
+            <motion.button 
+              className="btn-primary" 
+              onClick={handleJoinTelegram}
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+            >
               <Send size={18} />
               Join Telegram Channel
               <span className="btn-arrow">→</span>
-            </button>
+            </motion.button>
             
-            <button className="btn-secondary" onClick={handleBrowseApps}>
+            <motion.button 
+              className="btn-secondary" 
+              onClick={handleBrowseApps}
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+            >
               <Rocket size={18} />
               Browse Apps
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
         
-        <div className={`stats-grid ${statsInView ? 'animate-fade-in' : ''}`} ref={statsRef}>
+        <motion.div className={`stats-grid ${statsInView ? 'animate-fade-in' : ''}`} ref={statsRef} style={{ y: yStats }}>
           <div className="stat-item">
             <div className="stat-number">{stats.totalDownloads.toLocaleString()}+</div>
             <div className="stat-label">Total Downloads</div>
@@ -103,7 +146,7 @@ const HeroSection = () => {
             <div className="stat-label">Telegram Members</div>
             <div className="stat-badge">Active Community</div>
           </div>
-        </div>
+        </motion.div>
       </div>
       
       <div className={`hero-features ${featuresInView ? 'animate-fade-in' : ''}`} ref={featuresRef}>
