@@ -1,19 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import './ParallaxBackground.css';
 
 const ParallaxBackground = ({ children }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const { scrollYProgress } = useScroll();
   
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -150]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 360]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || 'ontouchstart' in window);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // Disable parallax transforms on mobile for better performance
+  const y1 = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -30]);
+  const y2 = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -60]);
+
+  if (isMobile) {
+    // Simplified version for mobile - no parallax effects
+    return (
+      <div className="parallax-container mobile-optimized">
+        <div className="parallax-content">
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="parallax-container">
-      {/* Background layers */}
+      {/* Reduced background layers for better performance */}
       <motion.div 
         className="parallax-layer parallax-layer-1"
         style={{ y: y1 }}
@@ -24,18 +46,9 @@ const ParallaxBackground = ({ children }) => {
       
       <motion.div 
         className="parallax-layer parallax-layer-2"
-        style={{ y: y2, rotate }}
+        style={{ y: y2 }}
       >
         <div className="floating-shape shape-3"></div>
-        <div className="floating-shape shape-4"></div>
-      </motion.div>
-      
-      <motion.div 
-        className="parallax-layer parallax-layer-3"
-        style={{ y: y3, scale }}
-      >
-        <div className="floating-shape shape-5"></div>
-        <div className="floating-shape shape-6"></div>
       </motion.div>
       
       {/* Content */}

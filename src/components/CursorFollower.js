@@ -4,8 +4,23 @@ import './CursorFollower.css';
 const CursorFollower = () => {
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768 || 'ontouchstart' in window || /Mobi|Android/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    // Don't add event listeners on mobile
+    if (isMobile) {
+      return () => window.removeEventListener('resize', checkMobile);
+    }
+
     const handleMouseMove = (e) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
@@ -27,16 +42,25 @@ const CursorFollower = () => {
     document.body.addEventListener('mouseout', handleMouseOut);
 
     return () => {
+      window.removeEventListener('resize', checkMobile);
       window.removeEventListener('mousemove', handleMouseMove);
       document.body.removeEventListener('mouseover', handleMouseOver);
       document.body.removeEventListener('mouseout', handleMouseOut);
     };
-  }, []);
+  }, [isMobile]);
+
+  // Don't render on mobile devices
+  if (isMobile) {
+    return null;
+  }
 
   return (
-    <div 
+    <div
       className={`cursor-follower ${isHovering ? 'hovering' : ''}`}
-      style={{ left: `${position.x}px`, top: `${position.y}px` }}
+      style={{
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+      }}
     />
   );
 };
