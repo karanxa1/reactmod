@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Zap, HardDriveDownload } from 'lucide-react';
+import { motion } from 'framer-motion';
 import TelegramOverlay from './TelegramOverlay';
 import useTilt from '../hooks/useTilt';
 import './AppCard.css';
 
 const AppCard = ({ app, index }) => {
   const [showOverlay, setShowOverlay] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
   const tiltRef = useTilt({
     max: 8,
     speed: 400,
@@ -28,27 +30,84 @@ const AppCard = ({ app, index }) => {
     setShowOverlay(false);
   };
 
+  const cardVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 50,
+      scale: 0.9
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        delay: index * 0.1,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    },
+    hover: {
+      y: -15,
+      scale: 1.05,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    },
+    tap: {
+      scale: 0.98,
+      transition: { duration: 0.1 }
+    }
+  };
+
+  const imageVariants = {
+    hover: {
+      scale: 1.1,
+      transition: { duration: 0.3 }
+    }
+  };
+
+  const badgeVariants = {
+    hover: {
+      scale: 1.2,
+      rotate: [0, -10, 10, 0],
+      transition: { duration: 0.3 }
+    }
+  };
+
   return (
     <>
-      <div 
+      <motion.div 
         className="app-card" 
         onClick={handleAppClick} 
         ref={tiltRef}
-        style={{ animationDelay: `${index * 100}ms` }}
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        whileHover="hover"
+        whileTap="tap"
       >
         <div className="app-card-image">
-          <LazyLoadImage
-            alt={app.name}
-            src={app.logo}
-            effect="blur"
-            width="100%"
-            height="100%"
-            style={{ objectFit: 'cover' }}
-          />
+          <motion.div
+            variants={imageVariants}
+            style={{ width: '100%', height: '100%' }}
+          >
+            <LazyLoadImage
+              alt={app.name}
+              src={app.logo}
+              effect="blur"
+              width="100%"
+              height="100%"
+              style={{ objectFit: 'cover' }}
+            />
+          </motion.div>
           {app.badge && (
-            <div className={`app-badge ${getBadgeClass(app.badgeColor)}`}>
+            <motion.div 
+              className={`app-badge ${getBadgeClass(app.badgeColor)}`}
+              variants={badgeVariants}
+            >
               {app.badge}
-            </div>
+            </motion.div>
           )}
         </div>
         
@@ -67,7 +126,7 @@ const AppCard = ({ app, index }) => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <TelegramOverlay
         app={app}

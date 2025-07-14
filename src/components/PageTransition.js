@@ -1,38 +1,52 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 20,
+    x: '-100vw',
+    scale: 0.8
   },
   in: {
     opacity: 1,
-    y: 0,
+    x: 0,
+    scale: 1
   },
   out: {
     opacity: 0,
-    y: -20,
-  },
+    x: '100vw',
+    scale: 1.2
+  }
 };
 
 const pageTransition = {
   type: 'tween',
   ease: 'anticipate',
-  duration: 0.5,
+  duration: 0.5
 };
 
 const PageTransition = ({ children }) => {
+  const location = useLocation();
+
   return (
-    <motion.div
-      initial="initial"
-      animate="in"
-      exit="out"
-      variants={pageVariants}
-      transition={pageTransition}
-    >
-      {children}
-    </motion.div>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          minHeight: '100vh'
+        }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

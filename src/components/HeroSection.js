@@ -3,6 +3,8 @@ import { useInView } from 'react-intersection-observer';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Send, Rocket, Zap, ShieldCheck, Gift, MessageSquare } from 'lucide-react';
 import AnimatedText from './AnimatedText';
+import TypewriterText from './TypewriterText';
+import ToastContainer, { showToast } from './ToastNotification';
 import './HeroSection.css';
 
 const HeroSection = () => {
@@ -54,23 +56,58 @@ const HeroSection = () => {
 
   const handleJoinTelegram = () => {
     window.open('https://t.me/keyisheremybaby', '_blank');
+    showToast.success('Redirecting to Telegram...', 'Welcome!', { duration: 3000 });
   };
 
   const handleBrowseApps = () => {
     document.getElementById('apps-section')?.scrollIntoView({ behavior: 'smooth' });
+    showToast.info('Scrolling to apps section', 'Explore Apps', { duration: 2000 });
   };
 
   const buttonVariants = {
     hover: {
-      scale: 1.05
+      scale: 1.05,
+      y: -4,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
     },
     tap: {
-      scale: 0.95
+      scale: 1.02,
+      y: -2,
+      transition: { duration: 0.1 }
+    }
+  };
+
+  const iconVariants = {
+    hover: {
+      rotate: 360,
+      scale: 1.2,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    },
+    tap: {
+      scale: 1.1
+    }
+  };
+
+  const arrowVariants = {
+    hover: {
+      x: 8,
+      rotate: 45,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
     }
   };
 
   return (
     <section className="hero-section" ref={sectionRef}>
+      <ToastContainer position="top-right" />
       <motion.div className="hero-background" style={{ y: yBg }}>
         <div className="hero-particles"></div>
         <div className="hero-gradient"></div>
@@ -85,11 +122,12 @@ const HeroSection = () => {
               className="title-main"
               splitBy="letter"
             />
-            <AnimatedText 
-              text="Mobile Apps"
-              el="span"
-              className="title-highlight gradient-text"
-              splitBy="letter"
+            <TypewriterText 
+              texts={["Mobile Apps", "Gaming Tools", "Exclusive Content", "Premium Features"]}
+              className="title-highlight gradient-text typewriter-gradient"
+              speed={150}
+              deleteSpeed={100}
+              pauseTime={2000}
             />
           </h1>
           
@@ -107,9 +145,13 @@ const HeroSection = () => {
               whileHover="hover"
               whileTap="tap"
             >
-              <Send size={18} />
+              <motion.div variants={iconVariants}>
+                <Send size={18} />
+              </motion.div>
               Join Telegram Channel
-              <span className="btn-arrow">→</span>
+              <motion.span className="btn-arrow" variants={arrowVariants}>
+                →
+              </motion.span>
             </motion.button>
             
             <motion.button 
@@ -119,7 +161,9 @@ const HeroSection = () => {
               whileHover="hover"
               whileTap="tap"
             >
-              <Rocket size={18} />
+              <motion.div variants={iconVariants}>
+                <Rocket size={18} />
+              </motion.div>
               Browse Apps
             </motion.button>
           </div>

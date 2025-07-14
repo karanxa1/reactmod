@@ -10,6 +10,7 @@
   -webkit-backdrop-filter: blur(10px);
   animation: card-enter 0.5s ease-out forwards;
   opacity: 0;
+  cursor: pointer;
 }
 
 @keyframes card-enter {
@@ -20,9 +21,10 @@
 }
 
 .app-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-15px) scale(1.05);
+  box-shadow: 0 25px 60px 0 rgba(102, 126, 234, 0.4), 0 0 50px rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.5);
+  background: rgba(48, 48, 48, 0.8);
 }
 
 .app-card::before {
@@ -32,9 +34,35 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
   pointer-events: none;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.app-card:hover::before {
+  opacity: 1;
+}
+
+/* Ripple Effect */
+.app-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  z-index: 0;
+}
+
+.app-card:active::after {
+  width: 300px;
+  height: 300px;
 }
 
 .app-card-image {
