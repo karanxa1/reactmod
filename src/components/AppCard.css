@@ -397,3 +397,347 @@
     background: rgba(15, 15, 15, 0.9);
   }
 } 
+
+/* Image loading states and fallbacks */
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #333 0%, #444 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.app-image-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  gap: 8px;
+}
+
+.fallback-icon {
+  padding: 12px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 50%;
+  color: #667eea;
+}
+
+.fallback-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* App detail items styling */
+.app-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.app-detail-item svg {
+  color: #667eea;
+}
+
+/* Loading state for cards */
+.app-card.loading {
+  pointer-events: none;
+}
+
+.app-card.loading .app-card-image {
+  background: #2a2a2a;
+}
+
+@media (max-width: 768px) {
+  .app-card {
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    /* Optimize for touch */
+    touch-action: manipulation;
+    min-height: 44px;
+    /* Mobile performance optimizations */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* Reduce repaints */
+    contain: layout style paint;
+  }
+  
+  .app-card.mobile-optimized {
+    /* Enhanced mobile optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent text selection on touch */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* Optimize touch response */
+    -webkit-tap-highlight-color: rgba(102, 126, 234, 0.2);
+  }
+  
+  .app-card:hover {
+    transform: translate3d(0, -3px, 0) scale(1.005);
+  }
+  
+  .app-card:active {
+    transform: translate3d(0, -1px, 0) scale(0.995);
+    transition-duration: 0.1s;
+  }
+  
+  .app-card-image {
+    height: 380px;
+    /* Improve image rendering on mobile */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+  }
+  
+  .app-name {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+  
+  .app-card-content {
+    padding: 20px;
+  }
+  
+  .app-details {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .app-detail-item {
+    gap: 8px;
+    font-size: 0.8rem;
+  }
+  
+  .app-badge {
+    top: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    /* Disable complex animations on mobile */
+    animation: none;
+    /* Improve text rendering */
+    text-rendering: optimizeLegibility;
+  }
+  
+  .app-card:hover .app-card-image img {
+    transform: scale(1.01);
+    transition-duration: 0.15s;
+  }
+  
+  /* Optimize placeholder and fallback for mobile */
+  .image-placeholder {
+    background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
+  }
+  
+  .placeholder-shimmer {
+    animation-duration: 2s; /* Slower animation on mobile */
+  }
+  
+  .app-image-fallback {
+    gap: 6px;
+  }
+  
+  .fallback-icon {
+    padding: 10px;
+  }
+  
+  .fallback-text {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-card {
+    border-radius: 12px;
+    /* Further mobile optimizations */
+    will-change: auto;
+  }
+  
+  .app-card-image {
+    height: 300px;
+  }
+  
+  .app-card-content {
+    padding: 16px;
+  }
+  
+  .app-name {
+    font-size: 1.1rem;
+  }
+  
+  .app-category {
+    font-size: 0.8rem;
+    margin-bottom: 14px;
+  }
+  
+  .app-details {
+    gap: 8px;
+  }
+  
+  .app-detail-item {
+    font-size: 0.75rem;
+    gap: 6px;
+  }
+  
+  .app-badge {
+    top: 10px;
+    right: 10px;
+    padding: 3px 6px;
+    font-size: 0.65rem;
+  }
+  
+  .fallback-icon {
+    padding: 8px;
+  }
+  
+  .fallback-text {
+    font-size: 0.7rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .app-card-image {
+    height: 280px;
+  }
+  
+  .app-card-content {
+    padding: 14px;
+  }
+  
+  .app-name {
+    font-size: 1rem;
+  }
+  
+  .app-details {
+    flex-direction: row;
+    gap: 16px;
+  }
+}
+
+/* High DPI mobile displays */
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  .app-card-image img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  .app-badge {
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .app-image-fallback {
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Touch feedback optimizations */
+@media (max-width: 768px) {
+  .app-card:focus-within {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+  }
+  
+  .app-card:focus-visible {
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5);
+  }
+}
+
+/* Reduce motion for mobile users who prefer it */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .app-card,
+  .app-card:hover,
+  .app-card:active {
+    transform: none !important;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .app-card-image img,
+  .app-badge {
+    transform: none !important;
+    transition: opacity 0.2s ease;
+  }
+  
+  .placeholder-shimmer {
+    animation: none;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Dark mode optimizations for mobile */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .app-card {
+    background: rgba(10, 10, 10, 0.9);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .image-placeholder {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  }
+  
+  .app-image-fallback {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  }
+}
+
+/* Low-end device optimizations */
+@media (max-width: 768px) and (max-resolution: 150dpi) {
+  .app-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(40, 40, 40, 0.95);
+  }
+  
+  .placeholder-shimmer {
+    display: none;
+  }
+  
+  .app-card-image {
+    border-radius: 8px;
+  }
+}
+
+/* Network-aware optimizations */
+@media (max-width: 768px) and (prefers-reduced-data: reduce) {
+  .placeholder-shimmer {
+    animation: none;
+    background: rgba(255, 255, 255, 0.03);
+  }
+  
+  .app-card {
+    backdrop-filter: none;
+    background: rgba(40, 40, 40, 0.9);
+  }
+} 

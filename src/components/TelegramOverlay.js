@@ -15,7 +15,9 @@ const TelegramOverlay = ({ app, isVisible, onClose }) => {
 
   const handleDownload = () => {
     if (isChecked) {
-      window.open(app.downloadLink, '_blank');
+      // Use downloadLink if available, otherwise fallback to Telegram
+      const downloadUrl = app.downloadLink || 'https://t.me/keyisheremybaby';
+      window.open(downloadUrl, '_blank');
       onClose();
     }
   };
@@ -36,7 +38,7 @@ const TelegramOverlay = ({ app, isVisible, onClose }) => {
         <div className="overlay-header">
           <img src={app.logo} alt={app.name} className="overlay-app-logo" />
           <h2>{app.name}</h2>
-          <p className="overlay-app-size">{app.fileSize}</p>
+          <p className="overlay-app-size">{app.size || app.fileSize || 'Size unknown'}</p>
         </div>
 
         <div className="telegram-section">

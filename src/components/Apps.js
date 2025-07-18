@@ -2,19 +2,22 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Header from './Header';
 import AppCard from './AppCard';
 import SkeletonCard from './SkeletonCard';
-import { apps } from '../data/apps';
+import { subscribeToApps } from '../firebase/appService';
 import './Apps.css';
 
 const Apps = () => {
+  const [apps, setApps] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sortType, setSortType] = useState('name-asc');
   const [filterCategory, setFilterCategory] = useState('All');
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const unsubscribe = subscribeToApps((appsData) => {
+      setApps(appsData);
       setIsLoading(false);
-    }, 1000); // Shorter loading time for this page
-    return () => clearTimeout(timer);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const categories = useMemo(() => ['All', ...new Set(apps.map(app => app.category))], []);

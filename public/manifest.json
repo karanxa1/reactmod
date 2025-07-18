@@ -1,6 +1,7 @@
 {
   "short_name": "MODZY",
   "name": "MODZY - Premium Mobile Apps",
+  "description": "Download and enjoy premium mobile applications and games",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,18 +9,60 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "logo192.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "logo512.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "theme_color": "#667eea",
-  "background_color": "#141414"
+  "background_color": "#141414",
+  "categories": ["entertainment", "utilities", "productivity"],
+  "prefer_related_applications": false,
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "shortcuts": [
+    {
+      "name": "Browse Apps",
+      "short_name": "Apps",
+      "description": "Browse premium mobile applications",
+      "url": "/apps",
+      "icons": [
+        {
+          "src": "logo192.jpg",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Games",
+      "short_name": "Games",
+      "description": "Discover mobile games",
+      "url": "/games",
+      "icons": [
+        {
+          "src": "logo192.jpg",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "logo512.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "form_factor": "narrow"
+    }
+  ]
 }

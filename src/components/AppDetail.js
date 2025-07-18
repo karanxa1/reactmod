@@ -1,14 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import Header from './Header';
-import { apps } from '../data/apps';
+import { getAllApps } from '../firebase/appService';
 import './AppDetail.css';
 
 const AppDetail = () => {
   const { id } = useParams();
-  const app = apps.find(app => app.id === parseInt(id));
+  const [app, setApp] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchApp = async () => {
+      try {
+        const apps = await getAllApps();
+        const foundApp = apps.find(app => app.id === id);
+        setApp(foundApp);
+      } catch (error) {
+        console.error('Error fetching app:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApp();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="app-detail-error">
+        <Header />
+        <div className="container">
+          <h1>Loading...</h1>
+          <p>Please wait while we fetch the app details.</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!app) {
     return (

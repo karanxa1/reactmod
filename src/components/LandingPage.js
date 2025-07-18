@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Header from './Header';
-import HeroSection from './HeroSection';
+
 import InfiniteTicker from './InfiniteTicker';
 import SkeletonCard from './SkeletonCard';
 import Footer from './Footer';
@@ -9,7 +9,7 @@ import TelegramBenefits from './TelegramBenefits';
 import BentoGrid from './BentoGrid';
 import Timeline from './Timeline';
 import SectionDivider from './SectionDivider';
-import { apps as initialApps } from '../data/apps';
+import { subscribeToApps } from '../firebase/appService';
 import './LandingPage.css';
 
 // Lazy load heavy components
@@ -19,6 +19,7 @@ const LazyParallaxBackground = lazy(() => import('./ParallaxBackground'));
 const LandingPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [apps, setApps] = useState([]);
 
   // Detect mobile devices
   useEffect(() => {
@@ -30,6 +31,15 @@ const LandingPage = () => {
     window.addEventListener('resize', checkMobile);
     
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToApps((appsData) => {
+      setApps(appsData);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -88,9 +98,37 @@ const LandingPage = () => {
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={sectionVariants}>
-            <HeroSection />
+          <motion.section 
+            id="apps-section" 
+            className="apps-section hero-replacement"
+            variants={sectionVariants}
+          >
+            <div className="container">
+              <div className="hero-apps-header">
+                <h1 className="main-title gradient-text">Premium Mobile Apps</h1>
+                <p className="main-subtitle">
+                  Discover our carefully curated collection of premium mobile applications
+                </p>
+              </div>
+              
+              <motion.div 
+                className="apps-grid"
+                variants={containerVariants}
+                initial="hidden"
+                animate={isLoading ? "hidden" : "visible"}
+              >
+                {isLoading
+                  ? Array.from({ length: 6 }).map((_, index) => (
+                      <SkeletonCard key={index} />
+                    ))
+                  : apps.map((app, index) => (
+                      <Suspense key={app.id} fallback={<SkeletonCard />}>
+                        <LazyAppCard app={app} index={index} />
+                      </Suspense>
+                    ))}
           </motion.div>
+            </div>
+          </motion.section>
           
           <motion.div variants={sectionVariants}>
             <InfiniteTicker />
@@ -112,35 +150,7 @@ const LandingPage = () => {
             <TelegramBenefits />
           </motion.div>
           
-          <motion.section 
-            id="apps-section" 
-            className="apps-section"
-            variants={sectionVariants}
-          >
-            <div className="container">
-              <h2 className="section-title gradient-text">Premium Mobile Apps</h2>
-              <p className="section-subtitle">
-                Discover our carefully curated collection of premium mobile applications
-              </p>
-              
-              <motion.div 
-                className="apps-grid"
-                variants={containerVariants}
-                initial="hidden"
-                animate={isLoading ? "hidden" : "visible"}
-              >
-                {isLoading
-                  ? Array.from({ length: initialApps.length }).map((_, index) => (
-                      <SkeletonCard key={index} />
-                    ))
-                  : initialApps.map((app, index) => (
-                      <Suspense key={app.id} fallback={<SkeletonCard />}>
-                        <LazyAppCard app={app} index={index} />
-                      </Suspense>
-                    ))}
-              </motion.div>
-            </div>
-          </motion.section>
+
         </motion.main>
       ) : (
         // Desktop version - with parallax
@@ -151,9 +161,37 @@ const LandingPage = () => {
               initial="hidden"
               animate="visible"
             >
-              <motion.div variants={sectionVariants}>
-                <HeroSection />
+              <motion.section 
+                id="apps-section" 
+                className="apps-section hero-replacement"
+                variants={sectionVariants}
+              >
+                <div className="container">
+                  <div className="hero-apps-header">
+                    <h1 className="main-title gradient-text">Premium Mobile Apps</h1>
+                    <p className="main-subtitle">
+                      Discover our carefully curated collection of premium mobile applications
+                    </p>
+                  </div>
+                  
+                  <motion.div 
+                    className="apps-grid"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate={isLoading ? "hidden" : "visible"}
+                  >
+                    {isLoading
+                      ? Array.from({ length: 6 }).map((_, index) => (
+                          <SkeletonCard key={index} />
+                        ))
+                      : apps.map((app, index) => (
+                          <Suspense key={app.id} fallback={<SkeletonCard />}>
+                            <LazyAppCard app={app} index={index} />
+                          </Suspense>
+                        ))}
               </motion.div>
+                </div>
+              </motion.section>
               
               <motion.div variants={sectionVariants}>
                 <InfiniteTicker />
@@ -175,35 +213,7 @@ const LandingPage = () => {
                 <TelegramBenefits />
               </motion.div>
               
-              <motion.section 
-                id="apps-section" 
-                className="apps-section"
-                variants={sectionVariants}
-              >
-                <div className="container">
-                  <h2 className="section-title gradient-text">Premium Mobile Apps</h2>
-                  <p className="section-subtitle">
-                    Discover our carefully curated collection of premium mobile applications
-                  </p>
-                  
-                  <motion.div 
-                    className="apps-grid"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate={isLoading ? "hidden" : "visible"}
-                  >
-                    {isLoading
-                      ? Array.from({ length: initialApps.length }).map((_, index) => (
-                          <SkeletonCard key={index} />
-                        ))
-                      : initialApps.map((app, index) => (
-                          <Suspense key={app.id} fallback={<SkeletonCard />}>
-                            <LazyAppCard app={app} index={index} />
-                          </Suspense>
-                        ))}
-                  </motion.div>
-                </div>
-              </motion.section>
+
             </motion.main>
           </LazyParallaxBackground>
         </Suspense>
