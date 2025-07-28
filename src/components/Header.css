@@ -399,12 +399,22 @@
     padding: 12px 0;
   }
   
+  .logo {
+    gap: 8px;
+  }
+  
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+  
   .logo-text h1 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
   
   .logo-text p {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
   }
   
   .action-btn {
@@ -415,6 +425,32 @@
   .cta-button {
     padding: 10px 20px;
     font-size: 0.85rem;
+  }
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 480px) {
+  .header-content {
+    padding: 10px 0;
+  }
+  
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .logo-text h1 {
+    font-size: 1.2rem;
+  }
+  
+  .logo-text p {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .logo-text h1 {
+    font-size: 1.1rem;
   }
 }
 
@@ -437,4 +473,4 @@
     transition: none;
     animation: none;
   }
-} 
+}
