@@ -1,262 +1,139 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Smartphone, Github, MessageCircle, Mail, Heart } from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {
-  const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
-
-  const handleTelegramClick = () => {
-    window.open('https://t.me/keyisheremybaby', '_blank');
-  };
-
-  const handleEmailClick = () => {
-    window.open('mailto:support@modzy.com', '_blank');
-  };
-
-  const handleNewsletterSubmit = (e) => {
-    e.preventDefault();
-    if (email.trim()) {
-      // For now, just show success message
-      setIsSubscribed(true);
-      setEmail('');
-      setTimeout(() => setIsSubscribed(false), 3000);
-    }
-  };
-
   const currentYear = new Date().getFullYear();
 
-  const handleFooterLinkClick = (href, linkName) => {
-    if (href.startsWith('http')) {
-      window.open(href, '_blank');
-    } else {
-      alert(`${linkName} - Coming Soon! Join our Telegram channel for updates.`);
+  const handleSmoothScroll = (targetId) => {
+    const element = document.getElementById(targetId);
+    if (element) {
+      const headerOffset = 80; // Account for any fixed header
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
-
-  const footerLinks = {
-    company: [
-      { name: 'About Us', href: '#about' },
-      { name: 'Our Story', href: '#story' },
-      { name: 'Careers', href: '#careers' },
-      { name: 'Press Kit', href: '#press' }
-    ],
-    support: [
-      { name: 'Help Center', href: '#help' },
-      { name: 'Contact Us', href: '#contact' },
-      { name: 'Bug Reports', href: '#bugs' },
-      { name: 'Feature Requests', href: '#features' }
-    ],
-    legal: [
-      { name: 'Privacy Policy', href: '#privacy' },
-      { name: 'Terms of Service', href: '#terms' },
-      { name: 'Cookie Policy', href: '#cookies' },
-      { name: 'DMCA', href: '#dmca' }
-    ],
-    community: [
-      { name: 'Telegram Channel', href: 'https://t.me/keyisheremybaby' },
-      { name: 'Discord Server', href: '#discord' },
-      { name: 'Reddit Community', href: '#reddit' },
-      { name: 'Developer Forum', href: '#forum' }
-    ]
-  };
-
-  const socialLinks = [
-    { name: 'Telegram Bot', icon: <img src="https://github.com/karanxa1/images-/blob/main/WhatsApp%20Image%202025-07-14%20at%2015.27.23_d780c05f.jpg?raw=true" alt="Telegram Bot" style={{width: '1.5em', height: '1.5em', borderRadius: '50%'}} />, href: 'https://t.me/FidelityXBot', color: '#0088cc' },
-    { name: 'YouTube', icon: '📺', href: 'https://youtube.com/@aryanchaudhari0091?si=cZGilLq0okHs3_2n', color: '#ff0000' },
-    { name: 'GitHub', icon: '💻', href: 'https://github.com/karanxa1', color: '#333' }
-  ];
-
-  const stats = [
-    { number: '145K+', label: 'Community Members' },
-    { number: '50K+', label: 'Daily Downloads' },
-    { number: '99%', label: 'User Satisfaction' },
-    { number: '24/7', label: 'Support Available' }
-  ];
 
   return (
     <footer className="footer">
-      <div className="footer-background">
-        <div className="footer-particles"></div>
+      <div className="footer-bg-effects">
         <div className="footer-gradient"></div>
+        <div className="footer-particles"></div>
       </div>
-
-      <div className="footer-content">
-        {/* Stats Section */}
-        <div className="footer-stats">
-          <div className="container">
-            <div className="stats-grid">
-              {stats.map((stat, index) => (
-                <div key={index} className="stat-item">
-                  <div className="stat-number">{stat.number}</div>
-                  <div className="stat-label">{stat.label}</div>
-                </div>
-              ))}
+      
+      <div className="container">
+        <div className="footer-content">
+          {/* Brand Section */}
+          <div className="footer-section footer-brand">
+            <div className="footer-logo">
+              <Smartphone className="footer-logo-icon" />
+              <span className="footer-logo-text">MODZY</span>
+            </div>
+            <p className="footer-description">
+              Your ultimate destination for premium mobile applications. 
+              Discover, download, and enjoy the best apps curated just for you.
+            </p>
+            <div className="footer-stats">
+              <div className="stat-item">
+                <span className="stat-number">500+</span>
+                <span className="stat-label">Apps</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">10K+</span>
+                <span className="stat-label">Downloads</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-number">24/7</span>
+                <span className="stat-label">Support</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Main Footer Content */}
-        <div className="footer-main">
-          <div className="container">
-            <div className="footer-grid">
-              {/* Brand Section */}
-              <div className="footer-brand">
-                <div className="brand-logo">
-                  <span className="logo-icon">📱</span>
-                  <span className="logo-text">MODZY</span>
-                </div>
-                <p className="brand-description">
-                  Your premium destination for mobile applications. Join our exclusive 
-                  community and discover the best apps with early access and exclusive content.
-                </p>
-                <div className="social-links">
-                  {socialLinks.map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.href}
-                      className="social-link"
-                      style={{ '--social-color': social.color }}
-                      onClick={social.name === 'Telegram Bot' ? handleTelegramClick : undefined}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span className="social-icon">{social.icon}</span>
-                      <span className="social-name">{social.name}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
+          {/* Quick Links */}
+          <div className="footer-section">
+            <h3 className="footer-title">Quick Links</h3>
+            <ul className="footer-links">
+              <li><button onClick={() => handleSmoothScroll('apps')} className="footer-link footer-link-button">Browse Apps</button></li>
+              <li><button onClick={() => handleSmoothScroll('categories')} className="footer-link footer-link-button">Categories</button></li>
+              <li><button onClick={() => handleSmoothScroll('featured')} className="footer-link footer-link-button">Featured</button></li>
+              <li><button onClick={() => handleSmoothScroll('new')} className="footer-link footer-link-button">New Releases</button></li>
+              <li><button onClick={() => handleSmoothScroll('popular')} className="footer-link footer-link-button">Most Popular</button></li>
+            </ul>
+          </div>
 
-              {/* Company Links */}
-              <div className="footer-section">
-                <h3 className="section-title">Company</h3>
-                <ul className="footer-links">
-                  {footerLinks.company.map((link, index) => (
-                    <li key={index}>
-                      <button 
-                        onClick={() => handleFooterLinkClick(link.href, link.name)}
-                        className="footer-link"
-                      >
-                        {link.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          {/* Support */}
+          <div className="footer-section">
+            <h3 className="footer-title">Support</h3>
+            <ul className="footer-links">
+              <li><button onClick={() => handleSmoothScroll('help')} className="footer-link footer-link-button">Help Center</button></li>
+              <li><button onClick={() => handleSmoothScroll('faq')} className="footer-link footer-link-button">FAQ</button></li>
+              <li><button onClick={() => handleSmoothScroll('contact')} className="footer-link footer-link-button">Contact Us</button></li>
+              <li><Link to="/privacy" className="footer-link">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="footer-link">Terms of Service</Link></li>
+            </ul>
+          </div>
 
-              {/* Support Links */}
-              <div className="footer-section">
-                <h3 className="section-title">Support</h3>
-                <ul className="footer-links">
-                  {footerLinks.support.map((link, index) => (
-                    <li key={index}>
-                      <button 
-                        onClick={() => handleFooterLinkClick(link.href, link.name)}
-                        className="footer-link"
-                      >
-                        {link.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Legal Links */}
-              <div className="footer-section">
-                <h3 className="section-title">Legal</h3>
-                <ul className="footer-links">
-                  {footerLinks.legal.map((link, index) => (
-                    <li key={index}>
-                      <button 
-                        onClick={() => handleFooterLinkClick(link.href, link.name)}
-                        className="footer-link"
-                      >
-                        {link.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Community Links */}
-              <div className="footer-section">
-                <h3 className="section-title">Community</h3>
-                <ul className="footer-links">
-                  {footerLinks.community.map((link, index) => (
-                    <li key={index}>
-                      <button 
-                        onClick={() => handleFooterLinkClick(link.href, link.name)}
-                        className="footer-link"
-                      >
-                        {link.name}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+          {/* Connect */}
+          <div className="footer-section">
+            <h3 className="footer-title">Connect</h3>
+            <div className="social-links">
+              <a 
+                href="https://t.me/keyisheremybaby" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="social-link telegram"
+              >
+                <MessageCircle size={20} />
+                <span>Telegram</span>
+              </a>
+              <a 
+                href="https://github.com/karanxa1" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link github"
+              >
+                <Github size={20} />
+                <span>GitHub</span>
+              </a>
+              <a 
+                href="#email" 
+                className="social-link email"
+              >
+                <Mail size={20} />
+                <span>Email</span>
+              </a>
+            </div>
+            <div className="newsletter">
+              <h4 className="newsletter-title">Stay Updated</h4>
+              <p className="newsletter-text">Get notified about new apps and updates</p>
+              <div className="newsletter-form">
+                <input 
+                  type="email" 
+                  placeholder="Enter your email"
+                  className="newsletter-input"
+                />
+                <button className="newsletter-btn">Subscribe</button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="footer-newsletter">
-          <div className="container">
-            <div className="newsletter-content">
-              <div className="newsletter-info">
-                <h3 className="newsletter-title">Stay Updated</h3>
-                <p className="newsletter-description">
-                  Get the latest app releases, exclusive content, and community updates 
-                  delivered directly to your inbox.
-                </p>
-              </div>
-              <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
-                <div className="input-group">
-                  <input
-                    type="email"
-                    placeholder="Enter your email address"
-                    className="newsletter-input"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                  <button type="submit" className="newsletter-button">
-                    <span className="button-text">
-                      {isSubscribed ? '✓ Subscribed!' : 'Subscribe'}
-                    </span>
-                    <span className="button-icon">📧</span>
-                  </button>
-                </div>
-                {isSubscribed && (
-                  <div className="newsletter-success">
-                    Thank you for subscribing! You'll receive updates about new apps and exclusive content.
-                  </div>
-                )}
-                <p className="newsletter-note">
-                  We respect your privacy. Unsubscribe at any time.
-                </p>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Section */}
+        {/* Footer Bottom */}
         <div className="footer-bottom">
-          <div className="container">
-            <div className="bottom-content">
-              <div className="copyright">
-                <p>&copy; {currentYear} MODZY. All rights reserved.</p>
-              </div>
-              <div className="bottom-links">
-                <button onClick={() => handleFooterLinkClick('#privacy', 'Privacy Policy')} className="bottom-link">Privacy</button>
-                <button onClick={() => handleFooterLinkClick('#terms', 'Terms of Service')} className="bottom-link">Terms</button>
-                <button onClick={() => handleFooterLinkClick('#cookies', 'Cookie Policy')} className="bottom-link">Cookies</button>
-                <button onClick={() => handleFooterLinkClick('#sitemap', 'Sitemap')} className="bottom-link">Sitemap</button>
-              </div>
-              <div className="footer-badge">
-                <span className="badge-text">Made with</span>
-                <span className="badge-heart">❤️</span>
-                <span className="badge-text">for the community</span>
-              </div>
+          <div className="footer-bottom-content">
+            <p className="copyright">
+              © {currentYear} MODZY. Made with <Heart size={16} className="heart-icon" /> for mobile enthusiasts.
+            </p>
+            <div className="footer-bottom-links">
+              <Link to="/privacy" className="footer-bottom-link">Privacy</Link>
+              <Link to="/terms" className="footer-bottom-link">Terms</Link>
+              <a href="#cookies" className="footer-bottom-link">Cookies</a>
             </div>
           </div>
         </div>
@@ -265,4 +142,4 @@ const Footer = () => {
   );
 };
 
-export default Footer; 
+export default Footer;

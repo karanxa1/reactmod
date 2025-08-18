@@ -1,33 +1,71 @@
+/* Dark Mode Futuristic AppCard Styles - Mobile Optimized */
 .app-card {
-  background: rgba(38, 38, 38, 0.6);
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(102, 126, 234, 0.1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  /* Hardware acceleration for smooth animations */
   will-change: transform;
-  transform: translate3d(0, 0, 0); /* Hardware acceleration */
-  /* Mobile touch optimizations */
-  -webkit-tap-highlight-color: rgba(102, 126, 234, 0.3);
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .app-card:hover {
   transform: translate3d(0, -8px, 0) scale(1.02);
-  box-shadow: 0 20px 40px 0 rgba(102, 126, 234, 0.3);
-  border-color: rgba(102, 126, 234, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.6);
 }
 
-/* Mobile-specific hover states using touch */
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .app-card {
+    transition: none;
+    will-change: auto;
+  }
+  
+  .app-card:hover {
+    transform: none;
+  }
+  
+  .app-card:active {
+    transform: none;
+  }
+}
+
+/* Mobile-specific touch states optimized for 60fps */
 .app-card:active {
-  transform: translate3d(0, -4px, 0) scale(1.01);
+  transform: translate3d(0, -2px, 0) scale(0.98);
   transition-duration: 0.1s;
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  .app-card {
+    /* Optimize for mobile performance */
+    transition-duration: 0.15s;
+    will-change: transform;
+  }
+  
+  .app-card:hover {
+    /* Minimal hover effects on mobile for better performance */
+    transform: translate3d(0, -2px, 0) scale(1.005);
+  }
+  
+  .app-card:active {
+    transform: translate3d(0, -1px, 0) scale(0.99);
+    transition-duration: 0.08s;
+  }
 }
 
 .app-card::before {
@@ -37,15 +75,17 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  background: linear-gradient(145deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
   pointer-events: none;
   z-index: 1;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.4s ease;
+  border-radius: 16px;
 }
 
 .app-card:hover::before {
   opacity: 1;
+  background: linear-gradient(145deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
 }
 
 /* Enhanced touch feedback */
@@ -70,15 +110,158 @@
 }
 
 .app-card-image {
-  position: relative;
-  height: 500px;
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-radius: 16px 16px 0 0;
+    /* Optimized for smooth image transitions */
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    cursor: pointer;
+  }
+
+.app-card-image:hover {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  transform: scale(1.02);
+}
+
+/* Image click indicator */
+.image-click-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.image-click-indicator span {
+  font-size: 12px;
+  filter: grayscale(1) brightness(2);
+}
+
+.app-card-image:hover .image-click-indicator {
+  opacity: 1;
+}
+
+/* Enhanced Image Loading Styles */
+.image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px 16px 0 0;
+}
+
+.placeholder-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(102, 126, 234, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.loading-progress {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
   overflow: hidden;
-  background-size: 200% 200%;
-  will-change: transform;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Mobile-specific edge-to-edge styling */
+@media (max-width: 768px) {
+  .app-card {
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+  
+  .app-card-image {
+    height: 180px;
+    margin: 0;
+    padding: 0;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .app-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .app-card-content {
+    padding: 12px;
+  }
+  
+  .app-name {
+    font-size: 1.1rem;
+  }
+  
+  .download-btn {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .image-placeholder {
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .loading-progress {
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+  }
 }
 
 /* Optimized gradient backgrounds for better mobile performance */
@@ -118,12 +301,49 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
-  border-radius: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.3));
+  /* Standardized logo dimensions: 512x512px source images */
+  min-width: 100%;
+  min-height: 100%;
+}
+
+/* Ensure square thumbnail area (best for 1024x1024 icons) */
+.app-card-image {
+  aspect-ratio: 1 / 1;
+  height: auto !important; /* override earlier fixed heights */
+  max-width: 90%;
+  margin: 0 auto; /* slightly smaller look */
+}
+
+/* Fallback for browsers without aspect-ratio support */
+@supports not (aspect-ratio: 1 / 1) {
+  .app-card-image {
+    position: relative;
+    height: auto !important;
+  }
+  .app-card-image::before {
+    content: '';
+    display: block;
+    padding-top: 100%; /* 1:1 square */
+  }
+  .app-card-image > img,
+  .app-card-image > .image-placeholder,
+  .app-card-image > .app-image-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .app-card:hover .app-card-image img {
   transform: scale(1.05);
+  filter: drop-shadow(0 0 15px rgba(102, 126, 234, 0.4));
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .app-badge {
@@ -140,12 +360,6 @@
   -webkit-backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   z-index: 10;
-  animation: badge-float 3s ease-in-out infinite;
-}
-
-@keyframes badge-float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); }
 }
 
 .badge-new {
@@ -161,47 +375,60 @@
 }
 
 .app-card:hover .app-badge {
-  transform: translateY(-3px) scale(1.1);
+  transform: translateY(-2px) scale(1.05);
 }
 
 .app-card-content {
-  padding: 25px;
+  padding: 16px;
   position: relative;
   z-index: 2;
-  background: rgba(26, 26, 26, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: linear-gradient(145deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(102, 126, 234, 0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 150px; /* ensure uniform content area height */
 }
 
 .app-name {
-  margin: 0 0 8px 0;
-  font-size: 1.3rem;
+  margin: 0 0 4px 0;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #ffffff;
-  line-height: 1.3;
-  transition: color 0.2s ease;
+  line-height: 1.2;
+  transition: all 0.3s ease;
   letter-spacing: 0.5px;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  text-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .app-card:hover .app-name {
-  color: #667eea;
+  color: var(--neon-blue);
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
 }
 
 .app-category {
-  margin: 0 0 20px 0;
-  font-size: 0.9rem;
-  color: #c4c4c4;
-  font-weight: 500;
+  margin: 0 0 8px 0;
+  font-size: 0.8rem;
+  color: rgba(102, 126, 234, 0.8);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .app-category::after {
   content: '';
   position: absolute;
-  bottom: -8px;
+  bottom: -4px;
   left: 0;
   width: 30px;
   height: 2px;
@@ -209,56 +436,69 @@
   border-radius: 1px;
 }
 
+/* Enhanced App Description Styles */
+.app-description {
+  margin: 8px 0 12px 0;
+  padding: 8px 0;
+  border-top: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.description-text {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+  margin: 0;
+  text-align: left;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
 .app-details {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin: 12px 0;
+  padding: 8px 0;
+  border-top: 1px solid rgba(102, 126, 234, 0.1);
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
 }
 
-.detail-icon {
-  margin-right: 8px;
-  color: #c4c4c4;
-  transition: color 0.2s ease;
-}
-
-.app-version,
-.app-size {
+.app-detail-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-  color: #ccc;
-  transition: color 0.2s ease;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
 }
 
-.app-card:hover .app-version,
-.app-card:hover .app-size {
-  color: #ffffff;
+.app-detail-item svg {
+  color: rgba(102, 126, 234, 0.8);
+  filter: drop-shadow(0 0 4px rgba(102, 126, 234, 0.3));
 }
 
-.app-version span:last-child,
-.app-size span:last-child {
-  font-weight: 600;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* download button removed */
 
 /* Enhanced mobile responsiveness */
 @media (max-width: 768px) {
   .app-card {
-    border-radius: 16px;
+    border-radius: 0;
+    margin: 0;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     /* Optimize for touch */
     touch-action: manipulation;
     min-height: 44px;
+    /* Optimize for mobile performance */
+    will-change: transform;
+    /* Reduce complex shadows on mobile */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 10px rgba(102, 126, 234, 0.1);
   }
   
   .app-card:hover {
-    transform: translate3d(0, -4px, 0) scale(1.01);
+    transform: translate3d(0, -6px, 0) scale(1.01);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(102, 126, 234, 0.3);
   }
   
   .app-card:active {
@@ -266,7 +506,10 @@
   }
   
   .app-card-image {
-    height: 400px;
+    height: 180px;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
   }
   
   .app-name {
@@ -580,13 +823,17 @@
 
 @media (max-width: 480px) {
   .app-card {
-    border-radius: 12px;
+    border-radius: 0;
+    margin: 0;
     /* Further mobile optimizations */
     will-change: auto;
   }
   
   .app-card-image {
     height: 300px;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
   }
   
   .app-card-content {
@@ -740,4 +987,41 @@
     backdrop-filter: none;
     background: rgba(40, 40, 40, 0.9);
   }
-} 
+}
+
+/* --- Mobile card separation (without changing parent grid) --- */
+@media (max-width: 767px) {
+  /* Give each card its own breathing room so cards aren't joined */
+  .app-card {
+    margin: 8px;               /* creates visual gap between grid items */
+    border-radius: 12px;       /* keep rounded corners like reference */
+    overflow: hidden;          /* ensure child corners follow radius */
+  }
+  .app-card::before,
+  .app-card::after { 
+    border-radius: 12px; 
+  }
+  .app-card-image,
+  .image-placeholder,
+  .app-card-image img {
+    border-radius: 12px 12px 0 0; /* rounded image top like reference */
+  }
+
+  /* Make cards a bit more compact on mobile */
+  .app-card-content {
+    padding: 12px;
+    min-height: 120px;
+  }
+  .app-name { font-size: 1rem; }
+  .download-btn { padding: 10px; font-size: 0.85rem; }
+  
+  /* Keep details in one row, pushed to ends */
+  .app-details {
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .app-detail-item { font-size: 0.8rem; }
+  .app-detail-item:last-child { margin-left: auto; }
+}

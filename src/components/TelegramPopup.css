@@ -1,0 +1,583 @@
+/* Telegram Popup Styles - Mobile Optimized */
+
+/* Popup open state - no scroll prevention */
+body.popup-open {
+  /* Allow normal scrolling */
+}
+
+.telegram-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.telegram-popup {
+  background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 100%);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 450px;
+  max-height: min(90vh, 600px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(102, 126, 234, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .telegram-popup-backdrop {
+    padding: 0.5rem;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  
+  .telegram-popup {
+    border-radius: 14px;
+    max-width: 100%;
+    width: calc(100vw - 1rem);
+    max-height: 95vh;
+  }
+}
+
+/* Reduce intensive effects on mobile for performance */
+@media (hover: none) and (pointer: coarse) {
+  .popup-close-btn:hover,
+  .telegram-btn:hover:not(.completed):not(:disabled),
+  .download-btn:hover:not(.disabled),
+  .cancel-btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.popup-app-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.popup-app-logo-container {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.popup-app-logo {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  filter: drop-shadow(0 0 8px rgba(102, 126, 234, 0.4));
+  transition: all 0.3s ease;
+}
+
+.popup-app-logo-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  filter: drop-shadow(0 0 8px rgba(102, 126, 234, 0.4));
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.popup-app-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.popup-app-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+.popup-app-category {
+  font-size: 0.875rem;
+  color: #888;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.popup-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.popup-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+  transform: scale(1.1);
+}
+
+.popup-content {
+  padding: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.telegram-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.telegram-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #0088cc 0%, #0066aa 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4);
+  font-size: 1.5rem;
+}
+
+.telegram-section h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+  text-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+.telegram-section p {
+  font-size: 0.875rem;
+  color: #ccc;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+/* App description block shown inside Telegram section */
+.app-description-block {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  margin: 0 0 1rem 0;
+}
+
+.app-description-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.app-description-text {
+  margin: 0;
+  color: #ccc;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.telegram-btn {
+  background: linear-gradient(135deg, #0088cc 0%, #0066aa 100%);
+  border: 1px solid rgba(0, 136, 204, 0.3);
+  border-radius: 12px;
+  padding: 0.875rem 1.5rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+  text-decoration: none;
+  margin: 0 auto;
+}
+
+.telegram-btn:hover:not(.completed):not(:disabled) {
+  background: linear-gradient(135deg, #0099dd 0%, #0077bb 100%);
+  box-shadow: 0 6px 25px rgba(0, 136, 204, 0.5);
+  transform: translateY(-2px);
+}
+
+.telegram-btn.completed {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-color: rgba(16, 185, 129, 0.3);
+  cursor: default;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.telegram-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.success-message {
+  font-size: 0.75rem;
+  color: #10b981;
+  margin-top: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  justify-content: center;
+  animation: success-fade-in 0.5s ease-out;
+}
+
+@keyframes success-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.confirmation-section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(102, 126, 234, 0.05);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  border-radius: 12px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+}
+
+.checkbox-container.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: #666;
+}
+
+.checkbox-container input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(102, 126, 234, 0.5);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: rgba(102, 126, 234, 0.1);
+  flex-shrink: 0;
+}
+
+.checkbox-container:not(.disabled):hover .checkmark {
+  border-color: rgba(102, 126, 234, 0.8);
+  background: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+  color: #ffffff;
+}
+
+.hint-message {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.5rem;
+  font-style: italic;
+  text-align: center;
+}
+
+.popup-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.download-btn {
+  background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.download-btn:hover:not(.disabled) {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
+  transform: translateY(-2px);
+}
+
+.download-btn.disabled {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.3);
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .telegram-popup-backdrop {
+    padding: 0.5rem;
+  }
+  
+  .telegram-popup {
+    max-width: 95vw;
+    max-height: 95vh;
+    margin: 0;
+  }
+  
+  .popup-header {
+    padding: 1rem;
+  }
+  
+  .popup-content {
+    padding: 1rem;
+  }
+  
+  .popup-app-logo-container {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .logo-text {
+    font-size: 1.125rem;
+  }
+  
+  .telegram-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+  
+  .telegram-section h3 {
+    font-size: 1.125rem;
+  }
+  
+  .popup-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .cancel-btn,
+  .download-btn {
+    width: 100%;
+    padding: 0.875rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .telegram-popup {
+    border-radius: 12px;
+  }
+  
+  .popup-header {
+    padding: 0.875rem;
+  }
+  
+  .popup-content {
+    padding: 0.875rem;
+  }
+  
+  .popup-app-logo-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logo-text {
+    font-size: 1rem;
+  }
+  
+  .telegram-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.125rem;
+  }
+  
+  .telegram-section h3 {
+    font-size: 1rem;
+  }
+  
+  .telegram-section p {
+    font-size: 0.8rem;
+  }
+  
+  .telegram-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.8rem;
+  }
+  
+  .checkbox-container {
+    font-size: 0.8rem;
+  }
+  
+  .checkmark {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Ensure popup appears above all content */
+.telegram-popup-backdrop {
+  position: fixed !important;
+  z-index: 10000 !important;
+}
+
+/* Popup open state - allow scrolling */
+body.popup-open {
+  /* Allow normal scrolling */
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .telegram-popup {
+    max-height: 85vh;
+  }
+  
+  .popup-content {
+    padding: 0.75rem;
+  }
+  
+  .telegram-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .confirmation-section {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+  }
+}
+
+/* High DPI mobile displays */
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  .popup-app-logo {
+    image-rendering: -webkit-optimize-contrast;
+  }
+  
+  .popup-close-btn {
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Accessibility improvements */
+@media (max-width: 768px) {
+  .popup-close-btn:focus,
+  .telegram-btn:focus,
+  .download-btn:focus,
+  .cancel-btn:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+  }
+  
+  .popup-close-btn:focus-visible,
+  .telegram-btn:focus-visible,
+  .download-btn:focus-visible,
+  .cancel-btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5);
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .telegram-popup,
+  .telegram-popup-backdrop {
+    transition: none !important;
+  }
+  
+  .telegram-btn,
+  .download-btn,
+  .cancel-btn,
+  .popup-close-btn {
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .success-message {
+    animation: none;
+  }
+}
+

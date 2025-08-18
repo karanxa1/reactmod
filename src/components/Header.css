@@ -1,282 +1,88 @@
-/* =======================================
-   IMPROVED DESKTOP HEADER STYLES
-   ======================================= */
-
-/* Header Base */
+/* Futuristic Dark Header Styles */
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.header.scrolled {
-  background: rgba(5, 5, 5, 0.95);
+  background: linear-gradient(145deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%);
   backdrop-filter: blur(25px);
-  border-bottom-color: rgba(102, 126, 234, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(25px);
+  border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(102, 126, 234, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0;
-  position: relative;
-  z-index: 2;
-}
-
-/* Enhanced Logo Section */
-.logo-section {
-  position: relative;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #fff;
-  transition: all 0.3s ease;
+  gap: 0.75rem;
+  color: var(--text-primary);
 }
 
 .logo-icon {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.3s ease;
+  color: rgba(102, 126, 234, 1);
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 12px rgba(102, 126, 234, 0.6));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.logo-icon svg {
-  z-index: 2;
-  color: #fff;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+.logo-icon:hover {
+  filter: drop-shadow(0 0 20px rgba(102, 126, 234, 1));
+  transform: scale(1.1) rotate(5deg);
+  color: rgba(118, 75, 162, 1);
 }
 
-.logo-glow {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 12px;
-  opacity: 0;
-  filter: blur(8px);
-  transition: opacity 0.3s ease;
-}
-
-.logo:hover .logo-glow {
-  opacity: 0.7;
-}
-
-.logo:hover .logo-icon {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-}
-
-.logo-text h1 {
-  margin: 0;
-  font-size: 1.8rem;
+.logo-text {
+  font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #fff, #e0e0e0);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #00d4ff 100%);
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.5px;
+  animation: logoGradient 4s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+  letter-spacing: 1px;
 }
 
-.logo-text p {
-  margin: 0;
-  font-size: 0.75rem;
-  color: #aaa;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+@keyframes logoGradient {
+  0%, 100% { background-position: 0% 50%; }
+  33% { background-position: 100% 50%; }
+  66% { background-position: 50% 100%; }
 }
 
-/* Enhanced Desktop Navigation */
-.desktop-nav {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.nav-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 8px;
-}
-
-.nav-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: #ccc;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-}
-
-.nav-link::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.nav-link:hover {
-  color: #fff;
-  transform: translateY(-1px);
-}
-
-.nav-link:hover::before {
-  opacity: 1;
-}
-
-.nav-link.active {
-  color: #fff;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.1));
-}
-
-.nav-icon {
-  display: flex;
-  align-items: center;
-  opacity: 0.8;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover .nav-icon,
-.nav-link.active .nav-icon {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.nav-text {
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-
-.active-indicator {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: 2px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
-}
-
-/* Header Actions */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
 }
 
-.action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.telegram-btn {
+  background: linear-gradient(145deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+  color: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  padding: 0.75rem 1.5rem;
   border-radius: 12px;
-  color: #ccc;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.action-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-}
-
-.search-btn:hover {
-  background: rgba(102, 126, 234, 0.2);
-  border-color: rgba(102, 126, 234, 0.3);
-  color: #667eea;
-}
-
-/* Stats Indicator */
-.stats-indicator {
-  display: flex;
-  align-items: center;
-  padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.stat-number {
-  display: block;
   font-size: 0.9rem;
-  font-weight: 700;
-  color: #667eea;
-  line-height: 1;
-}
-
-.stat-label {
-  display: block;
-  font-size: 0.7rem;
-  color: #888;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* CTA Button */
-.cta-button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border: none;
-  border-radius: 16px;
-  color: #fff;
   font-weight: 600;
-  font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
-.cta-button::before {
+.telegram-btn::before {
   content: '';
   position: absolute;
   top: 0;
@@ -284,39 +90,100 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.6s ease;
+  transition: left 0.5s ease;
 }
 
-.cta-button:hover::before {
+.telegram-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 12px 35px rgba(102, 126, 234, 0.5),
+    0 0 30px rgba(102, 126, 234, 0.4);
+  border-color: rgba(102, 126, 234, 0.8);
+  background: linear-gradient(145deg, rgba(102, 126, 234, 1) 0%, rgba(118, 75, 162, 1) 100%);
+}
+
+.telegram-btn:hover::before {
   left: 100%;
 }
 
-.cta-button:hover {
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-  filter: brightness(1.1);
+.telegram-btn:active {
+  transform: translateY(0) scale(1);
+  transition-duration: 0.1s;
 }
 
-.cta-icon {
-  font-size: 1rem;
+/* Tablet Styles */
+@media (min-width: 768px) {
+  .header-content {
+    padding: 1.25rem 2rem;
+  }
+  
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logo-text {
+    font-size: 1.5rem;
+  }
+  
+  .telegram-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
 }
 
-.cta-text {
-  letter-spacing: 0.3px;
+/* Desktop Styles */
+@media (min-width: 1024px) {
+  .header-content {
+    padding: 1.5rem 3rem;
+  }
+  
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .logo-text {
+    font-size: 1.75rem;
+  }
+  
+  .telegram-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
 }
 
-.cta-glow {
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 18px;
-  opacity: 0;
-  filter: blur(8px);
-  transition: opacity 0.3s ease;
-  z-index: -1;
+/* Mobile-specific optimizations */
+@media (max-width: 767px) {
+  .header-content {
+    padding: 0.75rem 1rem;
+  }
+  
+  .logo {
+    gap: 0.375rem;
+  }
+  
+  .logo-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .logo-text {
+    font-size: 1.1rem;
+  }
+  
+  .telegram-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 16px;
+  }
 }
 
-.cta-button:hover .cta-glow {
-  opacity: 0.7;
+/* Performance optimizations */
+@media (max-width: 767px) {
+  .telegram-btn {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 /* Header Background Effects */

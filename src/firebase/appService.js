@@ -8,37 +8,114 @@ import {
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp 
+  serverTimestamp,
+  enableNetwork,
+  disableNetwork 
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "./config";
 
 const APPS_COLLECTION = "apps";
 
-// Get all apps with real-time updates
+// Cache for apps data to improve performance
+let appsCache = null;
+let cacheTimestamp = null;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+// Check if cache is valid
+const isCacheValid = () => {
+  return appsCache && cacheTimestamp && (Date.now() - cacheTimestamp < CACHE_DURATION);
+};
+
+// Get all apps with real-time updates and caching
 export const subscribeToApps = (callback) => {
+  // Return cached data immediately if available
+  if (isCacheValid()) {
+    callback(appsCache);
+  }
+  
   const q = query(collection(db, APPS_COLLECTION), orderBy("createdAt", "desc"));
   return onSnapshot(q, (snapshot) => {
     const apps = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
+    
+    // Update cache
+    appsCache = apps;
+    cacheTimestamp = Date.now();
+    
     callback(apps);
+  }, (error) => {
+    console.error("Error in subscribeToApps:", error);
+    // Fallback to cached data if available
+    if (appsCache) {
+      callback(appsCache);
+    }
   });
 };
 
-// Get all apps (one-time fetch)
+// Get all apps (one-time fetch) with caching
 export const getAllApps = async () => {
   try {
+    // Return cached data if valid
+    if (isCacheValid()) {
+      return appsCache;
+    }
+    
     const q = query(collection(db, APPS_COLLECTION), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(doc => ({
+    const apps = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
+    
+    // Update cache
+    appsCache = apps;
+    cacheTimestamp = Date.now();
+    
+    return apps;
   } catch (error) {
     console.error("Error fetching apps:", error);
+    // Return cached data as fallback
+    if (appsCache) {
+      return appsCache;
+    }
     throw error;
+  }
+};
+
+// Preload apps data for better performance
+export const preloadApps = async () => {
+  try {
+    if (!isCacheValid()) {
+      await getAllApps();
+    }
+  } catch (error) {
+    console.error("Error preloading apps:", error);
+  }
+};
+
+// Clear cache when needed
+export const clearAppsCache = () => {
+  appsCache = null;
+  cacheTimestamp = null;
+};
+
+// Network status management
+export const enableOfflineMode = async () => {
+  try {
+    await disableNetwork(db);
+  } catch (error) {
+    console.error("Error enabling offline mode:", error);
+  }
+};
+
+export const enableOnlineMode = async () => {
+  try {
+    await enableNetwork(db);
+  } catch (error) {
+    console.error("Error enabling online mode:", error);
   }
 };
 
@@ -129,4 +206,4 @@ export const uploadScreenshots = async (files) => {
     console.error("Error uploading screenshots:", error);
     throw error;
   }
-}; 
+};
