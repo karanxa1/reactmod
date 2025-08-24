@@ -21,6 +21,38 @@
   -webkit-backface-visibility: hidden;
 }
 
+/* Hide any internal scrollbars within cards */
+.app-card,
+.app-card * {
+  scrollbar-width: none;
+}
+.app-card::-webkit-scrollbar,
+.app-card *::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* App card image styles */
+.app-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease;
+}
+
+.app-card-image.loading {
+  opacity: 0;
+  filter: blur(5px);
+  transform: scale(1.05);
+}
+
+.app-card-image.loaded {
+  opacity: 1;
+  filter: blur(0px);
+  transform: scale(1);
+}
+
 .app-card:hover {
   transform: translate3d(0, -8px, 0) scale(1.02);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(102, 126, 234, 0.3);
@@ -107,6 +139,48 @@
 .app-card:active::after {
   width: 200px;
   height: 200px;
+}
+
+/* Highlighted app card styles */
+.app-card.highlighted {
+  border: 2px solid rgba(102, 126, 234, 0.8);
+  box-shadow: 
+    0 0 30px rgba(102, 126, 234, 0.6),
+    0 0 60px rgba(102, 126, 234, 0.4),
+    0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: highlightPulse 2s ease-in-out;
+  z-index: 10;
+  position: relative;
+}
+
+.app-card.highlighted::before {
+  opacity: 1;
+  background: linear-gradient(145deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+  animation: highlightGlow 2s ease-in-out;
+}
+
+@keyframes highlightPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 30px rgba(102, 126, 234, 0.6),
+      0 0 60px rgba(102, 126, 234, 0.4),
+      0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 40px rgba(102, 126, 234, 0.8),
+      0 0 80px rgba(102, 126, 234, 0.6),
+      0 12px 40px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes highlightGlow {
+  0%, 100% {
+    background: linear-gradient(145deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+  }
+  50% {
+    background: linear-gradient(145deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+  }
 }
 
 .app-card-image {
@@ -220,7 +294,7 @@
 @media (max-width: 768px) {
   .app-card {
     border-radius: 12px;
-    margin-bottom: 1rem;
+    margin-bottom: 0; /* spacing handled by grid gap */
   }
   
   .app-card-image {
@@ -240,7 +314,7 @@
   }
   
   .app-card-content {
-    padding: 12px;
+    padding: 10px; /* reduced from 12px to 10px */
   }
   
   .app-name {
@@ -314,8 +388,7 @@
 .app-card-image {
   aspect-ratio: 1 / 1;
   height: auto !important; /* override earlier fixed heights */
-  max-width: 90%;
-  margin: 0 auto; /* slightly smaller look */
+  width: 100%;
 }
 
 /* Fallback for browsers without aspect-ratio support */
@@ -389,8 +462,9 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-height: 150px; /* ensure uniform content area height */
+  gap: 4px; /* reduced from 8px to 4px */
+  min-height: 135px; /* reduced from 150px to 135px (10% reduction) */
+  overflow: hidden; /* prevent inner scrollbars */
 }
 
 .app-name {
@@ -413,7 +487,7 @@
 }
 
 .app-category {
-  margin: 0 0 8px 0;
+  margin: 0 0 4px 0; /* reduced from 8px to 4px */
   font-size: 0.8rem;
   color: rgba(102, 126, 234, 0.8);
   font-weight: 600;
@@ -458,10 +532,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 12px 0;
-  padding: 8px 0;
+  margin: 8px 0; /* reduced from 12px to 8px */
+  padding: 6px 0; /* reduced from 8px to 6px */
   border-top: 1px solid rgba(102, 126, 234, 0.1);
   border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+  flex-wrap: wrap; /* avoid horizontal overflow */
 }
 
 .app-detail-item {
@@ -487,13 +562,15 @@
     margin: 0;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    /* Optimize for touch */
-    touch-action: manipulation;
-    min-height: 44px;
-    /* Optimize for mobile performance */
-    will-change: transform;
-    /* Reduce complex shadows on mobile */
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 10px rgba(102, 126, 234, 0.1);
+      /* Optimize for touch */
+  touch-action: manipulation;
+  min-height: 44px;
+  /* Optimize for mobile performance */
+  will-change: transform;
+  /* Reduce complex shadows on mobile */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 10px rgba(102, 126, 234, 0.1);
+  /* Smooth scrolling optimization */
+  scroll-behavior: smooth;
   }
   
   .app-card:hover {
@@ -517,12 +594,12 @@
   }
   
   .app-card-content {
-    padding: 20px;
+    padding: 18px; /* reduced from 20px to 18px */
   }
   
   .app-details {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px; /* reduced from 12px to 10px */
     align-items: flex-start;
   }
   
@@ -553,7 +630,7 @@
   }
   
   .app-card-content {
-    padding: 18px;
+    padding: 16px; /* reduced from 18px to 16px */
   }
   
   .app-name {
@@ -589,7 +666,7 @@
   }
   
   .app-card-content {
-    padding: 16px;
+    padding: 14px; /* reduced from 16px to 14px */
   }
 }
 
@@ -837,7 +914,7 @@
   }
   
   .app-card-content {
-    padding: 16px;
+    padding: 14px; /* reduced from 16px to 14px */
   }
   
   .app-name {
@@ -993,7 +1070,7 @@
 @media (max-width: 767px) {
   /* Give each card its own breathing room so cards aren't joined */
   .app-card {
-    margin: 8px;               /* creates visual gap between grid items */
+    margin: 0;                 /* spacing comes from grid gap */
     border-radius: 12px;       /* keep rounded corners like reference */
     overflow: hidden;          /* ensure child corners follow radius */
   }
@@ -1009,8 +1086,8 @@
 
   /* Make cards a bit more compact on mobile */
   .app-card-content {
-    padding: 12px;
-    min-height: 120px;
+    padding: 10px; /* reduced from 12px to 10px */
+    min-height: 108px; /* reduced from 120px to 108px (10% reduction) */
   }
   .app-name { font-size: 1rem; }
   .download-btn { padding: 10px; font-size: 0.85rem; }

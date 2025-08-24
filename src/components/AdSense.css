@@ -1,0 +1,267 @@
+/* Banner Ads Styles */
+/* Styles for 320x50 Standard Banner Ads */
+
+/* Bottom Banner Container */
+.native-banner-container {
+  width: 100%;
+  margin: 20px 0;
+  padding: 10px;
+  background: var(--card-bg, #ffffff);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bottom Banner Ad */
+.bottom-banner-ad {
+  width: 320px;
+  height: 50px;
+  margin: 0 auto;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+/* Banner Link */
+.banner-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Banner Content */
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Banner Icon */
+.banner-icon {
+  font-size: 16px;
+}
+
+/* Banner Text */
+.banner-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Banner Arrow */
+.banner-arrow {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Hover Effects */
+.banner-link:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+.banner-link:hover .banner-arrow {
+  opacity: 1;
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+}
+
+/* Top Banner Container */
+.native-banner-top-container {
+  width: 100%;
+  margin: 15px 0;
+  padding: 8px;
+  background: var(--card-bg, #ffffff);
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+/* Container for the top banner (400% larger height) */
+#container-top-banner {
+  width: 320px;
+  height: 200px;
+  margin: 0 auto;
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* Responsive design for banner ads */
+@media (max-width: 768px) {
+  .native-banner-container {
+    margin: 15px 0;
+    padding: 8px;
+    border-radius: 6px;
+    min-height: 60px;
+  }
+  
+  .native-banner-top-container {
+    margin: 10px 0;
+    padding: 6px;
+    border-radius: 4px;
+  }
+  
+  /* Scale down banners on mobile */
+  .bottom-banner-ad {
+    width: 300px;
+    height: 47px;
+    transform: scale(0.94);
+    transform-origin: center;
+  }
+  
+  #container-top-banner {
+    width: 300px;
+    height: 188px;
+    transform: scale(0.94);
+    transform-origin: center;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .native-banner-container {
+    margin: 10px 0;
+    padding: 6px;
+    min-height: 55px;
+  }
+  
+  .native-banner-top-container {
+    margin: 8px 0;
+    padding: 4px;
+  }
+  
+  /* Further scale down on very small screens */
+  .bottom-banner-ad {
+    width: 280px;
+    height: 44px;
+    transform: scale(0.88);
+    transform-origin: center;
+  }
+  
+  #container-top-banner {
+    width: 280px;
+    height: 176px;
+    transform: scale(0.88);
+    transform-origin: center;
+  }
+}
+
+/* Dark theme compatibility */
+@media (prefers-color-scheme: dark) {
+  .native-banner-container,
+  .native-banner-top-container {
+    background: var(--card-bg-dark, #1a1a1a);
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Hide container if ads don't load - no empty space */
+.native-banner-container:empty {
+  display: none;
+  margin: 0;
+  padding: 0;
+  height: 0;
+}
+
+.native-banner-top-container:empty {
+  display: none;
+  margin: 0;
+  padding: 0;
+  height: 0;
+}
+
+/* Hide container if ad container is empty */
+#container-bottom-banner:empty,
+#container-top-banner:empty {
+  display: none;
+}
+
+/* Hide parent container if ad container is empty */
+.native-banner-container:has(#container-bottom-banner:empty) {
+  display: none;
+  margin: 0;
+  padding: 0;
+  height: 0;
+}
+
+.native-banner-top-container:has(#container-top-banner:empty) {
+  display: none;
+  margin: 0;
+  padding: 0;
+  height: 0;
+}
+
+/* Performance optimizations */
+.native-banner-container,
+.native-banner-top-container {
+  contain: layout style;
+  will-change: auto;
+}
+
+/* Ad container styles for dynamic elements */
+.ad-container {
+  width: 320px;
+  height: 50px;
+  margin: 0 auto;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.ad-container-top {
+  width: 320px;
+  height: 200px;
+  margin: 0 auto;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* Visibility control classes */
+.ad-visible {
+  display: block;
+}
+
+.ad-hidden {
+  display: none;
+}
+
+/* Banner ads within container section spacers */
+.container .native-banner-container {
+  margin: 30px 0;
+  padding: 15px;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(102, 126, 234, 0.05));
+}
+
+@media (max-width: 768px) {
+  .container .native-banner-container {
+    margin: 20px 0;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container .native-banner-container {
+    margin: 15px 0;
+    padding: 8px;
+  }
+}

@@ -1,24 +1,26 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Check } from 'lucide-react';
+import SocialShare from './SocialShare';
 import './TelegramPopup.css';
 
 const TelegramPopup = ({ isOpen, onClose, app }) => {
   const [hasVisitedTelegram, setHasVisitedTelegram] = useState(false);
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const [imageError, setImageError] = useState(false);
+
+
+
 
   // Reset states when popup opens and manage body scroll
   useEffect(() => {
     if (isOpen && app) {
-      // Capture current scroll position
-      const currentScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-      setScrollPosition(currentScrollY);
-      
       setHasVisitedTelegram(false);
       setIsCheckboxChecked(false);
       setImageError(false);
+
+      
+
       
       // Don't prevent body scroll - let user scroll naturally
       // Just add a class for styling purposes
@@ -32,7 +34,7 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
     return () => {
       document.body.classList.remove('popup-open');
     };
-  }, [isOpen, app?.id]);
+  }, [isOpen, app]);
 
   // Handle window focus to detect return from Telegram
   useEffect(() => {
@@ -100,6 +102,18 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
       onClose();
     }
   }, [hasVisitedTelegram, isCheckboxChecked, app?.downloadLink, onClose]);
+
+  const generateShareUrl = useCallback(() => {
+    if (!app) return '';
+    const appId = app.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    return `https://modzy.in?app=${appId}`;
+  }, [app]);
+
+
+
+
+
+
 
   const popupVariants = {
     hidden: {
@@ -239,7 +253,22 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
                 )}
               </div>
               
-                             <div className="popup-actions">
+              {/* Social Share Component */}
+              <div className="social-share-section">
+                <SocialShare 
+                  url={generateShareUrl()}
+                  title={`${app.name} - ${app.category} App`}
+                  description={app.description || `Download ${app.name} - Premium ${app.category} application from MODZY marketplace`}
+                  image={app.logo}
+                  hashtags={`${app.category},ModApk,AndroidApp,MODZY`}
+                  variant="compact"
+                  size="small"
+                  showLabel={true}
+                  className="popup-social-share"
+                />
+              </div>
+              
+              <div className="popup-actions">
                  <button 
                    className="cancel-btn"
                    onClick={onClose}

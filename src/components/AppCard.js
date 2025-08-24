@@ -1,27 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Zap, HardDriveDownload, Smartphone, Download } from 'lucide-react';
+import React, { useState, memo, useMemo, useEffect } from 'react';
+import { Zap, HardDriveDownload, Smartphone } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './AppCard.css';
 
-const AppCard = ({ app, index, onOpenTelegramPopup }) => {
-  const [isMobile, setIsMobile] = useState(false);
+const AppCard = ({ app, index, onOpenTelegramPopup, isMobile, isHighlighted, onHighlightComplete }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isImageError, setIsImageError] = useState(false);
-  const [imageLoadProgress, setImageLoadProgress] = useState(0);
-  const [isImageCached, setIsImageCached] = useState(false);
-
-  
-  // Detect mobile devices
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768 || 'ontouchstart' in window);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const [shouldScrollIntoView, setShouldScrollIntoView] = useState(false);
+  const optimizedLogoUrl = useMemo(() => {
+    const url = app.logo || '';
+    try {
+      const u = new URL(url);
+      if (u.hostname === 'github.com' && u.pathname.includes('/blob/')) {
+        const parts = u.pathname.split('/');
+        // ['', owner, repo, 'blob', branch, ...path]
+        const owner = parts[1];
+        const repo = parts[2];
+        const branch = parts[4];
+        const path = parts.slice(5).join('/');
+        return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
+      }
+      return url;
+    } catch {
+      return url;
+    }
+  }, [app.logo]);
 
   const handleDownload = (e) => {
     e.stopPropagation(); // Prevent card click event
@@ -38,44 +41,42 @@ const AppCard = ({ app, index, onOpenTelegramPopup }) => {
     onOpenTelegramPopup(app);
   };
 
-  // Enhanced image loading with caching detection
+  // Handle highlighting and scrolling
   useEffect(() => {
-    if (app.logo) {
-      // Check if image is already cached
-      const img = new Image();
-      img.onload = () => {
-        setIsImageCached(true);
-        setIsImageLoaded(true);
-        setImageLoadProgress(100);
-      };
-      img.onerror = () => {
-        setIsImageError(true);
-        setIsImageLoaded(true);
-      };
+    if (isHighlighted && !shouldScrollIntoView) {
+      setShouldScrollIntoView(true);
       
-      // Preload image for instant display
-      img.src = app.logo;
-      
-      // Simulate progressive loading for better UX
-      if (!isImageCached) {
-        const progressInterval = setInterval(() => {
-          setImageLoadProgress(prev => {
-            if (prev >= 90) {
-              clearInterval(progressInterval);
-              return 90;
-            }
-            return prev + Math.random() * 20;
+      // Scroll to highlighted app after a short delay
+      const scrollTimeout = setTimeout(() => {
+        const cardElement = document.querySelector(`[data-app-id="${app.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}"]`);
+        if (cardElement) {
+          cardElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center',
+            inline: 'nearest'
           });
-        }, 100);
-        
-        return () => clearInterval(progressInterval);
-      }
+        }
+      }, 500);
+      
+      // Remove highlighting after animation
+      const highlightTimeout = setTimeout(() => {
+        if (onHighlightComplete) {
+          onHighlightComplete();
+        }
+        setShouldScrollIntoView(false);
+      }, 4000);
+      
+      return () => {
+        clearTimeout(scrollTimeout);
+        clearTimeout(highlightTimeout);
+      };
     }
-  }, [app.logo, isImageCached]);
+  }, [isHighlighted, shouldScrollIntoView, app.name, onHighlightComplete]);
+
+  // Avoid manual preloading to let browser lazy-load and reduce main-thread work
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);
-    setImageLoadProgress(100);
   };
 
   const handleImageError = () => {
@@ -124,9 +125,13 @@ const AppCard = ({ app, index, onOpenTelegramPopup }) => {
     </div>
   );
 
+  // Generate app ID for data attribute
+  const appId = app.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+
   return (
     <motion.div 
-      className={`app-card ${isMobile ? 'mobile' : 'desktop'}`}
+      className={`app-card ${isMobile ? 'mobile' : 'desktop'} ${isHighlighted ? 'highlighted' : ''}`}
+      data-app-id={appId}
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
@@ -134,27 +139,36 @@ const AppCard = ({ app, index, onOpenTelegramPopup }) => {
       whileHover={!isMobile ? "hover" : undefined}
       whileTap="tap"
       onClick={handleCardClick}
-      {...hoverVariants}
+      animate={isHighlighted ? {
+        scale: [1, 1.05, 1],
+        boxShadow: [
+          '0 4px 20px rgba(102, 126, 234, 0.3)',
+          '0 8px 40px rgba(102, 126, 234, 0.6)',
+          '0 4px 20px rgba(102, 126, 234, 0.3)'
+        ]
+      } : {}}
+      transition={isHighlighted ? {
+        duration: 2,
+        repeat: 1,
+        repeatType: 'reverse'
+      } : hoverVariants.transition}
+      {...(isHighlighted ? {} : hoverVariants)}
     >
       <div className="app-card-image" onClick={handleImageClick}>
         {!isImageError ? (
           <img
-            src={app.logo}
-            alt={app.name}
+            src={optimizedLogoUrl}
+            alt={`${app.name} - ${app.category} mobile app icon. Download premium ${app.name} app from MODZY marketplace`}
+            title={`${app.name} v${app.version || '1.0'} - ${app.category} app`}
             onLoad={handleImageLoad}
             onError={handleImageError}
-            loading={index < 4 ? "eager" : "lazy"}
+            loading={index < 2 ? "eager" : "lazy"}
             decoding="async"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: '8px',
-              opacity: isImageLoaded ? 1 : 0,
-              filter: isImageLoaded ? 'blur(0px)' : 'blur(5px)',
-              transform: isImageLoaded ? 'scale(1)' : 'scale(1.05)',
-              transition: 'opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease'
-            }}
+            fetchPriority={index < 2 ? "high" : "auto"}
+            referrerPolicy="no-referrer"
+            width={512}
+            height={512}
+            className={`app-card-image ${isImageLoaded ? 'loaded' : 'loading'}`}
           />
         ) : (
           <ImageFallback />
@@ -168,12 +182,6 @@ const AppCard = ({ app, index, onOpenTelegramPopup }) => {
         {!isImageLoaded && !isImageError && (
           <div className="image-placeholder">
             <div className="placeholder-shimmer" />
-            <div className="loading-progress">
-              <div 
-                className="progress-bar" 
-                style={{ width: `${imageLoadProgress}%` }}
-              />
-            </div>
           </div>
         )}
       </div>
@@ -200,4 +208,4 @@ const AppCard = ({ app, index, onOpenTelegramPopup }) => {
   );
 };
 
-export default AppCard;
+export default memo(AppCard);

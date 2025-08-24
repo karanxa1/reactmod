@@ -1,11 +1,18 @@
-/* Terms and Conditions Page Styles */
+/* Terms and Conditions Styles */
 .terms-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
   color: #ffffff;
   position: relative;
   overflow-x: hidden;
   padding: 2rem 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  will-change: scroll-position;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Background Effects */
@@ -128,18 +135,24 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
 }
 
 .terms-section {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(10, 10, 10, 0.8) 0%, rgba(26, 26, 26, 0.6) 100%);
+  border-radius: 16px;
   padding: 2.5rem;
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
 }
 
 .terms-section::before {
@@ -166,12 +179,21 @@
   gap: 1rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid rgba(0, 212, 255, 0.2);
 }
 
 .section-icon {
-  color: #00ffff;
-  filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.5));
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 8px;
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+  transition: all 0.3s ease;
+}
+
+.section-icon:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.5));
 }
 
 .section-header h2 {

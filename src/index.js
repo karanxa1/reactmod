@@ -12,32 +12,7 @@ root.render(
 );
 
 // Register service worker for caching and offline functionality
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        console.log('SW registered: ', registration);
-        
-        // Check for updates
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New content is available, prompt user to refresh
-                if (window.confirm('New version available! Refresh to update?')) {
-                  window.location.reload();
-                }
-              }
-            });
-          }
-        });
-      })
-      .catch((registrationError) => {
-        console.log('SW registration failed: ', registrationError);
-      });
-  });
-}
+// Removed duplicate service worker registration (kept a single robust block below)
 
 // Enhanced Mobile Viewport and Touch Optimizations
 const addMobileOptimizations = () => {
@@ -52,6 +27,19 @@ const addMobileOptimizations = () => {
   viewport.name = 'viewport';
   viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=no';
   document.head.appendChild(viewport);
+  
+  // Add smooth scrolling CSS
+  const smoothScrollStyle = document.createElement('style');
+  smoothScrollStyle.textContent = `
+    html, body {
+      scroll-behavior: smooth !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    * {
+      scroll-behavior: smooth;
+    }
+  `;
+  document.head.appendChild(smoothScrollStyle);
 
   // Add meta tags for mobile optimization
   const metaTags = [
@@ -78,11 +66,12 @@ const addMobileOptimizations = () => {
 // Prevent horizontal scrolling and width expansion
 const preventHorizontalScroll = () => {
   // Prevent elastic bounce on iOS
+  // Avoid blocking scrolling with non-passive listeners
   document.addEventListener('touchmove', (e) => {
     if (e.touches.length > 1) {
       e.preventDefault();
     }
-  }, { passive: false });
+  }, { passive: true });
 
   // Prevent zoom on input focus
   document.addEventListener('touchstart', (e) => {

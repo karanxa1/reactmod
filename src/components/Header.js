@@ -1,5 +1,5 @@
 import React from 'react';
-import { Smartphone } from 'lucide-react';
+import logo from '../logo.png';
 import './Header.css';
 
 const Header = () => {
@@ -8,7 +8,15 @@ const Header = () => {
       <div className="container">
         <div className="header-content">
           <div className="logo">
-            <Smartphone className="logo-icon" />
+            <img 
+              src={logo} 
+              className="logo-icon" 
+              alt="MODZY - Premium Mobile Apps Marketplace Logo" 
+              title="MODZY - Your destination for premium mobile apps"
+              width={28} 
+              height={28}
+              loading="eager"
+            />
             <span className="logo-text">MODZY</span>
           </div>
           

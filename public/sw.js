@@ -80,6 +80,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
+  // Skip external resources that should be handled by browser directly
+  if (isExternalResource(url)) {
+    return;
+  }
+  
   // Handle different types of requests
   if (isStaticAsset(url)) {
     event.respondWith(handleStaticAsset(request));
@@ -107,6 +112,16 @@ function isAPIRequest(url) {
          url.pathname.includes('/api/');
 }
 
+// Check if request is for external resources that should bypass service worker
+function isExternalResource(url) {
+  return url.hostname.includes('fonts.googleapis.com') ||
+         url.hostname.includes('fonts.gstatic.com') ||
+         url.hostname.includes('raw.githubusercontent.com') ||
+         url.hostname.includes('github.com') ||
+         url.hostname.includes('profitableratecpm.com') ||
+         url.hostname.includes('physicsimpatient.com');
+}
+
 // Check if request is for images
 function isImageRequest(url) {
   return url.pathname.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i) ||
@@ -127,13 +142,16 @@ function handleStaticAsset(request) {
             const responseClone = networkResponse.clone();
             caches.open(STATIC_CACHE_NAME)
               .then((cache) => {
-                cache.put(request, responseClone);
+                cache.put(request, responseClone).catch((error) => {
+                  console.warn('[SW] Failed to cache static asset:', error);
+                });
               });
           }
           return networkResponse;
         });
     })
-    .catch(() => {
+    .catch((error) => {
+      console.warn('[SW] Failed to handle static asset:', request.url, error);
       // Return offline fallback for static assets
       return new Response('Offline - Static asset not available', {
         status: 503,
@@ -150,12 +168,15 @@ function handleAPIRequest(request) {
         const responseClone = networkResponse.clone();
         caches.open(DYNAMIC_CACHE_NAME)
           .then((cache) => {
-            cache.put(request, responseClone);
+            cache.put(request, responseClone).catch((error) => {
+              console.warn('[SW] Failed to cache API response:', error);
+            });
           });
       }
       return networkResponse;
     })
-    .catch(() => {
+    .catch((error) => {
+      console.warn('[SW] Failed to fetch API request:', request.url, error);
       // Fallback to cache for API requests
       return caches.match(request)
         .then((cachedResponse) => {
@@ -188,18 +209,24 @@ function handleImageRequest(request) {
           const fetchPromise = fetch(request)
             .then((networkResponse) => {
               if (networkResponse.ok) {
-                cache.put(request, networkResponse.clone());
+                // Only cache successful responses
+                cache.put(request, networkResponse.clone()).catch((error) => {
+                  console.warn('[SW] Failed to cache image:', error);
+                });
               }
               return networkResponse;
             })
-            .catch(() => {
-              // Return placeholder image if network fails and no cache
-              if (!cachedResponse) {
-                return new Response('', {
-                  status: 404,
-                  statusText: 'Image not found'
-                });
+            .catch((error) => {
+              console.warn('[SW] Failed to fetch image:', request.url, error);
+              // Return cached version if available, otherwise let the error propagate
+              if (cachedResponse) {
+                return cachedResponse;
               }
+              // Don't try to cache failed requests
+              return new Response('', {
+                status: 404,
+                statusText: 'Image not found'
+              });
             });
           
           // Return cached version immediately, update in background
@@ -216,12 +243,15 @@ function handleNavigationRequest(request) {
         const responseClone = networkResponse.clone();
         caches.open(DYNAMIC_CACHE_NAME)
           .then((cache) => {
-            cache.put(request, responseClone);
+            cache.put(request, responseClone).catch((error) => {
+              console.warn('[SW] Failed to cache navigation response:', error);
+            });
           });
       }
       return networkResponse;
     })
-    .catch(() => {
+    .catch((error) => {
+      console.warn('[SW] Failed to fetch navigation request:', request.url, error);
       // Fallback to cached version or offline page
       return caches.match(request)
         .then((cachedResponse) => {
