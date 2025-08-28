@@ -8,10 +8,9 @@ const path = require('path');
  */
 
 const INPUT_DIRS = ['./public', './src'];
-const SIZES = [320, 640, 1024, 1920];
+const SIZES = [640, 1024]; // Essential responsive breakpoints only
 const FORMATS = [
-  { ext: 'webp', options: { quality: 80 } },
-  { ext: 'avif', options: { quality: 70, effort: 4 } }
+  { ext: 'webp', options: { quality: 85 } } // WebP only for better build performance
 ];
 
 // Image file extensions to process

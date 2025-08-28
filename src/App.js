@@ -93,15 +93,23 @@ const HomePage = ({ apps, isLoading, isMobile, handleOpenTelegramPopup, highligh
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            Best Mod Apps Download 2025
+            MODZY - Premium Mobile Apps Marketplace
           </motion.h1>
-          <motion.p 
+          <motion.h2 
             className="main-subtitle"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           >
-            Download Instagram mod apk, Telegram mod apk, WhatsApp mod, and premium mod apps. 
+            Download Best Mod Apps & Premium Android Applications
+          </motion.h2>
+          <motion.p 
+            className="hero-description"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+          >
+            Discover and download premium mobile apps including Instagram mod apk, Telegram mod apk, WhatsApp mod, and exclusive Android applications. 
             Safe mod apk downloads with latest versions and regular updates.
           </motion.p>
         </div>
@@ -117,6 +125,11 @@ const HomePage = ({ apps, isLoading, isMobile, handleOpenTelegramPopup, highligh
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
+          <h2 className="section-title">Featured Mobile Applications</h2>
+          <p className="section-description">
+            Discover our curated collection of premium mobile apps and games. 
+            All applications are thoroughly tested and verified for security.
+          </p>
           {isLoading ? (
             <LoadingSkeleton />
           ) : (
@@ -149,32 +162,76 @@ const HomePage = ({ apps, isLoading, isMobile, handleOpenTelegramPopup, highligh
         
 
         
-        <motion.div 
+        <motion.section 
           id="featured"
           className="features-section"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
         >
+          <h2 className="section-title">Why Choose MODZY?</h2>
+          <p className="section-description">
+            Experience the best mobile app marketplace with premium features and secure downloads.
+          </p>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">🚀</div>
               <h3>Fast Downloads</h3>
-              <p>Lightning-fast download speeds for all your favorite mod apps</p>
+              <p>Lightning-fast download speeds for all your favorite mobile applications</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🔒</div>
               <h3>Secure & Safe</h3>
-              <p>All mod apk files are thoroughly tested and verified for security</p>
+              <p>All application files are thoroughly tested and verified for security</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🎯</div>
               <h3>Curated Selection</h3>
-              <p>Hand-picked premium mod apps for the best user experience</p>
+              <p>Hand-picked premium applications for the best user experience</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">📱</div>
+              <h3>Mobile Optimized</h3>
+              <p>Perfect experience across all devices and screen sizes</p>
             </div>
           </div>
-        </motion.div>
+        </motion.section>
         
+        {/* App Categories Section */}
+        <motion.section 
+          id="categories"
+          className="categories-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
+        >
+          <h2 className="section-title">Popular App Categories</h2>
+          <p className="section-description">
+            Explore mobile applications organized by categories to find exactly what you need.
+          </p>
+          <div className="categories-grid">
+            <div className="category-card">
+              <h3>Social Media Apps</h3>
+              <p>Instagram, Telegram, WhatsApp and other social networking applications</p>
+              <a href="#apps" className="category-link">Browse Social Apps</a>
+            </div>
+            <div className="category-card">
+              <h3>Educational Apps</h3>
+              <p>Learning tools, study apps, and educational content for all ages</p>
+              <a href="#apps" className="category-link">Browse Educational Apps</a>
+            </div>
+            <div className="category-card">
+              <h3>Utility Apps</h3>
+              <p>Productivity tools, file managers, and utility applications</p>
+              <a href="#apps" className="category-link">Browse Utility Apps</a>
+            </div>
+            <div className="category-card">
+              <h3>Entertainment Apps</h3>
+              <p>Games, streaming apps, and entertainment content</p>
+              <a href="#apps" className="category-link">Browse Entertainment Apps</a>
+            </div>
+          </div>
+        </motion.section>
 
       </div>
       
@@ -301,7 +358,7 @@ function App() {
     <ErrorBoundary>
       <HelmetProvider>
         <SEOStructuredData apps={apps} />
-        <Router>
+        <Router basename={process.env.NODE_ENV === 'production' ? undefined : ''}>
           <DynamicSEO />
           <motion.div 
             className={`App ${isMobile ? 'mobile' : 'desktop'}`}
@@ -319,26 +376,28 @@ function App() {
             <div className="spinner"></div>
           </div>
         }>
-          <Routes>
-            <Route 
-               path="/" 
-               element={
-                 <HomePage 
-                   apps={apps}
-                   isLoading={isLoading}
-                   isMobile={isMobile}
-                   handleOpenTelegramPopup={handleOpenTelegramPopup}
-                   highlightedAppId={highlightedAppId}
-                   setHighlightedAppId={setHighlightedAppId}
-                 />
-               } 
-             />
-            <Route path="/terms" element={<TermsConditions />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/ad-test" element={<AdTest />} />
-            {/* Catch-all route for 404 pages */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route 
+                 path="/" 
+                 element={
+                   <HomePage 
+                     apps={apps}
+                     isLoading={isLoading}
+                     isMobile={isMobile}
+                     handleOpenTelegramPopup={handleOpenTelegramPopup}
+                     highlightedAppId={highlightedAppId}
+                     setHighlightedAppId={setHighlightedAppId}
+                   />
+                 } 
+               />
+              <Route path="/terms" element={<TermsConditions />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/ad-test" element={<AdTest />} />
+              {/* Catch-all route for 404 pages */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ErrorBoundary>
         </Suspense>
         
         <motion.div

@@ -83,6 +83,22 @@ const NativeBanner = () => {
           setAdLoaded(false);
         };
         
+        // Add global error handler for script execution errors
+        const originalOnError = window.onerror;
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+          // Check if the error is related to our ad script
+          if (url && url.includes('profitableratecpm.com')) {
+            console.error('❌ [BOTTOM BANNER] Script execution error:', { msg, url, lineNo, columnNo });
+            setAdLoaded(false);
+            return true; // Prevent the error from being logged as unhandled
+          }
+          // Call original error handler for other errors
+          if (originalOnError) {
+            return originalOnError.apply(this, arguments);
+          }
+          return false;
+        };
+        
         // Append script to document head
         document.head.appendChild(adScript);
         
@@ -100,6 +116,11 @@ const NativeBanner = () => {
       clearTimeout(timer);
     };
   }, []);
+
+  // If there's an error, don't render anything to prevent crashes
+  if (!containerRef.current && !adLoaded) {
+    return null;
+  }
 
   return (
     <div className={`native-banner-container ${adLoaded ? 'ad-visible' : 'ad-hidden'}`}>

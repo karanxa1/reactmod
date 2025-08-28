@@ -29,30 +29,40 @@ const isCacheValid = () => {
 
 // Get all apps with real-time updates and caching
 export const subscribeToApps = (callback) => {
-  // Return cached data immediately if available
-  if (isCacheValid()) {
-    callback(appsCache);
-  }
-  
-  const q = query(collection(db, APPS_COLLECTION), orderBy("createdAt", "desc"));
-  return onSnapshot(q, (snapshot) => {
-    const apps = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    
-    // Update cache
-    appsCache = apps;
-    cacheTimestamp = Date.now();
-    
-    callback(apps);
-  }, (error) => {
-    console.error("Error in subscribeToApps:", error);
-    // Fallback to cached data if available
-    if (appsCache) {
+  try {
+    // Return cached data immediately if available
+    if (isCacheValid()) {
       callback(appsCache);
     }
-  });
+    
+    const q = query(collection(db, APPS_COLLECTION), orderBy("createdAt", "desc"));
+    return onSnapshot(q, (snapshot) => {
+      const apps = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      // Update cache
+      appsCache = apps;
+      cacheTimestamp = Date.now();
+      
+      callback(apps);
+    }, (error) => {
+      console.error("Error in subscribeToApps:", error);
+      // Fallback to cached data if available
+      if (appsCache) {
+        callback(appsCache);
+      } else {
+        // Provide empty array as fallback
+        callback([]);
+      }
+    });
+  } catch (error) {
+    console.error("Critical error in subscribeToApps:", error);
+    // Provide empty array as fallback
+    callback([]);
+    return () => {}; // Return empty cleanup function
+  }
 };
 
 // Get all apps (one-time fetch) with caching
@@ -93,6 +103,7 @@ export const preloadApps = async () => {
     }
   } catch (error) {
     console.error("Error preloading apps:", error);
+    // Don't throw the error, just log it
   }
 };
 

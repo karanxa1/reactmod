@@ -22,9 +22,9 @@ const DynamicSEO = ({ app = null, customTitle = '', customDescription = '' }) =>
     switch (pathname) {
       case '/':
         seoData = {
-          title: 'MODZY - Premium Mobile Apps Marketplace | Download Android Apps & Games',
-          description: 'Discover and download premium mobile apps and games at MODZY. Your ultimate destination for curated Android applications with secure downloads and community support.',
-          keywords: 'mobile apps, android apps, premium apps, app download, modzy apps, mobile games, android games, app marketplace'
+          title: 'MODZY - Premium Mobile Apps Marketplace | Download Android Apps & Games 2025',
+          description: 'Discover and download premium mobile apps and games at MODZY. Your ultimate destination for curated Android applications including Instagram mod apk, Telegram mod apk, WhatsApp mod, and exclusive apps with secure downloads and community support.',
+          keywords: 'mobile apps, android apps, premium apps, app download, modzy apps, mobile games, android games, app marketplace, Instagram mod apk, Telegram mod apk, WhatsApp mod, mod apps download'
         };
         break;
         
@@ -94,6 +94,13 @@ const DynamicSEO = ({ app = null, customTitle = '', customDescription = '' }) =>
       
       {/* Canonical URL */}
       <link rel="canonical" href={currentUrl} />
+      
+      {/* Language and Region */}
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale:alternate" content="en_GB" />
+      <meta name="language" content="English" />
+      <meta name="geo.region" content="IN" />
+      <meta name="geo.country" content="India" />
       
       {/* Open Graph Tags */}
       <meta property="og:title" content={seoData.title} />

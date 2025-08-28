@@ -249,6 +249,86 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.95rem;
 }
 
+
+
+/* Section Styles */
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-description {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Categories Section */
+.categories-section {
+  padding: 4rem 0;
+  background: rgba(255, 255, 255, 0.02);
+  margin: 2rem 0;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.category-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon-blue);
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+}
+
+.category-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--neon-blue);
+}
+
+.category-card p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.category-link {
+  display: inline-block;
+  color: var(--neon-blue);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--neon-blue);
+  border-radius: 8px;
+  transition: var(--transition-smooth);
+}
+
+.category-link:hover {
+  background: var(--neon-blue);
+  color: var(--primary-bg);
+  transform: translateY(-2px);
+}
+
 .hero-section::before {
   content: '';
   position: absolute;
@@ -628,6 +708,59 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   height: 100vh;
   width: 100%;
+}
+
+/* Mobile Responsive Styles for New Sections */
+@media (max-width: 768px) {
+  
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .section-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .categories-section {
+    padding: 2rem 0;
+    margin: 1rem 0;
+  }
+  
+  .categories-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+  
+  .category-card {
+    padding: 1.5rem;
+  }
+  
+  .category-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .category-card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .section-description {
+    font-size: 0.95rem;
+    padding: 0 0.5rem;
+  }
+  
+  .category-card {
+    padding: 1rem;
+  }
 }
 
 .spinner {

@@ -2,13 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <App />
 );
 
 // Register service worker for caching and offline functionality
@@ -127,7 +124,8 @@ window.hapticFeedback = (type = 'light') => {
   }
 };
 
-// Service Worker Registration
+// Service Worker Registration - Temporarily disabled for debugging
+/*
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
@@ -154,10 +152,36 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+*/
+
+// Global error handler for unhandled script errors
+window.addEventListener('error', (event) => {
+  console.error('🚨 Global Error Handler - Unhandled Error:', {
+    message: event.message,
+    filename: event.filename,
+    lineno: event.lineno,
+    colno: event.colno,
+    error: event.error,
+    stack: event.error?.stack,
+    timestamp: new Date().toISOString()
+  });
+  
+  // Don't prevent default error handling
+  return false;
+});
+
+// Global handler for unhandled promise rejections
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('🚨 Global Error Handler - Unhandled Promise Rejection:', {
+    reason: event.reason,
+    promise: event.promise,
+    timestamp: new Date().toISOString()
+  });
+  
+  // Don't prevent default error handling
+  return false;
+});
 
 // Initialize mobile optimizations after all functions are defined
 addMobileOptimizations();
 preventHorizontalScroll();
-
-// Optional: you can comment out the line below or remove it
-// reportWebVitals();

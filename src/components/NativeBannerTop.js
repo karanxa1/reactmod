@@ -1,49 +1,53 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './AdSense.css';
 
-// Top Banner Ad Component - Alternative Implementation to Avoid Connection Issues
+// Top Banner Ad Component - Simplified and Reliable Implementation
 const NativeBannerTop = () => {
   const containerRef = useRef(null);
   const [adLoaded, setAdLoaded] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // Initialize top banner ad when component mounts
+    // Only initialize once
+    if (isInitialized) return;
+
     const initializeTopBanner = () => {
       try {
-        console.log('🚀 [TOP BANNER] Initializing alternative top banner ad (400% larger height)...');
+        console.log('🚀 [TOP BANNER] Initializing top banner ad...');
         
         const container = containerRef.current;
         if (!container) {
-          console.error('❌ [TOP BANNER] Container not found!');
-          return;
+          console.warn('⚠️ [TOP BANNER] Container not ready, will retry...');
+          return false;
         }
 
         // Clear any existing content
         container.innerHTML = '';
         
-        // Create a unique container ID for this banner to avoid conflicts
-        const uniqueContainerId = 'top-banner-container-' + Math.random().toString(36).substr(2, 9);
-        container.id = uniqueContainerId;
-        
-        // Create the container div that the ad script expects
+        // Create the ad container
         const adContainer = document.createElement('div');
         adContainer.id = 'container-top-banner-ad';
         adContainer.className = 'ad-container-top';
-        
-        // Append the ad container to our main container
         container.appendChild(adContainer);
         
-        // Try alternative approach - use the same working script as bottom banner but with different container
+        // Create the script element
         const asyncScript = document.createElement('script');
         asyncScript.async = true;
         asyncScript.setAttribute('data-cfasync', 'false');
-        asyncScript.setAttribute('data-ad-client', 'top-banner-alternative');
-        // Use HTTPS explicitly to avoid CSP issues with protocol-relative URLs
+        asyncScript.setAttribute('data-ad-client', 'top-banner');
         asyncScript.src = 'https://pl27491390.profitableratecpm.com/6c60b3df6dc253ab9508ae6ced4c8836/invoke.js';
         
-        // Add load success handler
+        // Add timeout to prevent hanging
+        const scriptTimeout = setTimeout(() => {
+          console.warn('⚠️ [TOP BANNER] Script loading timeout, hiding ad space');
+          setAdLoaded(false);
+          setIsInitialized(true);
+        }, 8000);
+        
+        // Handle script load success
         asyncScript.onload = () => {
-          console.log('✅ [TOP BANNER] Alternative script loaded successfully!');
+          clearTimeout(scriptTimeout);
+          console.log('✅ [TOP BANNER] Script loaded successfully!');
           
           // Create the container that the script expects
           const scriptContainer = document.createElement('div');
@@ -55,72 +59,72 @@ const NativeBannerTop = () => {
           scriptContainer.style.overflow = 'hidden';
           scriptContainer.style.borderRadius = '8px';
           
-          // Append to our ad container
           adContainer.appendChild(scriptContainer);
-          
-          console.log('📝 [TOP BANNER] Script container created and appended');
           
           // Check if ads load after a delay
           setTimeout(() => {
             const hasContent = scriptContainer.innerHTML.trim() !== '';
             const hasChildren = scriptContainer.children.length > 0;
             
-            console.log('📊 [TOP BANNER] Alternative ad content check:', {
-              hasContent,
-              hasChildren,
-              contentLength: scriptContainer.innerHTML.length,
-              childrenCount: scriptContainer.children.length
-            });
-            
             if (!hasContent && !hasChildren) {
-              console.warn('❌ [TOP BANNER] No ads loaded with alternative method, hiding ad space');
-              // Hide the entire ad container instead of showing fallback
+              console.warn('❌ [TOP BANNER] No ads loaded, hiding ad space');
               setAdLoaded(false);
             } else {
-              console.log('✅ [TOP BANNER] Alternative ads loaded successfully!');
+              console.log('✅ [TOP BANNER] Ads loaded successfully!');
               setAdLoaded(true);
             }
+            setIsInitialized(true);
           }, 3000);
         };
         
-        // Add error handling for script loading
+        // Handle script load error
         asyncScript.onerror = (error) => {
-          console.error('❌ [TOP BANNER] Alternative script failed to load:', error);
-          // Hide the ad space instead of showing fallback content
+          clearTimeout(scriptTimeout);
+          console.error('❌ [TOP BANNER] Script failed to load:', error);
           setAdLoaded(false);
-          console.log('❌ [TOP BANNER] Hiding ad space due to script error');
+          setIsInitialized(true);
         };
         
-        console.log('📝 [TOP BANNER] Appending alternative script to document head...');
+        // Append script to document
         document.head.appendChild(asyncScript);
-        console.log('📝 [TOP BANNER] Alternative script appended successfully');
+        return true;
         
       } catch (error) {
-        console.error('💥 [TOP BANNER] Critical error in initialization:', error);
-        
-        // Hide the ad space on error instead of showing fallback
+        console.error('💥 [TOP BANNER] Critical error:', error);
         setAdLoaded(false);
-        console.log('💥 [TOP BANNER] Hiding ad space due to critical error');
+        setIsInitialized(true);
+        return false;
       }
     };
 
-    // Initialize with a delay to ensure DOM is ready
-    const timer = setTimeout(initializeTopBanner, 100);
+    // Try to initialize with retry logic
+    const tryInitialize = () => {
+      if (!initializeTopBanner()) {
+        // Retry after a short delay
+        setTimeout(tryInitialize, 500);
+      }
+    };
+
+    // Start initialization after a delay
+    const timer = setTimeout(tryInitialize, 300);
     
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [isInitialized]);
+
+  // Don't render if there's an error and no container
+  if (!containerRef.current && !adLoaded && isInitialized) {
+    return null;
+  }
 
   return (
     <div className={`native-banner-top-container ${adLoaded ? 'ad-visible' : 'ad-hidden'}`}>
       <div ref={containerRef} id="container-top-banner">
-        {/* Container for 320x200 banner ad (400% larger height) */}
+        {/* Container for 320x200 banner ad */}
       </div>
     </div>
   );
 };
 
-// Export the top banner component
 export default NativeBannerTop;
-export { NativeBannerTop };
