@@ -22,6 +22,7 @@ const TermsConditions = lazy(() => import('./components/TermsConditions'));
 const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
 const AdTest = lazy(() => import('./components/AdTest'));
 const NotFound = lazy(() => import('./components/NotFound'));
+const TelegramPopupDemo = lazy(() => import('./components/TelegramPopupDemo'));
 
 // Home Page Component
 const HomePage = ({ apps, isLoading, isMobile, handleOpenTelegramPopup, highlightedAppId, setHighlightedAppId }) => {
@@ -394,6 +395,7 @@ function App() {
               <Route path="/terms" element={<TermsConditions />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/ad-test" element={<AdTest />} />
+              <Route path="/telegram-demo" element={<TelegramPopupDemo />} />
               {/* Catch-all route for 404 pages */}
               <Route path="*" element={<NotFound />} />
             </Routes>

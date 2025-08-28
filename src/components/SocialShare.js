@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Share2, Facebook, Twitter, Linkedin, MessageCircle, Link2, Check } from 'lucide-react';
+import { Share2, Facebook, Twitter, Linkedin, MessageCircle, Link2, Check, X } from 'lucide-react';
 import './SocialShare.css';
 
 const SocialShare = ({ 
@@ -11,7 +11,8 @@ const SocialShare = ({
   className = '',
   showLabel = true,
   size = 'medium',
-  variant = 'default'
+  variant = 'default',
+  onShareOpen = null
 }) => {
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -34,8 +35,35 @@ const SocialShare = ({
     pinterest: `https://pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}&media=${encodedImage}`
   };
 
-  // Handle native sharing (Web Share API)
+  // Handle primary share action - native share on mobile, copy on desktop
+  const handlePrimaryShare = async () => {
+    if (onShareOpen) onShareOpen(); // Notify parent component
+    
+    // Check if device is mobile and has native share support
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile && navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: description,
+          url: url
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+        // Fallback to copy link
+        handleCopyLink();
+      }
+    } else {
+      // Desktop behavior - copy to clipboard
+      handleCopyLink();
+    }
+  };
+
+  // Handle native sharing (Web Share API) - kept for backward compatibility
   const handleNativeShare = async () => {
+    if (onShareOpen) onShareOpen(); // Notify parent component
+    
     if (navigator.share) {
       try {
         await navigator.share({
@@ -55,6 +83,8 @@ const SocialShare = ({
 
   // Copy link to clipboard
   const handleCopyLink = async () => {
+    if (onShareOpen) onShareOpen(); // Notify parent component
+    
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -66,6 +96,8 @@ const SocialShare = ({
 
   // Open share URL in new window
   const openShareWindow = (shareUrl) => {
+    if (onShareOpen) onShareOpen(); // Notify parent component
+    
     const width = 600;
     const height = 400;
     const left = (window.innerWidth - width) / 2;
@@ -121,11 +153,19 @@ const SocialShare = ({
       <div className={`social-share-compact ${className}`}>
         <button 
           className="share-trigger-btn"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={handlePrimaryShare}
           title="Share this content"
         >
           <Share2 size={size === 'small' ? 16 : 20} />
-          {showLabel && <span>Share</span>}
+          {showLabel && <span>{copied ? 'Copied!' : 'Share'}</span>}
+        </button>
+        
+        <button
+          className="share-options-btn"
+          onClick={() => setIsOpen(!isOpen)}
+          title="More share options"
+        >
+          ⋯
         </button>
         
         {isOpen && (
@@ -177,17 +217,15 @@ const SocialShare = ({
       )}
       
       <div className="share-buttons">
-        {/* Native Share Button (Mobile) */}
-        {navigator.share && (
-          <button
-            className="share-btn native-share"
-            onClick={handleNativeShare}
-            title="Share via device"
-          >
-            <Share2 size={size === 'small' ? 16 : 20} />
-            <span>Share</span>
-          </button>
-        )}
+        {/* Primary Share Button */}
+        <button
+          className="share-btn primary-share"
+          onClick={handlePrimaryShare}
+          title="Share this content"
+        >
+          <Share2 size={size === 'small' ? 16 : 20} />
+          <span>{copied ? 'Copied!' : 'Share'}</span>
+        </button>
         
         {/* Social Platform Buttons */}
         {socialPlatforms.map((platform) => {
@@ -206,15 +244,61 @@ const SocialShare = ({
           );
         })}
         
-        {/* Copy Link Button */}
+        {/* Additional Share Options Button */}
         <button
-          className={`share-btn copy-link ${copied ? 'copied' : ''}`}
-          onClick={handleCopyLink}
-          title="Copy link to clipboard"
+          className="share-btn more-options"
+          onClick={() => setIsOpen(!isOpen)}
+          title="More share options"
         >
-          {copied ? <Check size={size === 'small' ? 16 : 20} /> : <Link2 size={size === 'small' ? 16 : 20} />}
-          <span>{copied ? 'Copied!' : 'Copy Link'}</span>
+          <Share2 size={size === 'small' ? 16 : 20} />
+          <span>More Options</span>
         </button>
+        
+        {/* Share Options Dropdown */}
+        {isOpen && (
+          <div className="share-dropdown-overlay">
+            <div className="share-dropdown-content">
+              {socialPlatforms.map((platform) => {
+                const IconComponent = platform.icon;
+                return (
+                  <button
+                    key={platform.name}
+                    className={`share-option ${platform.className}`}
+                    onClick={() => {
+                      openShareWindow(platform.url);
+                      setIsOpen(false);
+                    }}
+                    title={`Share on ${platform.name}`}
+                  >
+                    <IconComponent size={16} />
+                    <span>{platform.name}</span>
+                  </button>
+                );
+              })}
+              
+              <button
+                className="share-option copy-link"
+                onClick={() => {
+                  handleCopyLink();
+                  setIsOpen(false);
+                }}
+                title="Copy link"
+              >
+                {copied ? <Check size={16} /> : <Link2 size={16} />}
+                <span>{copied ? 'Copied!' : 'Copy Link'}</span>
+              </button>
+              
+              <button
+                className="share-option close-options"
+                onClick={() => setIsOpen(false)}
+                title="Close options"
+              >
+                <X size={16} />
+                <span>Close</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

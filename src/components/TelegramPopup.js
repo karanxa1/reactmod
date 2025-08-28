@@ -1,13 +1,44 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Check } from 'lucide-react';
 import SocialShare from './SocialShare';
 import './TelegramPopup.css';
 
 const TelegramPopup = ({ isOpen, onClose, app }) => {
-  const [hasVisitedTelegram, setHasVisitedTelegram] = useState(false);
+  const [visitedChannels, setVisitedChannels] = useState(new Set());
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [pendingChannelVisit, setPendingChannelVisit] = useState(null);
+  const [lastChannelClickTime, setLastChannelClickTime] = useState(null);
+  const [isSocialSharingActive, setIsSocialSharingActive] = useState(false);
+
+  // Multiple Telegram channels configuration - memoized to prevent re-creation
+  const telegramChannels = useMemo(() => [
+    {
+      id: 'main',
+      name: 'MODZY Main Channel',
+      url: 'https://t.me/keyisheremybaby',
+      icon: '📱',
+      description: 'Main channel for app updates and announcements'
+    },
+    {
+      id: 'apps',
+      name: 'MODZY Apps',
+      url: 'https://t.me/ModzyApps',
+      icon: '🛠️',
+      description: 'Latest app releases and technical updates'
+    },
+    {
+      id: 'monetization',
+      name: 'MODZY Partners',
+      url: 'https://www.effectivecpmrate.com/pw0fwkgg?key=3039514160977ad9143e6dec573b390b',
+      icon: '⭐',
+      description: 'Exclusive partnerships and premium content'
+    }
+  ], []);
+
+  // Check if all required channels are visited
+  const allChannelsVisited = telegramChannels.length === visitedChannels.size;
 
 
 
@@ -15,12 +46,12 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
   // Reset states when popup opens and manage body scroll
   useEffect(() => {
     if (isOpen && app) {
-      setHasVisitedTelegram(false);
+      setVisitedChannels(new Set());
       setIsCheckboxChecked(false);
       setImageError(false);
-
-      
-
+      setPendingChannelVisit(null);
+      setLastChannelClickTime(null);
+      setIsSocialSharingActive(false);
       
       // Don't prevent body scroll - let user scroll naturally
       // Just add a class for styling purposes
@@ -36,30 +67,61 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
     };
   }, [isOpen, app]);
 
-  // Handle window focus to detect return from Telegram
+  // Handle window focus to detect return from external links
   useEffect(() => {
-    let timeoutId;
+    let focusTimeoutId;
     
     const handleWindowFocus = () => {
-      if (isOpen && !hasVisitedTelegram) {
-        // Add a small delay to ensure user actually visited Telegram
-        timeoutId = setTimeout(() => {
-          setHasVisitedTelegram(true);
-        }, 1000);
+      if (isOpen && pendingChannelVisit && !isSocialSharingActive) {
+        // Only process if we have a pending channel visit, no social sharing is active, and enough time has passed
+        const now = Date.now();
+        const timeSinceClick = lastChannelClickTime ? now - lastChannelClickTime : 0;
+        
+        // Require at least 2 seconds to have passed since the click
+        // This prevents false positives from quick window focus changes
+        if (timeSinceClick > 2000) {
+          focusTimeoutId = setTimeout(() => {
+            setVisitedChannels(prev => {
+              const newSet = new Set(prev);
+              newSet.add(pendingChannelVisit);
+              return newSet;
+            });
+            
+            // Clear pending visit
+            setPendingChannelVisit(null);
+            setLastChannelClickTime(null);
+            
+            // Optional: Add haptic feedback if available
+            if (window.hapticFeedback) {
+              window.hapticFeedback('light');
+            }
+            
+            console.log(`Marked channel ${pendingChannelVisit} as visited`);
+          }, 500); // Additional delay to ensure user actually visited the link
+        }
+      }
+    };
+    
+    const handleWindowBlur = () => {
+      // Clear any pending focus timeout when window loses focus
+      if (focusTimeoutId) {
+        clearTimeout(focusTimeoutId);
       }
     };
 
     if (isOpen) {
       window.addEventListener('focus', handleWindowFocus, { passive: true });
+      window.addEventListener('blur', handleWindowBlur, { passive: true });
     }
 
     return () => {
       window.removeEventListener('focus', handleWindowFocus);
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+      window.removeEventListener('blur', handleWindowBlur);
+      if (focusTimeoutId) {
+        clearTimeout(focusTimeoutId);
       }
     };
-  }, [isOpen, hasVisitedTelegram]);
+  }, [isOpen, pendingChannelVisit, lastChannelClickTime, isSocialSharingActive]);
 
   // Ensure focus is trapped within popup for accessibility
   useEffect(() => {
@@ -88,8 +150,21 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [isOpen, onClose]);
 
-  const handleTelegramClick = useCallback(() => {
-    window.open('https://t.me/keyisheremybaby', '_blank');
+  const handleTelegramClick = useCallback((channelUrl, channelId) => {
+    // Set pending channel visit and timestamp
+    setPendingChannelVisit(channelId);
+    setLastChannelClickTime(Date.now());
+    
+    // Open link in new tab
+    const newWindow = window.open(channelUrl, '_blank', 'noopener,noreferrer');
+    
+    // Focus the new window if it was successfully opened
+    if (newWindow) {
+      newWindow.focus();
+    }
+    
+    // Log the click for debugging
+    console.log(`Opening channel: ${channelId} - ${channelUrl} at ${new Date().toISOString()}`);
   }, []);
 
   const handleCheckboxChange = useCallback((e) => {
@@ -97,17 +172,28 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
   }, []);
 
   const handleDownload = useCallback(() => {
-    if (hasVisitedTelegram && isCheckboxChecked && app?.downloadLink) {
+    if (allChannelsVisited && isCheckboxChecked && app?.downloadLink) {
       window.open(app.downloadLink, '_blank');
       onClose();
     }
-  }, [hasVisitedTelegram, isCheckboxChecked, app?.downloadLink, onClose]);
+  }, [allChannelsVisited, isCheckboxChecked, app?.downloadLink, onClose]);
 
   const generateShareUrl = useCallback(() => {
     if (!app) return '';
     const appId = app.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     return `https://modzy.in?app=${appId}`;
   }, [app]);
+
+  // Handle social share actions to prevent false positive channel visits
+  const handleSocialShareOpen = useCallback(() => {
+    setIsSocialSharingActive(true);
+    
+    // Reset the social sharing flag after a delay
+    // This accounts for the time it takes for share dialogs to open and close
+    setTimeout(() => {
+      setIsSocialSharingActive(false);
+    }, 3000); // 3 seconds should be enough for most share operations
+  }, []);
 
 
 
@@ -207,65 +293,110 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
                 <div className="telegram-icon">
                   <span>📱</span>
                 </div>
-                <h3>Join Our Telegram Channel</h3>
+                <h3>Visit Our Required Links ({visitedChannels.size}/{telegramChannels.length})</h3>
                 {app?.description ? (
                   <div className="app-description-block">
                     <h4 className="app-description-title">App Description</h4>
                     <p className="app-description-text">{app.description}</p>
                   </div>
                 ) : (
-                  <p>Join our Telegram channel to get access, support and updates.</p>
+                  <p>Visit all {telegramChannels.length} required links to unlock the download.</p>
                 )}
                 
-                <button 
-                  className={`telegram-btn ${hasVisitedTelegram ? 'completed' : ''}`}
-                  onClick={handleTelegramClick}
-                  disabled={hasVisitedTelegram}
-                >
-                  <ExternalLink size={16} />
-                  {hasVisitedTelegram ? 'Channel Joined!' : 'Join Telegram Channel'}
-                </button>
+                <div className="telegram-channels-list">
+                  {telegramChannels.map((channel, index) => {
+                    const isVisited = visitedChannels.has(channel.id);
+                    const isAccessible = index === 0 || visitedChannels.has(telegramChannels[index - 1].id);
+                    
+                    return (
+                      <div key={channel.id} className={`channel-item ${
+                        isVisited ? 'completed' : isAccessible ? 'accessible' : 'locked'
+                      }`}>
+                        <div className="channel-info">
+                          <span className="channel-icon">{channel.icon}</span>
+                          <div className="channel-details">
+                            <h4>{channel.name}</h4>
+                            <p>{channel.description}</p>
+                          </div>
+                          <div className="channel-status">
+                            {isVisited ? (
+                              <Check size={20} className="status-icon completed" />
+                            ) : isAccessible ? (
+                              <ExternalLink size={16} className="status-icon accessible" />
+                            ) : (
+                              <span className="status-icon locked">🔒</span>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <button 
+                          className={`telegram-btn ${
+                            isVisited ? 'completed' : isAccessible ? '' : 'disabled'
+                          }`}
+                          onClick={() => isAccessible && !isVisited ? handleTelegramClick(channel.url, channel.id) : null}
+                          disabled={!isAccessible || isVisited}
+                        >
+                          {isVisited ? (
+                            <>✅ Visited!</>
+                          ) : isAccessible ? (
+                            <>🔗 Visit {channel.id === 'monetization' ? 'Partner Site' : 'Channel'} {index + 1}</>
+                          ) : (
+                            <>🔒 Complete Previous Steps</>
+                          )}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
                 
-                {hasVisitedTelegram && (
-                  <p className="success-message">
-                    <Check size={14} />
-                    Successfully joined Telegram channel
-                  </p>
+                {allChannelsVisited && (
+                  <div className="all-channels-success">
+                    <p className="success-message">
+                      <Check size={16} />
+                      🎉 All required links visited successfully! You can now download the app.
+                    </p>
+                  </div>
                 )}
               </div>
               
               <div className="confirmation-section">
-                <label className={`checkbox-container ${!hasVisitedTelegram ? 'disabled' : ''}`}>
+                <label className={`checkbox-container ${!allChannelsVisited ? 'disabled' : ''}`}>
                   <input
                     type="checkbox"
                     checked={isCheckboxChecked}
                     onChange={handleCheckboxChange}
-                    disabled={!hasVisitedTelegram}
+                    disabled={!allChannelsVisited}
                   />
                   <span className="checkmark">
                     {isCheckboxChecked && <Check size={12} />}
                   </span>
-                  I confirm that I have joined the Telegram channel
+                  I confirm that I have visited all {telegramChannels.length} required links
                 </label>
                 
-                {!hasVisitedTelegram && (
-                  <p className="hint-message">Please join the Telegram channel first</p>
+                {!allChannelsVisited && (
+                  <p className="hint-message">
+                    Please visit all {telegramChannels.length} required links first 
+                    ({visitedChannels.size}/{telegramChannels.length} completed)
+                  </p>
                 )}
               </div>
               
               {/* Social Share Component */}
               <div className="social-share-section">
-                <SocialShare 
-                  url={generateShareUrl()}
-                  title={`${app.name} - ${app.category} App`}
-                  description={app.description || `Download ${app.name} - Premium ${app.category} application from MODZY marketplace`}
-                  image={app.logo}
-                  hashtags={`${app.category},ModApk,AndroidApp,MODZY`}
-                  variant="compact"
-                  size="small"
-                  showLabel={true}
-                  className="popup-social-share"
-                />
+                <div className="social-share-wrapper">
+                  <SocialShare 
+                    url={generateShareUrl()}
+                    title={`${app.name} - ${app.category} App`}
+                    description={app.description || `Download ${app.name} - Premium ${app.category} application from MODZY marketplace`}
+                    image={app.logo}
+                    hashtags={`${app.category},ModApk,AndroidApp,MODZY`}
+                    variant="compact"
+                    size="small"
+                    showLabel={true}
+                    className="popup-social-share"
+                    onShareOpen={handleSocialShareOpen}
+                  />
+                </div>
               </div>
               
               <div className="popup-actions">
@@ -276,9 +407,9 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
                    Cancel
                  </button>
                  <button 
-                   className={`download-btn ${!hasVisitedTelegram || !isCheckboxChecked ? 'disabled' : ''}`}
+                   className={`download-btn ${!allChannelsVisited || !isCheckboxChecked ? 'disabled' : ''}`}
                    onClick={handleDownload}
-                   disabled={!hasVisitedTelegram || !isCheckboxChecked}
+                   disabled={!allChannelsVisited || !isCheckboxChecked}
                  >
                    Download App
                  </button>
