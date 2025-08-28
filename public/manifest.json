@@ -4,19 +4,19 @@
   "description": "Download and enjoy premium mobile applications and games",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "icon/modzylogo.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
-      "src": "logo192.jpg",
-      "type": "image/jpeg",
+      "src": "icon/modzylogo.png",
+      "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "logo512.jpg",
-      "type": "image/jpeg",
+      "src": "icon/modzylogo.png",
+      "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
     }
@@ -39,7 +39,7 @@
       "url": "/apps",
       "icons": [
         {
-          "src": "logo192.jpg",
+          "src": "icon/modzylogo.png",
           "sizes": "192x192"
         }
       ]
@@ -51,7 +51,7 @@
       "url": "/games",
       "icons": [
         {
-          "src": "logo192.jpg",
+          "src": "icon/modzylogo.png",
           "sizes": "192x192"
         }
       ]
@@ -59,8 +59,8 @@
   ],
   "screenshots": [
     {
-      "src": "logo512.jpg",
-      "type": "image/jpeg",
+      "src": "icon/modzylogo.png",
+      "type": "image/png",
       "sizes": "512x512",
       "form_factor": "narrow"
     }

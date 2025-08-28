@@ -154,8 +154,81 @@ if ('serviceWorker' in navigator) {
 }
 */
 
+// Enhanced console error interception for ad network errors
+if (process.env.NODE_ENV === 'development') {
+  const originalConsoleError = console.error;
+  console.error = function(...args) {
+    const message = args.join(' ');
+    
+    // Filter out ad network related errors
+    const isAdError = (
+      message.includes('Z3 is not a function') ||
+      message.includes('Z5 is not a function') ||
+      message.includes('Z4 is not a function') ||
+      message.includes('Z2 is not a function') ||
+      message.includes('Z1 is not a function') ||
+      message.includes('invoke.js') ||
+      message.includes('Content Security Policy') ||
+      message.includes('Refused to connect') ||
+      message.includes('Fetch API cannot load') ||
+      // Generic ad-related patterns
+      /\b[A-Z]\d+ is not a function\b/.test(message) ||
+      // Any CSP violation
+      message.includes('violates the following Content Security Policy')
+    );
+    
+    if (isAdError) {
+      // Silently log ad errors with a different prefix
+      console.warn('⚠️ [AD ERROR FILTERED]', ...args);
+      return;
+    }
+    
+    // Call original console.error for legitimate errors
+    originalConsoleError.apply(console, args);
+  };
+}
+
 // Global error handler for unhandled script errors
 window.addEventListener('error', (event) => {
+  // Enhanced ad network error filtering
+  const isAdNetworkError = (
+    event.message && (
+      event.message.includes('Z3 is not a function') ||
+      event.message.includes('Z5 is not a function') ||
+      event.message.includes('Z4 is not a function') ||
+      event.message.includes('Z2 is not a function') ||
+      event.message.includes('Z1 is not a function') ||
+      event.message.includes('invoke.js') ||
+      event.message.includes('ad network') ||
+      event.message.includes('script error') ||
+      event.message.includes('Content Security Policy') ||
+      event.message.includes('Refused to connect') ||
+      // Generic ad function error pattern
+      /\b[A-Z]\d+ is not a function\b/.test(event.message)
+    )
+  ) || (
+    event.filename && (
+      event.filename.includes('invoke.js') ||
+      // Generic ad domain pattern
+      /\.com\/.*invoke\.js/.test(event.filename)
+    )
+  );
+  
+  if (isAdNetworkError) {
+    console.warn('⚠️ [AD ERROR SUPPRESSED] Ad network error filtered:', {
+      message: event.message,
+      filename: event.filename,
+      source: 'Ad Network'
+    });
+    
+    // Prevent error from propagating
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    return true; // Prevent default error handling
+  }
+  
+  // Log non-ad errors normally
   console.error('🚨 Global Error Handler - Unhandled Error:', {
     message: event.message,
     filename: event.filename,
@@ -166,19 +239,67 @@ window.addEventListener('error', (event) => {
     timestamp: new Date().toISOString()
   });
   
-  // Don't prevent default error handling
+  // Don't prevent default error handling for legitimate errors
   return false;
 });
 
 // Global handler for unhandled promise rejections
 window.addEventListener('unhandledrejection', (event) => {
+  // Check if the rejection is related to ad networks
+  const reason = event.reason;
+  const isAdNetworkRejection = (
+    reason && (
+      (typeof reason === 'string' && (
+        reason.includes('Z3 is not a function') ||
+        reason.includes('Z5 is not a function') ||
+        reason.includes('Z4 is not a function') ||
+        reason.includes('Z2 is not a function') ||
+        reason.includes('Z1 is not a function') ||
+        reason.includes('invoke.js') ||
+        reason.includes('Content Security Policy') ||
+        reason.includes('Refused to connect') ||
+        // Generic ad function error pattern
+        /\b[A-Z]\d+ is not a function\b/.test(reason)
+      )) ||
+      (reason.message && (
+        reason.message.includes('Z3 is not a function') ||
+        reason.message.includes('Z5 is not a function') ||
+        reason.message.includes('Z4 is not a function') ||
+        reason.message.includes('Z2 is not a function') ||
+        reason.message.includes('Z1 is not a function') ||
+        reason.message.includes('invoke.js') ||
+        reason.message.includes('Content Security Policy') ||
+        reason.message.includes('Refused to connect') ||
+        // Generic ad function error pattern
+        /\b[A-Z]\d+ is not a function\b/.test(reason.message)
+      )) ||
+      (reason.stack && (
+        reason.stack.includes('invoke.js') ||
+        // Generic ad domain pattern in stack
+        /\.com\/.*invoke\.js/.test(reason.stack)
+      ))
+    )
+  );
+  
+  if (isAdNetworkRejection) {
+    console.warn('⚠️ [AD PROMISE REJECTION SUPPRESSED] Ad network promise rejection filtered:', {
+      reason: typeof reason === 'string' ? reason : reason?.message || 'Unknown',
+      source: 'Ad Network'
+    });
+    
+    // Prevent unhandled rejection
+    event.preventDefault();
+    return true;
+  }
+  
+  // Log non-ad promise rejections normally
   console.error('🚨 Global Error Handler - Unhandled Promise Rejection:', {
     reason: event.reason,
     promise: event.promise,
     timestamp: new Date().toISOString()
   });
   
-  // Don't prevent default error handling
+  // Don't prevent default error handling for legitimate rejections
   return false;
 });
 

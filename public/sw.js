@@ -114,12 +114,8 @@ function isAPIRequest(url) {
 
 // Check if request is for external resources that should bypass service worker
 function isExternalResource(url) {
-  return url.hostname.includes('fonts.googleapis.com') ||
-         url.hostname.includes('fonts.gstatic.com') ||
-         url.hostname.includes('raw.githubusercontent.com') ||
-         url.hostname.includes('github.com') ||
-         url.hostname.includes('profitableratecpm.com') ||
-         url.hostname.includes('physicsimpatient.com');
+  // Allow all external resources - no bypassing for ad networks
+  return false;
 }
 
 // Check if request is for images
