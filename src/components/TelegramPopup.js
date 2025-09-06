@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Check } from 'lucide-react';
 import SocialShare from './SocialShare';
+import { getAppUrl } from '../config/domain';
 import './TelegramPopup.css';
 
 const TelegramPopup = ({ isOpen, onClose, app }) => {
@@ -181,7 +182,7 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
   const generateShareUrl = useCallback(() => {
     if (!app) return '';
     const appId = app.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-    return `https://modzy.in?app=${appId}`;
+    return getAppUrl(appId);
   }, [app]);
 
   // Handle social share actions to prevent false positive channel visits

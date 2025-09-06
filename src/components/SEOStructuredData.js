@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { DOMAIN_CONFIG, getImageUrl, getAppUrl } from '../config/domain';
 
 const SEOStructuredData = ({ apps = [] }) => {
   // Website/Organization Schema
@@ -7,8 +8,8 @@ const SEOStructuredData = ({ apps = [] }) => {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "MODZY",
-    "url": "https://modzy.in",
-    "logo": "https://modzy.in/logo512.jpg",
+    "url": DOMAIN_CONFIG.baseUrl,
+    "logo": getImageUrl("/logo512.jpg"),
     "description": "Best mod apps download site offering Instagram mod apk, Telegram mod apk, WhatsApp mod, and premium mod apps with safe downloads",
     "sameAs": [
       "https://t.me/keyisheremybaby",
@@ -26,12 +27,12 @@ const SEOStructuredData = ({ apps = [] }) => {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "MODZY",
-    "url": "https://modzy.in",
+    "url": DOMAIN_CONFIG.baseUrl,
     "description": "Best mod apps download site. Download Instagram mod apk, Telegram mod apk, WhatsApp mod, educational mod apps, and premium mod apk files with safe, verified downloads.",
     "publisher": {
       "@type": "Organization",
       "name": "MODZY",
-      "logo": "https://modzy.in/logo512.jpg"
+      "logo": getImageUrl("/logo512.jpg")
     },
     "potentialAction": {
       "@type": "SearchAction",
@@ -46,7 +47,7 @@ const SEOStructuredData = ({ apps = [] }) => {
     "@type": "SoftwareApplication",
     "name": "MODZY Mod Apps Marketplace",
     "description": "Best mod apps download platform offering Instagram mod apk, Telegram mod apk, educational mod apps, and premium mod apk files with safe, verified downloads.",
-    "url": "https://modzy.in",
+    "url": DOMAIN_CONFIG.baseUrl,
     "applicationCategory": "Multimedia",
     "operatingSystem": "Web Browser, Android, iOS",
     "offers": {
@@ -69,9 +70,9 @@ const SEOStructuredData = ({ apps = [] }) => {
     "publisher": {
       "@type": "Organization",
       "name": "MODZY",
-      "logo": "https://modzy.in/logo512.jpg"
+      "logo": getImageUrl("/logo512.jpg")
     },
-    "screenshot": "https://modzy.in/logo512.jpg",
+    "screenshot": getImageUrl("/logo512.jpg"),
     "softwareVersion": "1.0.0",
     "datePublished": "2024-01-01",
     "dateModified": new Date().toISOString().split('T')[0]
@@ -88,7 +89,7 @@ const SEOStructuredData = ({ apps = [] }) => {
     "softwareVersion": app.version || "1.0.0",
     "fileSize": app.fileSize ? `${app.fileSize}MB` : undefined,
     "screenshot": app.logo,
-    "url": `https://modzy.in/app/${app.id}`,
+    "url": getAppUrl(app.id),
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -100,7 +101,7 @@ const SEOStructuredData = ({ apps = [] }) => {
       "name": "MODZY"
     },
     "downloadUrl": app.downloadLink,
-    "installUrl": `https://modzy.in/app/${app.id}`,
+    "installUrl": getAppUrl(app.id),
     "featureList": app.features || []
   }));
 
@@ -113,13 +114,13 @@ const SEOStructuredData = ({ apps = [] }) => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://modzy.in"
+        "item": DOMAIN_CONFIG.baseUrl
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Mobile Apps",
-        "item": "https://modzy.in/apps"
+        "item": `${DOMAIN_CONFIG.baseUrl}/apps`
       }
     ]
   };

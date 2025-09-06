@@ -1,10 +1,11 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
+import { DOMAIN_CONFIG } from '../config/domain';
 
 const DynamicSEO = ({ app = null, customTitle = '', customDescription = '' }) => {
   const location = useLocation();
-  const baseUrl = 'https://modzy.in';
+  const baseUrl = DOMAIN_CONFIG.baseUrl;
   const currentUrl = `${baseUrl}${location.pathname}`;
 
   // Generate page-specific SEO data

@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { Download, Shield, Star, Users, Zap, Smartphone } from 'lucide-react';
+import { DOMAIN_CONFIG } from '../config/domain';
 
 const KeywordLandingPage = () => {
   const { keyword } = useParams();
@@ -87,12 +88,12 @@ const KeywordLandingPage = () => {
         <title>{content.title}</title>
         <meta name="description" content={content.description} />
         <meta name="keywords" content={content.keywords} />
-        <link rel="canonical" href={`https://modzy.in/${keyword}`} />
+        <link rel="canonical" href={`${DOMAIN_CONFIG.baseUrl}/${keyword}`} />
         
         {/* Open Graph */}
         <meta property="og:title" content={content.title} />
         <meta property="og:description" content={content.description} />
-        <meta property="og:url" content={`https://modzy.in/${keyword}`} />
+        <meta property="og:url" content={`${DOMAIN_CONFIG.baseUrl}/${keyword}`} />
         <meta property="og:type" content="website" />
         
         {/* Structured Data */}
@@ -102,11 +103,11 @@ const KeywordLandingPage = () => {
             "@type": "WebPage",
             "name": content.title,
             "description": content.description,
-            "url": `https://modzy.in/${keyword}`,
+            "url": `${DOMAIN_CONFIG.baseUrl}/${keyword}`,
             "isPartOf": {
               "@type": "WebSite",
               "name": "MODZY",
-              "url": "https://modzy.in"
+              "url": DOMAIN_CONFIG.baseUrl
             }
           })}
         </script>

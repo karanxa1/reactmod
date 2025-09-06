@@ -1,6 +1,24 @@
 # Vercel Deployment Guide for MODZY
 
-This project is now ready for deployment on Vercel. Follow these steps to deploy:
+This project has been fully migrated from cPanel hosting to Vercel. All cPanel-specific configurations have been removed and replaced with Vercel-optimized settings.
+
+## Migration Summary
+
+### Removed cPanel-Specific Files:
+- ✅ `.htaccess` files (root and public directory)
+- ✅ `DEPLOYMENT.md` (cPanel deployment guide)
+- ✅ Windows-specific build commands
+- ✅ cPanel-specific post-build scripts
+
+### Added Vercel Configuration:
+- ✅ `vercel.json` - Complete Vercel configuration
+- ✅ `.vercelignore` - Deployment exclusions
+- ✅ Updated `package.json` scripts for Vercel
+- ✅ Security headers migrated to Vercel format
+- ✅ Caching rules optimized for Vercel
+- ✅ `src/config/domain.js` - Dynamic domain configuration
+- ✅ Updated all hardcoded domain references to use dynamic config
+- ✅ Made URLs relative for better Vercel compatibility
 
 ## Prerequisites
 - Vercel account (sign up at [vercel.com](https://vercel.com))
@@ -45,10 +63,14 @@ If you have any environment variables, add them in the Vercel dashboard:
 1. Go to Project Settings → Environment Variables
 2. Add your variables for Production, Preview, and Development
 
-### Custom Domain (Optional)
-1. Go to Project Settings → Domains
-2. Add your custom domain
-3. Follow DNS configuration instructions
+### Custom Domain Configuration
+Since you're using the same domain (modzy.in), you'll need to:
+1. Go to Project Settings → Domains in Vercel
+2. Add your custom domain: `modzy.in`
+3. Update your DNS records to point to Vercel:
+   - Add A record: `@` → `76.76.19.61`
+   - Add CNAME record: `www` → `cname.vercel-dns.com`
+4. Vercel will automatically provision SSL certificate
 
 ## Features Included
 

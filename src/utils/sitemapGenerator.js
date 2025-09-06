@@ -1,8 +1,9 @@
 // Sitemap Generator Utility for MODZY
 // This utility generates sitemap.xml for better SEO crawling
+import { DOMAIN_CONFIG } from '../config/domain';
 
 const generateSitemap = (apps = []) => {
-  const baseUrl = 'https://modzy.in';
+  const baseUrl = DOMAIN_CONFIG.baseUrl;
   const currentDate = new Date().toISOString().split('T')[0];
   
   // Static pages with their priorities and change frequencies
@@ -139,7 +140,7 @@ ${allPages.map(page => `  <url>
 
 // Generate robots.txt content
 const generateRobotsTxt = () => {
-  const baseUrl = 'https://modzy.in';
+  const baseUrl = DOMAIN_CONFIG.baseUrl;
   
   return `User-agent: *
 Allow: /

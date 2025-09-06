@@ -1,8 +1,9 @@
 // Enhanced Sitemap Generator for MODZY
 // Generates XML sitemap with proper priority and frequency settings
+import { DOMAIN_CONFIG } from '../config/domain';
 
 export const generateEnhancedSitemap = (apps = []) => {
-  const baseUrl = 'https://modzy.in';
+  const baseUrl = DOMAIN_CONFIG.baseUrl;
   const currentDate = new Date().toISOString().split('T')[0];
   
   // Static pages with SEO priority
