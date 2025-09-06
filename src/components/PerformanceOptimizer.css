@@ -1,0 +1,108 @@
+/* Performance Optimizer Styles */
+
+.performance-optimizer {
+  /* Default state - all animations enabled */
+}
+
+/* Low-end device optimizations */
+.low-end-device *,
+.low-end-device *::before,
+.low-end-device *::after {
+  animation-duration: 0.3s !important;
+  transition-duration: 0.2s !important;
+}
+
+.low-end-device .floating-particles,
+.low-end-device .interactive-bg,
+.low-end-device .bg-orb {
+  display: none !important;
+}
+
+.low-end-device .particle {
+  animation: none !important;
+}
+
+.low-end-device .animated-background {
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%) !important;
+}
+
+/* Slow connection optimizations */
+.slow-connection .floating-particles,
+.slow-connection .interactive-bg {
+  display: none !important;
+}
+
+.slow-connection .particle {
+  animation: none !important;
+}
+
+.slow-connection .animated-background {
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%) !important;
+}
+
+/* Body-level performance optimizations */
+body.low-performance {
+  /* Disable complex animations */
+}
+
+body.low-performance .floating-particles,
+body.low-performance .interactive-bg,
+body.low-performance .bg-orb,
+body.low-performance .mouse-follower {
+  display: none !important;
+}
+
+body.low-performance .particle {
+  animation: none !important;
+}
+
+body.low-performance .animated-background {
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%) !important;
+}
+
+body.low-performance .App::before,
+body.low-performance .App::after {
+  animation: none !important;
+}
+
+body.low-performance .gradient-mesh {
+  animation: none !important;
+}
+
+/* Reduce motion for low-performance devices */
+body.low-performance * {
+  animation-duration: 0.2s !important;
+  transition-duration: 0.1s !important;
+}
+
+/* Disable hover effects on touch devices for better performance */
+@media (hover: none) and (pointer: coarse) {
+  .performance-optimizer *:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 768px) {
+  .performance-optimizer .floating-particles,
+  .performance-optimizer .interactive-bg {
+    display: none !important;
+  }
+  
+  .performance-optimizer .particle {
+    animation: none !important;
+  }
+}
+
+/* Ultra-low performance mode */
+@media (max-width: 480px) {
+  .performance-optimizer .animated-background {
+    background: #000000 !important;
+  }
+  
+  .performance-optimizer .App::before,
+  .performance-optimizer .App::after {
+    display: none !important;
+  }
+}

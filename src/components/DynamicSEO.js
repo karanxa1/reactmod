@@ -12,36 +12,36 @@ const DynamicSEO = ({ app = null, customTitle = '', customDescription = '' }) =>
   const generateSEOData = () => {
     const pathname = location.pathname;
     
-    // Default SEO data
+    // Default SEO data - Enhanced for Mod Apps
     let seoData = {
-      title: 'MODZY - Premium Mobile Apps Marketplace | Download Android Apps & Games',
-      description: 'MODZY - Premium mobile apps marketplace. Download exclusive Android apps, games, and premium applications. Discover curated mobile apps with secure downloads and community support at modzy.in',
-      keywords: 'mobile apps, android apps, premium apps, app download, modzy apps, mobile games, android games, app marketplace, premium mobile apps, exclusive apps, modzy.in'
+      title: 'MODZY - Premium Mod APK Download | Modified Android Apps & Games 2025',
+      description: 'Download premium mod APK files and modified Android apps at MODZY. Get Instagram mod apk, WhatsApp mod, Telegram mod, and 1000+ modified apps with premium features unlocked. Safe, secure, and virus-free mod app downloads.',
+      keywords: 'mod apk, modified apps, android mod apk, premium mod apps, Instagram mod apk, WhatsApp mod apk, Telegram mod apk, modded games, cracked apps, premium features unlocked, mod app download, modified android apps, free premium apps, modzy mod apk, mod apk download site'
     };
 
     // Route-specific SEO optimization
     switch (pathname) {
       case '/':
         seoData = {
-          title: 'MODZY - Premium Mobile Apps Marketplace | Download Android Apps & Games 2025',
-          description: 'Discover and download premium mobile apps and games at MODZY. Your ultimate destination for curated Android applications including Instagram mod apk, Telegram mod apk, WhatsApp mod, and exclusive apps with secure downloads and community support.',
-          keywords: 'mobile apps, android apps, premium apps, app download, modzy apps, mobile games, android games, app marketplace, Instagram mod apk, Telegram mod apk, WhatsApp mod, mod apps download'
+          title: 'MODZY - #1 Mod APK Download Site | Premium Modified Apps & Games 2025',
+          description: 'Download the latest mod APK files and modified Android apps at MODZY. Get Instagram mod apk, WhatsApp mod apk, Telegram mod apk, YouTube mod apk, and 1000+ premium modified apps with unlocked features. Fast, secure, and virus-free downloads.',
+          keywords: 'mod apk download, modified apps, android mod apk, premium mod apps, Instagram mod apk, WhatsApp mod apk, Telegram mod apk, YouTube mod apk, modded games, cracked apps, premium features unlocked, mod app download, modified android apps, free premium apps, modzy mod apk, best mod apk site, mod apk store, mod apk hub'
         };
         break;
         
       case '/apps':
         seoData = {
-          title: 'Browse All Mobile Apps | MODZY Premium App Collection',
-          description: 'Browse our complete collection of premium mobile apps and games. Find the perfect Android applications for your needs at MODZY marketplace.',
-          keywords: 'browse mobile apps, android app collection, premium apps list, mobile games, app catalog'
+          title: 'Browse All Mod APK Files | Complete Collection of Modified Apps | MODZY',
+          description: 'Browse our complete collection of mod APK files and modified Android apps. Find Instagram mod apk, WhatsApp mod apk, Telegram mod apk, and 1000+ premium modified apps with unlocked features.',
+          keywords: 'browse mod apk, modified apps collection, android mod apk list, premium mod apps, modded games catalog, Instagram mod apk, WhatsApp mod apk, Telegram mod apk, YouTube mod apk, mod apk files, modified android apps'
         };
         break;
         
       case '/categories':
         seoData = {
-          title: 'App Categories | MODZY Mobile Apps by Category',
-          description: 'Explore mobile apps organized by categories. Find games, productivity, entertainment, and utility apps at MODZY premium marketplace.',
-          keywords: 'app categories, mobile app types, android games, productivity apps, entertainment apps'
+          title: 'Mod APK Categories | Modified Apps by Category | MODZY',
+          description: 'Explore mod APK files organized by categories. Find Instagram mod apk, WhatsApp mod apk, Telegram mod apk, YouTube mod apk, gaming mods, and utility mods at MODZY.',
+          keywords: 'mod apk categories, modified apps by category, Instagram mod apk, WhatsApp mod apk, Telegram mod apk, YouTube mod apk, gaming mods, utility mods, social media mods, entertainment mods, productivity mods'
         };
         break;
         
@@ -64,10 +64,13 @@ const DynamicSEO = ({ app = null, customTitle = '', customDescription = '' }) =>
       default:
         // Handle dynamic routes like /app/:id
         if (pathname.startsWith('/app/') && app) {
+          const isModApp = app.name.toLowerCase().includes('mod') || app.category.toLowerCase().includes('mod');
+          const modKeywords = isModApp ? 'mod apk, modified app, premium features unlocked, cracked app' : 'premium app, android app';
+          
           seoData = {
-            title: `${app.name} - Download ${app.category} App | MODZY`,
-            description: `Download ${app.name} - ${app.description || `Premium ${app.category} application available on MODZY marketplace`}. Version ${app.version || '1.0'}, ${app.fileSize || 'N/A'} MB.`,
-            keywords: `${app.name}, ${app.category}, mobile app, android app, download ${app.name}, premium app`
+            title: `${app.name} Mod APK Download | ${app.category} | MODZY`,
+            description: `Download ${app.name} mod APK - ${app.description || `Premium ${app.category} application with unlocked features`}. Version ${app.version || '1.0'}, ${app.fileSize || 'N/A'} MB. Safe and secure download from MODZY.`,
+            keywords: `${app.name} mod apk, ${app.name} download, ${app.category} mod apk, ${app.name} modified, ${modKeywords}, android app download, premium features unlocked, modzy download`
           };
         }
         break;
@@ -158,14 +161,15 @@ const DynamicSEO = ({ app = null, customTitle = '', customDescription = '' }) =>
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="googlebot" content="index, follow" />
       
-      {/* Structured Data for Individual Apps */}
+      {/* Enhanced Structured Data for Mod Apps */}
       {app && (
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": app.name,
-            "description": app.description || `${app.name} - Premium ${app.category} application`,
+            "name": `${app.name} Mod APK`,
+            "alternateName": `${app.name} Modified`,
+            "description": app.description || `${app.name} - Premium ${app.category} application with unlocked features and premium mods`,
             "applicationCategory": app.category,
             "operatingSystem": "Android",
             "softwareVersion": app.version || "1.0.0",
@@ -176,23 +180,35 @@ const DynamicSEO = ({ app = null, customTitle = '', customDescription = '' }) =>
               "@type": "Offer",
               "price": "0",
               "priceCurrency": "USD",
-              "availability": "https://schema.org/InStock"
+              "availability": "https://schema.org/InStock",
+              "description": "Free mod APK download with premium features unlocked"
             },
             "publisher": {
               "@type": "Organization",
               "name": "MODZY",
-              "url": "https://modzy.in"
+              "url": "https://modzy.in",
+              "logo": `${baseUrl}/logo512.jpg`,
+              "description": "Premium mod APK download site for modified Android apps"
             },
             "downloadUrl": app.downloadLink,
             "installUrl": currentUrl,
-            "featureList": app.features || [],
+            "featureList": app.features || ["Premium features unlocked", "Ad-free experience", "Enhanced functionality"],
             "aggregateRating": {
               "@type": "AggregateRating",
-              "ratingValue": "4.5",
-              "ratingCount": "150",
+              "ratingValue": "4.8",
+              "ratingCount": "2500",
               "bestRating": "5",
               "worstRating": "1"
-            }
+            },
+            "keywords": `${app.name} mod apk, ${app.category} mod, modified android app, premium features unlocked`,
+            "datePublished": new Date().toISOString(),
+            "dateModified": new Date().toISOString(),
+            "inLanguage": "en-US",
+            "isAccessibleForFree": true,
+            "license": "Free to use",
+            "softwareRequirements": "Android 5.0+",
+            "memoryRequirements": "100MB",
+            "storageRequirements": `${app.fileSize || 50}MB`
           })}
         </script>
       )}

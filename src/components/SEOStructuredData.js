@@ -10,7 +10,7 @@ const SEOStructuredData = ({ apps = [] }) => {
     "name": "MODZY",
     "url": DOMAIN_CONFIG.baseUrl,
     "logo": getImageUrl("/logo512.jpg"),
-    "description": "Best mod apps download site offering Instagram mod apk, Telegram mod apk, WhatsApp mod, and premium mod apps with safe downloads",
+    "description": "MODZY - Premium mod APK download site offering Instagram mod apk, WhatsApp mod apk, Telegram mod apk, YouTube mod apk, and 1000+ modified Android apps with premium features unlocked. Safe, secure, and virus-free downloads.",
     "sameAs": [
       "https://t.me/keyisheremybaby",
       "https://github.com/karanxa1"
@@ -28,7 +28,7 @@ const SEOStructuredData = ({ apps = [] }) => {
     "@type": "WebSite",
     "name": "MODZY",
     "url": DOMAIN_CONFIG.baseUrl,
-    "description": "Best mod apps download site. Download Instagram mod apk, Telegram mod apk, WhatsApp mod, educational mod apps, and premium mod apk files with safe, verified downloads.",
+    "description": "MODZY - Premium mod APK download site. Download Instagram mod apk, WhatsApp mod apk, Telegram mod apk, YouTube mod apk, and 1000+ modified Android apps with premium features unlocked. Fast, secure, and virus-free downloads.",
     "publisher": {
       "@type": "Organization",
       "name": "MODZY",
@@ -46,7 +46,7 @@ const SEOStructuredData = ({ apps = [] }) => {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "MODZY Mod Apps Marketplace",
-    "description": "Best mod apps download platform offering Instagram mod apk, Telegram mod apk, educational mod apps, and premium mod apk files with safe, verified downloads.",
+    "description": "MODZY - Premium mod APK download platform offering Instagram mod apk, WhatsApp mod apk, Telegram mod apk, YouTube mod apk, and 1000+ modified Android apps with premium features unlocked. Fast, secure, and virus-free downloads.",
     "url": DOMAIN_CONFIG.baseUrl,
     "applicationCategory": "Multimedia",
     "operatingSystem": "Web Browser, Android, iOS",

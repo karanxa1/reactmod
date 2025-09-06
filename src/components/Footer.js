@@ -1,84 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Smartphone, Github, MessageCircle, Mail, Heart, Download, Users, Shield } from 'lucide-react';
-
 
 import './Footer.css';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [stats, setStats] = useState({ apps: 0, downloads: 0, users: 0 });
-  const [isVisible, setIsVisible] = useState(false);
-
-  // Animated counter effect
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setIsVisible(true);
-          animateCounters();
-        }
-      },
-      { threshold: 0.1 } // Reduced threshold for better triggering
-    );
-
-    // Use a timeout to ensure DOM is ready
-    const timer = setTimeout(() => {
-      const footerElement = document.querySelector('.footer');
-      if (footerElement) {
-        observer.observe(footerElement);
-      } else {
-        // Fallback: trigger animation after 2 seconds if footer not found
-        setTimeout(() => {
-          if (!isVisible) {
-            setIsVisible(true);
-            animateCounters();
-          }
-        }, 2000);
-      }
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
-    };
-  }, [isVisible]);
-
-  const animateCounters = () => {
-    const targets = {
-      apps: 8,
-      downloads: 50000,
-      users: 200000
-    };
-    const duration = 2000;
-    const steps = 60;
-    const stepTime = duration / steps;
-
-    let currentStep = 0;
-    const timer = setInterval(() => {
-      currentStep++;
-      const progress = currentStep / steps;
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-
-      setStats({
-        apps: Math.floor(targets.apps * easeOut),
-        downloads: Math.floor(targets.downloads * easeOut),
-        users: Math.floor(targets.users * easeOut)
-      });
-
-      if (currentStep >= steps) {
-        clearInterval(timer);
-        setStats(targets);
-      }
-    }, stepTime);
-  };
-
-
 
   const handleSmoothScroll = (targetId) => {
     const element = document.getElementById(targetId);
     if (element) {
-      const headerOffset = 80; // Account for any fixed header
+      const headerOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -91,12 +23,7 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <div className="footer-bg-effects">
-        <div className="footer-gradient"></div>
-        <div className="footer-particles"></div>
-      </div>
-      
-      <div className="container">
+      <div className="footer-container">
         <div className="footer-content">
           {/* Brand Section */}
           <div className="footer-section footer-brand">
@@ -110,30 +37,22 @@ const Footer = () => {
             </p>
             <div className="footer-stats">
               <div className="stat-item">
-                <div className="stat-icon">
-                  <Smartphone size={24} />
-                </div>
-                <span className="stat-number">{stats.apps}+</span>
+                <Smartphone className="stat-icon" size={24} />
+                <span className="stat-number">8+</span>
                 <span className="stat-label">Mod Apps</span>
               </div>
               <div className="stat-item">
-                <div className="stat-icon">
-                  <Download size={24} />
-                </div>
-                <span className="stat-number">{(stats.downloads / 1000).toFixed(1)}K+</span>
+                <Download className="stat-icon" size={24} />
+                <span className="stat-number">50K+</span>
                 <span className="stat-label">Downloads</span>
               </div>
               <div className="stat-item">
-                <div className="stat-icon">
-                  <Users size={24} />
-                </div>
-                <span className="stat-number">{(stats.users / 1000).toFixed(1)}K+</span>
+                <Users className="stat-icon" size={24} />
+                <span className="stat-number">200K+</span>
                 <span className="stat-label">Users</span>
               </div>
               <div className="stat-item">
-                <div className="stat-icon">
-                  <Shield size={24} />
-                </div>
+                <Shield className="stat-icon" size={24} />
                 <span className="stat-number">24/7</span>
                 <span className="stat-label">Support</span>
               </div>
@@ -144,11 +63,11 @@ const Footer = () => {
           <div className="footer-section">
             <h3 className="footer-title">Quick Links</h3>
             <ul className="footer-links">
-              <li><button onClick={() => handleSmoothScroll('apps')} className="footer-link footer-link-button">Browse Apps</button></li>
-              <li><button onClick={() => handleSmoothScroll('categories')} className="footer-link footer-link-button">Categories</button></li>
-              <li><button onClick={() => handleSmoothScroll('featured')} className="footer-link footer-link-button">Featured</button></li>
-              <li><button onClick={() => handleSmoothScroll('new')} className="footer-link footer-link-button">New Releases</button></li>
-              <li><button onClick={() => handleSmoothScroll('popular')} className="footer-link footer-link-button">Most Popular</button></li>
+              <li><button onClick={() => handleSmoothScroll('apps')} className="footer-link">Browse Apps</button></li>
+              <li><button onClick={() => handleSmoothScroll('categories')} className="footer-link">Categories</button></li>
+              <li><button onClick={() => handleSmoothScroll('featured')} className="footer-link">Featured</button></li>
+              <li><button onClick={() => handleSmoothScroll('new')} className="footer-link">New Releases</button></li>
+              <li><button onClick={() => handleSmoothScroll('popular')} className="footer-link">Most Popular</button></li>
             </ul>
           </div>
 
@@ -156,9 +75,9 @@ const Footer = () => {
           <div className="footer-section">
             <h3 className="footer-title">Support</h3>
             <ul className="footer-links">
-              <li><button onClick={() => handleSmoothScroll('help')} className="footer-link footer-link-button">  Help Center</button></li>
-              <li><button onClick={() => handleSmoothScroll('faq')} className="footer-link footer-link-button">  FAQ</button></li>
-              <li><button onClick={() => handleSmoothScroll('contact')} className="footer-link footer-link-button">Contact Us</button></li>
+              <li><button onClick={() => handleSmoothScroll('help')} className="footer-link">Help Center</button></li>
+              <li><button onClick={() => handleSmoothScroll('faq')} className="footer-link">FAQ</button></li>
+              <li><button onClick={() => handleSmoothScroll('contact')} className="footer-link">Contact Us</button></li>
               <li><Link to="/privacy" className="footer-link">Privacy Policy</Link></li>
               <li><Link to="/terms" className="footer-link">Terms of Service</Link></li>
             </ul>
@@ -172,7 +91,7 @@ const Footer = () => {
                 href="https://t.me/keyisheremybaby" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="social-link telegram"
+                className="social-link"
               >
                 <MessageCircle size={20} />
                 <span>Telegram</span>
@@ -181,14 +100,14 @@ const Footer = () => {
                 href="https://github.com/karanxa1" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="social-link github"
+                className="social-link"
               >
                 <Github size={20} />
                 <span>GitHub</span>
               </a>
               <a 
-                href="#email" 
-                className="social-link email"
+                href="mailto:support@modzy.in" 
+                className="social-link"
               >
                 <Mail size={20} />
                 <span>Email</span>

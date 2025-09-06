@@ -22,7 +22,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0a0a0a;
+  background: #000000;
   color: #fff;
   line-height: 1.6;
   /* Prevent horizontal scrolling and width expansion */
@@ -34,6 +34,9 @@ body {
   -webkit-overflow-scrolling: touch;
   /* Prevent zoom on input focus */
   -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -401,21 +404,21 @@ code {
   }
 }
 
-/* Dark mode optimizations for mobile */
+/* Dark mode optimizations for mobile - Darker Theme */
 @media (max-width: 768px) and (prefers-color-scheme: dark) {
   body {
-    background: #0a0a0a;
+    background: #000000;
   }
   
   .card {
-    background: rgba(10, 10, 10, 0.8);
+    background: rgba(0, 0, 0, 0.8);
     border-color: rgba(255, 255, 255, 0.05);
   }
   
   input,
   textarea,
   select {
-    background: rgba(10, 10, 10, 0.8);
+    background: rgba(0, 0, 0, 0.8);
     border-color: rgba(255, 255, 255, 0.1);
   }
 }
