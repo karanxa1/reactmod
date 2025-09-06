@@ -7,14 +7,15 @@ const path = require('path');
  * Generates WebP and AVIF versions of images in multiple sizes
  */
 
-const INPUT_DIRS = ['./public', './src'];
-const SIZES = [640, 1024]; // Essential responsive breakpoints only
+const INPUT_DIRS = ['./public/icon']; // Only process essential logo files
+const SIZES = [192, 512]; // Only essential sizes for PWA
 const FORMATS = [
   { ext: 'webp', options: { quality: 85 } } // WebP only for better build performance
 ];
 
-// Image file extensions to process
-const IMAGE_EXTENSIONS = /\.(jpg|jpeg|png)$/i;
+// Image file extensions to process - only essential logo files
+const IMAGE_EXTENSIONS = /\.(png)$/i;
+const ESSENTIAL_FILES = ['modzylogo.png', 'favicon.ico']; // Only process these files
 
 /**
  * Get all image files from directories
@@ -30,7 +31,7 @@ const getImageFiles = (dirs) => {
     
     const files = fs.readdirSync(dir);
     files.forEach(file => {
-      if (IMAGE_EXTENSIONS.test(file)) {
+      if (IMAGE_EXTENSIONS.test(file) && ESSENTIAL_FILES.includes(file)) {
         imageFiles.push({
           inputPath: path.join(dir, file),
           outputDir: dir,

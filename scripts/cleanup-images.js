@@ -12,7 +12,9 @@ const stat = promisify(fs.stat);
 const CLEANUP_PATTERNS = [
   /_\d+w\.(webp|avif)$/,  // Generated responsive images
   /_320w\.(jpg|jpeg|png)$/,  // Small size originals
-  /_1920w\.(jpg|jpeg|png)$/  // Large size originals
+  /_1920w\.(jpg|jpeg|png)$/,  // Large size originals
+  /_640w\.(jpg|jpeg|png)$/,   // Medium size originals
+  /_1024w\.(jpg|jpeg|png)$/   // Large size originals
 ];
 
 const DIRECTORIES = ['./public', './src'];
