@@ -7,6 +7,11 @@ const NativeBanner = () => {
   const [adLoaded, setAdLoaded] = useState(false);
 
   useEffect(() => {
+    // Gate ad loading behind environment flag to avoid automatic redirects in production
+    const shouldLoadAds = String(process.env.REACT_APP_ENABLE_ADS || '').toLowerCase() === 'true';
+    if (!shouldLoadAds) {
+      return;
+    }
     // Initialize bottom banner ad when component mounts
     const initializeBottomBanner = () => {
       try {

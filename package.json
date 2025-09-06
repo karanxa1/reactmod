@@ -22,15 +22,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && npm run post-build",
-    "build:with-images": "npm run optimize:images && react-scripts build && npm run post-build",
-    "build:prod": "set GENERATE_SOURCEMAP=false && react-scripts build && npm run post-build",
-    "build:prod:with-images": "npm run optimize:images && set GENERATE_SOURCEMAP=false && react-scripts build && npm run post-build",
-    "post-build": "echo 'Build completed successfully for cPanel hosting'",
+    "build": "react-scripts build",
+    "build:with-images": "npm run optimize:images && react-scripts build",
+    "build:prod": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build:prod:with-images": "npm run optimize:images && GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "analyze": "npm run build && npx serve -s build",
     "check": "npm run build:prod",
+    "vercel-build": "npm run build",
     "optimize:images": "node scripts/optimize-images.js",
     "optimize:images:force": "node scripts/optimize-images.js --force",
     "cleanup:images": "node scripts/cleanup-images.js"
@@ -53,7 +53,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://modzy.in",
+  "homepage": ".",
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=8.0.0"

@@ -18,8 +18,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} (.+)/$
 RewriteRule ^(.+)/$ /$1 [R=301,L]
 
-# Content Security Policy
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; style-src 'self' 'unsafe-inline' https: http:; font-src 'self' https: http:; img-src 'self' data: https: http: blob:; connect-src 'self' https: http:; frame-src 'self' https: http:;"
+# Content Security Policy - Permissive configuration for ad networks
+Header always set Content-Security-Policy "default-src 'self' https: http: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; style-src 'self' 'unsafe-inline' https: http:; font-src 'self' https: http: data:; img-src 'self' data: https: http: blob:; connect-src 'self' https: http: wss: ws:; frame-src 'self' https: http:; media-src 'self' https: http: data: blob:; object-src 'self' https: http:; child-src 'self' https: http:; worker-src 'self' https: http: blob:; base-uri 'self';"
 
 # Security Headers
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"

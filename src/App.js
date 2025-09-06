@@ -10,7 +10,7 @@ import SEOStructuredData from './components/SEOStructuredData';
 import Breadcrumb from './components/Breadcrumb';
 import DynamicSEO from './components/DynamicSEO';
 import ModAppFAQ from './components/ModAppFAQ';
-import NativeBanner from './components/AdSense';
+
 import NativeBannerTop from './components/NativeBannerTop';
 
 import ErrorBoundary from './components/ErrorBoundary';
@@ -238,11 +238,6 @@ const HomePage = ({ apps, isLoading, isMobile, handleOpenTelegramPopup, highligh
       
       {/* FAQ Section */}
       <ModAppFAQ />
-      
-      <div className="container">
-        {/* Native Banner Ad */}
-        <NativeBanner />
-      </div>
     </main>
   );
 };

@@ -31,7 +31,7 @@ const TelegramPopup = ({ isOpen, onClose, app }) => {
     {
       id: 'monetization',
       name: 'MODZY Partners',
-      url: 'https://www.effectivecpmrate.com/pw0fwkgg?key=3039514160977ad9143e6dec573b390b',
+      url: 'https://youtube.com/@thetemplatefactory?si=JlZfbk4MH1HsKjqT',
       icon: '⭐',
       description: 'Exclusive partnerships and premium content'
     }
