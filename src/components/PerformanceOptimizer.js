@@ -65,3 +65,4 @@ const PerformanceOptimizer = ({ children }) => {
 
 export default PerformanceOptimizer;
 
+

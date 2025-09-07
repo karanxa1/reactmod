@@ -150,3 +150,4 @@ const AnimatedLoader = ({ type = 'spinner', size = 'medium', color = 'primary' }
 
 export default AnimatedLoader;
 
+
