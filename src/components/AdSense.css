@@ -265,17 +265,14 @@ iframe[src*="invoke.js"] {
   z-index: 1 !important;
 }
 
-/* Block notification ads and popups specifically */
-div[class*="notification"],
-div[class*="push-notification"],
-div[id*="notification"],
-div[id*="popup"],
-div[class*="popup"]:not(.telegram-popup):not(.popup-app-logo):not(.popup-app-details):not(.popup-header):not(.popup-content):not(.popup-actions):not(.popup-social-share),
-div[class*="modal"]:not(.telegram-popup),
-div[class*="overlay"]:not(.mobile-overlay),
-div[style*="position: fixed"]:not(.App):not(.telegram-popup-backdrop):not(.animated-background),
-div[style*="z-index: 999"]:not(.telegram-popup),
-div[style*="z-index: 9999"]:not(.telegram-popup) {
+/* Block notification ads and popups specifically - more targeted */
+div[class*="ad-notification"],
+div[class*="push-ad"],
+div[id*="ad-notification"],
+iframe[src*="notification"],
+div[class*="ad-popup"]:not(.telegram-popup),
+div[class*="ad-modal"]:not(.telegram-popup),
+div[class*="ad-overlay"]:not(.mobile-overlay) {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -301,17 +298,28 @@ div[id*="container-6c60b3df6dc253ab9508ae6ced4c8836"] {
 /* Specific protection for app cards and interactive content */
 .apps-grid,
 .app-card,
-.apps-section {
+.apps-section,
+.app-card *,
+.apps-grid *,
+body,
+html,
+#root,
+main,
+section,
+.container {
   pointer-events: auto !important;
   position: relative;
   z-index: 20;
 }
 
 /* Ensure all interactive elements stay clickable */
-button, a, input, select, textarea, [role="button"], [tabindex] {
+button, a, input, select, textarea, [role="button"], [tabindex],
+.app-card, .telegram-btn, .download-btn, .cancel-btn, .popup-close-btn,
+.social-share-btn, .animated-button, .app-card-content,
+.header, .footer, .breadcrumb-nav, .navigation {
   pointer-events: auto !important;
   position: relative;
-  z-index: 100;
+  z-index: 100 !important;
 }
 
 /* Banner ads within container section spacers */

@@ -55,40 +55,23 @@ const NativeBannerTop = () => {
           setIsInitialized(true);
         }, 8000);
         
-        // Block notification APIs before loading ad script
+        // Temporarily disable API blocking to restore site functionality
         const originalNotification = window.Notification;
-        const originalAlert = window.alert;
-        const originalConfirm = window.confirm;
-        const originalPrompt = window.prompt;
-        const originalOpen = window.open;
         
-        // Disable notification API
+        // Only disable notification API, keep other functions working
         if (window.Notification) {
           window.Notification = undefined;
           delete window.Notification;
         }
-        
-        // Block popup functions
-        window.alert = () => console.warn('🚫 Alert blocked by ad protection');
-        window.confirm = () => false;
-        window.prompt = () => null;
-        window.open = () => {
-          console.warn('🚫 Popup blocked by ad protection');
-          return null;
-        };
         
         // Handle script load success
         asyncScript.onload = () => {
           clearTimeout(scriptTimeout);
           console.log('✅ [TOP BANNER] Script loaded successfully!');
           
-          // Restore original functions after a delay (for normal site functionality)
+          // Restore notification API after a delay
           setTimeout(() => {
             window.Notification = originalNotification;
-            window.alert = originalAlert;
-            window.confirm = originalConfirm;
-            window.prompt = originalPrompt;
-            window.open = originalOpen;
           }, 5000);
           
           // Create the container that the script expects
