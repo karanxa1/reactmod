@@ -8,6 +8,15 @@ const NativeBannerTop = () => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    // Temporarily disable ad loading to fix click interaction issues
+    // Ad networks are creating invisible overlays blocking user interaction
+    const shouldLoadAds = false;
+    if (!shouldLoadAds) {
+      console.log('🚫 [TOP BANNER] Ad loading disabled to prevent interaction blocking');
+      setIsInitialized(true);
+      return;
+    }
+    
     // Only initialize once
     if (isInitialized) return;
 
