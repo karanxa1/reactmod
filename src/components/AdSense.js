@@ -40,12 +40,46 @@ const NativeBanner = () => {
         adScript.async = true;
         adScript.setAttribute('data-cfasync', 'false');
         adScript.setAttribute('data-ad-client', 'bottom-banner');
-        // Use only the legitimate profitableratecpm.com ad network
+        // Use only the legitimate profitableratecpm.com ad network - banner only
         adScript.src = 'https://pl27491390.profitableratecpm.com/6c60b3df6dc253ab9508ae6ced4c8836/invoke.js';
+        adScript.setAttribute('data-ad-format', 'banner');
+        adScript.setAttribute('data-no-notifications', 'true');
+        adScript.setAttribute('data-no-popups', 'true');
+        
+        // Block notification APIs before loading ad script
+        const originalNotification = window.Notification;
+        const originalAlert = window.alert;
+        const originalConfirm = window.confirm;
+        const originalPrompt = window.prompt;
+        const originalOpen = window.open;
+        
+        // Disable notification API
+        if (window.Notification) {
+          window.Notification = undefined;
+          delete window.Notification;
+        }
+        
+        // Block popup functions
+        window.alert = () => console.warn('🚫 Alert blocked by ad protection');
+        window.confirm = () => false;
+        window.prompt = () => null;
+        window.open = () => {
+          console.warn('🚫 Popup blocked by ad protection');
+          return null;
+        };
         
         // Add load success handler
         adScript.onload = () => {
           console.log('✅ [BOTTOM BANNER] Banner ad script loaded successfully!');
+          
+          // Restore original functions after a delay (for normal site functionality)
+          setTimeout(() => {
+            window.Notification = originalNotification;
+            window.alert = originalAlert;
+            window.confirm = originalConfirm;
+            window.prompt = originalPrompt;
+            window.open = originalOpen;
+          }, 5000);
           
           // Create the container that the script expects
           const scriptContainer = document.createElement('div');

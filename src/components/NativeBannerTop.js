@@ -44,6 +44,9 @@ const NativeBannerTop = () => {
         asyncScript.setAttribute('data-cfasync', 'false');
         asyncScript.setAttribute('data-ad-client', 'top-banner');
         asyncScript.src = 'https://pl27491390.profitableratecpm.com/6c60b3df6dc253ab9508ae6ced4c8836/invoke.js';
+        asyncScript.setAttribute('data-ad-format', 'banner');
+        asyncScript.setAttribute('data-no-notifications', 'true');
+        asyncScript.setAttribute('data-no-popups', 'true');
         
         // Add timeout to prevent hanging
         const scriptTimeout = setTimeout(() => {
@@ -52,10 +55,41 @@ const NativeBannerTop = () => {
           setIsInitialized(true);
         }, 8000);
         
+        // Block notification APIs before loading ad script
+        const originalNotification = window.Notification;
+        const originalAlert = window.alert;
+        const originalConfirm = window.confirm;
+        const originalPrompt = window.prompt;
+        const originalOpen = window.open;
+        
+        // Disable notification API
+        if (window.Notification) {
+          window.Notification = undefined;
+          delete window.Notification;
+        }
+        
+        // Block popup functions
+        window.alert = () => console.warn('🚫 Alert blocked by ad protection');
+        window.confirm = () => false;
+        window.prompt = () => null;
+        window.open = () => {
+          console.warn('🚫 Popup blocked by ad protection');
+          return null;
+        };
+        
         // Handle script load success
         asyncScript.onload = () => {
           clearTimeout(scriptTimeout);
           console.log('✅ [TOP BANNER] Script loaded successfully!');
+          
+          // Restore original functions after a delay (for normal site functionality)
+          setTimeout(() => {
+            window.Notification = originalNotification;
+            window.alert = originalAlert;
+            window.confirm = originalConfirm;
+            window.prompt = originalPrompt;
+            window.open = originalOpen;
+          }, 5000);
           
           // Create the container that the script expects
           const scriptContainer = document.createElement('div');

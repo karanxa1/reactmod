@@ -265,6 +265,32 @@ iframe[src*="invoke.js"] {
   z-index: 1 !important;
 }
 
+/* Block notification ads and popups specifically */
+div[class*="notification"],
+div[class*="push-notification"],
+div[id*="notification"],
+div[id*="popup"],
+div[class*="popup"]:not(.telegram-popup):not(.popup-app-logo):not(.popup-app-details):not(.popup-header):not(.popup-content):not(.popup-actions):not(.popup-social-share),
+div[class*="modal"]:not(.telegram-popup),
+div[class*="overlay"]:not(.mobile-overlay),
+div[style*="position: fixed"]:not(.App):not(.telegram-popup-backdrop):not(.animated-background),
+div[style*="z-index: 999"]:not(.telegram-popup),
+div[style*="z-index: 9999"]:not(.telegram-popup) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure only native banner containers are allowed */
+div[id*="container-6c60b3df6dc253ab9508ae6ced4c8836"] {
+  max-width: 320px !important;
+  max-height: 200px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  pointer-events: none !important;
+}
+
 /* Ensure main app content is always clickable */
 .App {
   pointer-events: auto !important;
