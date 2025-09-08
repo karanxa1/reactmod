@@ -272,6 +272,15 @@ iframe[src*="invoke.js"] {
   z-index: 10;
 }
 
+/* Specific protection for app cards and interactive content */
+.apps-grid,
+.app-card,
+.apps-section {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 20;
+}
+
 /* Ensure all interactive elements stay clickable */
 button, a, input, select, textarea, [role="button"], [tabindex] {
   pointer-events: auto !important;

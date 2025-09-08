@@ -7,11 +7,10 @@ const NativeBanner = () => {
   const [adLoaded, setAdLoaded] = useState(false);
 
   useEffect(() => {
-    // Temporarily disable ad loading to fix click interaction issues
-    // Ad networks are creating invisible overlays blocking user interaction
-    const shouldLoadAds = false; // String(process.env.REACT_APP_ENABLE_ADS || '').toLowerCase() === 'true';
+    // Re-enable ad loading with protection against overlays
+    const shouldLoadAds = String(process.env.REACT_APP_ENABLE_ADS || 'true').toLowerCase() === 'true';
     if (!shouldLoadAds) {
-      console.log('🚫 [BOTTOM BANNER] Ad loading disabled to prevent interaction blocking');
+      console.log('🚫 [BOTTOM BANNER] Ad loading disabled by environment flag');
       return;
     }
     // Initialize bottom banner ad when component mounts
