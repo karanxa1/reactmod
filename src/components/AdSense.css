@@ -224,6 +224,10 @@
   display: inline-block;
   overflow: hidden;
   border-radius: 4px;
+  /* Prevent ad containers from blocking clicks */
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
 }
 
 .ad-container-top {
@@ -233,6 +237,10 @@
   display: inline-block;
   overflow: hidden;
   border-radius: 8px;
+  /* Prevent ad containers from blocking clicks */
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
 }
 
 /* Visibility control classes */
@@ -242,6 +250,76 @@
 
 .ad-hidden {
   display: none;
+}
+
+/* Global protection against ad overlays blocking interaction */
+/* This prevents any dynamically injected ad elements from blocking clicks */
+div[id*="container-"][id*="banner"],
+div[id*="ad-"],
+div[class*="ad-overlay"],
+div[class*="popup-overlay"],
+iframe[src*="profitableratecpm"],
+iframe[src*="invoke.js"] {
+  pointer-events: none !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Block notification ads and popups specifically - more targeted */
+div[class*="ad-notification"],
+div[class*="push-ad"],
+div[id*="ad-notification"],
+iframe[src*="notification"],
+div[class*="ad-popup"]:not(.telegram-popup),
+div[class*="ad-modal"]:not(.telegram-popup),
+div[class*="ad-overlay"]:not(.mobile-overlay) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure only native banner containers are allowed */
+div[id*="container-6c60b3df6dc253ab9508ae6ced4c8836"] {
+  max-width: 320px !important;
+  max-height: 200px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  pointer-events: none !important;
+}
+
+/* Ensure main app content is always clickable */
+.App {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10;
+}
+
+/* Specific protection for app cards and interactive content */
+.apps-grid,
+.app-card,
+.apps-section,
+.app-card *,
+.apps-grid *,
+body,
+html,
+#root,
+main,
+section,
+.container {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 20;
+}
+
+/* Ensure all interactive elements stay clickable */
+button, a, input, select, textarea, [role="button"], [tabindex],
+.app-card, .telegram-btn, .download-btn, .cancel-btn, .popup-close-btn,
+.social-share-btn, .animated-button, .app-card-content,
+.header, .footer, .breadcrumb-nav, .navigation {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 100 !important;
 }
 
 /* Banner ads within container section spacers */

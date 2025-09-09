@@ -1,5 +1,5 @@
 # https://www.robotstxt.org/robotstxt.html
-# MODZY - Premium Mobile Apps Marketplace
+# MODZY - Premium Mod APK Download Site
 
 User-agent: *
 Allow: /
@@ -11,9 +11,18 @@ Disallow: /api/
 Disallow: /*.json$
 Disallow: /*.xml$
 
-# Allow important files
+# Allow important files and mod app pages
 Allow: /sitemap.xml
 Allow: /robots.txt
+Allow: /apps/
+Allow: /categories/
+Allow: /app/
+Allow: /instagram-mods/
+Allow: /whatsapp-mods/
+Allow: /telegram-mods/
+Allow: /educational-mods/
+Allow: /utility-mods/
+Allow: /streaming-mods/
 
 # Sitemap location
 Sitemap: https://modzy.in/sitemap.xml
@@ -21,7 +30,7 @@ Sitemap: https://modzy.in/sitemap.xml
 # Crawl delay (optional)
 Crawl-delay: 1
 
-# Specific bot instructions
+# Specific bot instructions for better indexing
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 0
@@ -29,3 +38,17 @@ Crawl-delay: 0
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Allow social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /

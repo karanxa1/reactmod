@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
+import { motion } from 'framer-motion';
 import './Breadcrumb.css';
 
 const Breadcrumb = ({ customBreadcrumbs = [] }) => {
@@ -67,12 +68,57 @@ const Breadcrumb = ({ customBreadcrumbs = [] }) => {
     return null;
   }
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const separatorVariants = {
+    hidden: { opacity: 0, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+        delay: 0.2
+      }
+    }
+  };
+
   return (
-    <nav className="breadcrumb-nav" aria-label="Breadcrumb navigation">
+    <motion.nav 
+      className="breadcrumb-nav" 
+      aria-label="Breadcrumb navigation"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="container">
         <ol className="breadcrumb-list" itemScope itemType="https://schema.org/BreadcrumbList">
           {breadcrumbs.map((breadcrumb, index) => (
-            <li 
+            <motion.li 
               key={breadcrumb.path}
               className={`breadcrumb-item ${
                 breadcrumb.isActive ? 'breadcrumb-item--active' : ''
@@ -80,43 +126,66 @@ const Breadcrumb = ({ customBreadcrumbs = [] }) => {
               itemProp="itemListElement"
               itemScope
               itemType="https://schema.org/ListItem"
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               {index === 0 && (
-                <Home className="breadcrumb-home-icon" size={16} />
+                <motion.div
+                  initial={{ rotate: -180, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Home className="breadcrumb-home-icon" size={16} />
+                </motion.div>
               )}
               
               {breadcrumb.isActive ? (
-                <span 
+                <motion.span 
                   className="breadcrumb-text breadcrumb-text--active"
                   itemProp="name"
                   aria-current="page"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 0.4 }}
                 >
                   {breadcrumb.name}
-                </span>
+                </motion.span>
               ) : (
-                <Link 
-                  to={breadcrumb.path}
-                  className="breadcrumb-link"
-                  itemProp="item"
+                <motion.div
+                  whileHover={{ x: 2 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <span itemProp="name">{breadcrumb.name}</span>
-                </Link>
+                  <Link 
+                    to={breadcrumb.path}
+                    className="breadcrumb-link"
+                    itemProp="item"
+                  >
+                    <span itemProp="name">{breadcrumb.name}</span>
+                  </Link>
+                </motion.div>
               )}
               
               <meta itemProp="position" content={index + 1} />
               
               {!breadcrumb.isActive && index < breadcrumbs.length - 1 && (
-                <ChevronRight 
-                  className="breadcrumb-separator" 
-                  size={14} 
-                  aria-hidden="true"
-                />
+                <motion.div
+                  variants={separatorVariants}
+                  whileHover={{ rotate: 90 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronRight 
+                    className="breadcrumb-separator" 
+                    size={14} 
+                    aria-hidden="true"
+                  />
+                </motion.div>
               )}
-            </li>
+            </motion.li>
           ))}
         </ol>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

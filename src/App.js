@@ -10,12 +10,17 @@ import SEOStructuredData from './components/SEOStructuredData';
 import Breadcrumb from './components/Breadcrumb';
 import DynamicSEO from './components/DynamicSEO';
 import ModAppFAQ from './components/ModAppFAQ';
+import AnimatedBackground from './components/AnimatedBackground';
 
 import NativeBannerTop from './components/NativeBannerTop';
 
 import ErrorBoundary from './components/ErrorBoundary';
+import PerformanceOptimizer from './components/PerformanceOptimizer';
+import ModAppSEO from './components/ModAppSEO';
 import { subscribeToApps, preloadApps } from './firebase/appService';
 import './App.css';
+import './components/Animations.css';
+import './components/PerformanceOptimizer.css';
 
 // Lazy load non-critical components for better performance
 const TermsConditions = lazy(() => import('./components/TermsConditions'));
@@ -352,10 +357,13 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <HelmetProvider>
-        <SEOStructuredData apps={apps} />
-        <Router basename={process.env.NODE_ENV === 'production' ? undefined : ''}>
-          <DynamicSEO />
+      <PerformanceOptimizer>
+        <HelmetProvider>
+          <SEOStructuredData apps={apps} />
+          <ModAppSEO />
+          <Router basename={process.env.NODE_ENV === 'production' ? undefined : ''}>
+            <DynamicSEO />
+            <AnimatedBackground />
           <motion.div 
             className={`App ${isMobile ? 'mobile' : 'desktop'}`}
             initial="initial"
@@ -416,7 +424,8 @@ function App() {
 
         </motion.div>
         </Router>
-      </HelmetProvider>
+        </HelmetProvider>
+      </PerformanceOptimizer>
     </ErrorBoundary>
   );
 }

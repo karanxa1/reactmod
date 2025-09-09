@@ -7,9 +7,10 @@ const NativeBanner = () => {
   const [adLoaded, setAdLoaded] = useState(false);
 
   useEffect(() => {
-    // Gate ad loading behind environment flag to avoid automatic redirects in production
-    const shouldLoadAds = String(process.env.REACT_APP_ENABLE_ADS || '').toLowerCase() === 'true';
+    // Re-enable ad loading with protection against overlays
+    const shouldLoadAds = String(process.env.REACT_APP_ENABLE_ADS || 'true').toLowerCase() === 'true';
     if (!shouldLoadAds) {
+      console.log('🚫 [BOTTOM BANNER] Ad loading disabled by environment flag');
       return;
     }
     // Initialize bottom banner ad when component mounts
@@ -39,12 +40,30 @@ const NativeBanner = () => {
         adScript.async = true;
         adScript.setAttribute('data-cfasync', 'false');
         adScript.setAttribute('data-ad-client', 'bottom-banner');
-        // Use only the legitimate profitableratecpm.com ad network
+        // Use only the legitimate profitableratecpm.com ad network - banner only
         adScript.src = 'https://pl27491390.profitableratecpm.com/6c60b3df6dc253ab9508ae6ced4c8836/invoke.js';
+        adScript.setAttribute('data-ad-format', 'banner');
+        adScript.setAttribute('data-no-notifications', 'true');
+        adScript.setAttribute('data-no-popups', 'true');
+        
+        // Temporarily disable API blocking to restore site functionality
+        // Only block if the ad script tries to use these APIs directly
+        const originalNotification = window.Notification;
+        
+        // Only disable notification API, keep other functions working
+        if (window.Notification) {
+          window.Notification = undefined;
+          delete window.Notification;
+        }
         
         // Add load success handler
         adScript.onload = () => {
           console.log('✅ [BOTTOM BANNER] Banner ad script loaded successfully!');
+          
+          // Restore notification API after a delay
+          setTimeout(() => {
+            window.Notification = originalNotification;
+          }, 5000);
           
           // Create the container that the script expects
           const scriptContainer = document.createElement('div');

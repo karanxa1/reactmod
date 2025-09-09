@@ -8,6 +8,14 @@ const NativeBannerTop = () => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    // Re-enable ad loading with protection against overlays
+    const shouldLoadAds = String(process.env.REACT_APP_ENABLE_ADS || 'true').toLowerCase() === 'true';
+    if (!shouldLoadAds) {
+      console.log('🚫 [TOP BANNER] Ad loading disabled by environment flag');
+      setIsInitialized(true);
+      return;
+    }
+    
     // Only initialize once
     if (isInitialized) return;
 
@@ -36,6 +44,9 @@ const NativeBannerTop = () => {
         asyncScript.setAttribute('data-cfasync', 'false');
         asyncScript.setAttribute('data-ad-client', 'top-banner');
         asyncScript.src = 'https://pl27491390.profitableratecpm.com/6c60b3df6dc253ab9508ae6ced4c8836/invoke.js';
+        asyncScript.setAttribute('data-ad-format', 'banner');
+        asyncScript.setAttribute('data-no-notifications', 'true');
+        asyncScript.setAttribute('data-no-popups', 'true');
         
         // Add timeout to prevent hanging
         const scriptTimeout = setTimeout(() => {
@@ -44,10 +55,24 @@ const NativeBannerTop = () => {
           setIsInitialized(true);
         }, 8000);
         
+        // Temporarily disable API blocking to restore site functionality
+        const originalNotification = window.Notification;
+        
+        // Only disable notification API, keep other functions working
+        if (window.Notification) {
+          window.Notification = undefined;
+          delete window.Notification;
+        }
+        
         // Handle script load success
         asyncScript.onload = () => {
           clearTimeout(scriptTimeout);
           console.log('✅ [TOP BANNER] Script loaded successfully!');
+          
+          // Restore notification API after a delay
+          setTimeout(() => {
+            window.Notification = originalNotification;
+          }, 5000);
           
           // Create the container that the script expects
           const scriptContainer = document.createElement('div');
