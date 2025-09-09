@@ -1,0 +1,83 @@
+[33mcfa08bf[m chore: clean up image assets and update build scripts
+[1mdiff --git a/IMAGE_CLEANUP_SUMMARY.md b/IMAGE_CLEANUP_SUMMARY.md[m
+[1mnew file mode 100644[m
+[1mindex 0000000..b47be53[m
+[1m--- /dev/null[m
+[1m+++ b/IMAGE_CLEANUP_SUMMARY.md[m
+[36m@@ -0,0 +1,84 @@[m
+[32m+[m[32m# 🖼️ Image Cleanup Summary[m
+[32m+[m
+[32m+[m[32m## ✅ Cleanup Completed[m
+[32m+[m
+[32m+[m[32mYour project has been cleaned up to remove excessive optimized images while keeping essential logo files for the website.[m
+[32m+[m
+[32m+[m[32m## 🗑️ Removed Files[m
+[32m+[m
+[32m+[m[32m### Public Directory:[m
+[32m+[m[32m- **Removed**: 100+ optimized logo files (logo192_*.jpg, logo512_*.jpg)[m
+[32m+[m[32m- **Kept**: Essential files:[m
+[32m+[m[32m  - `favicon.ico` - Website favicon[m
+[32m+[m[32m  - `logo192.jpg` - PWA icon (192x192)[m
+[32m+[m[32m  - `logo512.jpg` - PWA icon (512x512)[m
+[32m+[m[32m  - `icon/modzylogo.png` - Main logo[m
+[32m+[m
+[32m+[m[32m### Source Directory:[m
+[32m+[m[32m- **Removed**: 100+ optimized logo files (logo_*.png, logo1_*.png)[m
+[32m+[m[32m- **Kept**: Essential files:[m
+[32m+[m[32m  - `logo.png` - Main logo[m
+[32m+[m[32m  - `logo.svg` - Vector logo[m
+[32m+[m[32m  - `logo1.png` - Alternative logo[m
+[32m+[m
+[32m+[m[32m## 🔧 Updated Scripts[m
+[32m+[m
+[32m+[m[32m### Image Optimization Script (`scripts/optimize-images.js`):[m
+[32m+[m[32m- **Limited scope**: Only processes `./public/icon` directory[m
+[32m+[m[32m- **Essential files only**: Only processes `modzylogo.png` and `favicon.ico`[m
+[32m+[m[32m- **Reduced sizes**: Only generates 192px and 512px versions[m
+[32m+[m[32m- **Single format**: Only generates WebP format[m
+[32m+[m
+[32m+[m[32m### Cleanup Script (`scripts/cleanup-images.js`):[m
+[32m+[m[32m- **Enhanced patterns**: Added more cleanup patterns for various sizes[m
+[32m+[m[32m- **Better coverage**: Cleans up 320w, 640w, 1024w, 1920w variants[m
+[32m+[m
+[32m+[m[32m### Package.json Scripts:[m
+[32m+[m[32m- **Removed**: `build:with-images` and `build:prod:with-images`[m
+[32m+[m[32m- **Removed**: `optimize:images` and `optimize:images:force`[m
+[32m+[m[32m- **Kept**: `cleanup:images` for manual cleanup if needed[m
+[32m+[m
+[32m+[m[32m## 🎯 Benefits[m
+[32m+[m
+[32m+[m[32m1. **Reduced Bundle Size**: Removed hundreds of unnecessary image files[m
+[32m+[m[32m2. **Faster Builds**: No more image optimization during build[m
+[32m+[m[32m3. **Cleaner Repository**: Much smaller project size[m
+[32m+[m[32m4. **Firebase Integration**: App logos are now handled by Firebase as intended[m
+[32m+[m[32m5. **Essential Files Preserved**: All necessary logo files for PWA and favicon remain[m
+[32m+[m
+[32m+[m[32m## 📁 Current Image Structure[m
+[32m+[m
+[32m+[m[32m```[m
+[32m+[m[32mpublic/[m
+[32m+[m[32m├── favicon.ico          # Website favicon[m
+[32m+[m[32m├── logo192.jpg          # PWA icon (192x192)[m
+[32m+[m[32m├── logo512.jpg          # PWA icon (512x512)[m
+[32m+[m[32m└── icon/[m
+[32m+[m[32m    └── modzylogo.png    # Main logo[m
+[32m+[m
+[32m+[m[32msrc/[m
+[32m+[m[32m├── logo.png             # Main logo[m
+[32m+[m[32m├── logo.svg             # Vector logo[m
+[32m+[m[32m└── logo1.png            # Alternative logo[m
+[32m+[m[32m```[m
+[32m+[m
+[32m+[m[32m## 🚀 Next Steps[m
+[32m+[m
+[32m+[m[32m1. **App Images**: All app logos are now handled by Firebase[m
+[32m+[m[32m2. **Build Process**: Standard build without image optimization[m
+[32m+[m[32m3. **Deployment**: Cleaner, faster deployments to Vercel[m
+[32m+[m[32m4. **Maintenance**: Use `npm run cleanup:images` if needed[m
+[32m+[m
+[32m+[m[32m## ⚠️ Important Notes[m
+[32m+[m
+[32m+[m[32m- **App logos**: Now handled entirely by Firebase[m
+[32m+[m[32m- **Website logos**: Essential PWA and favicon files preserved[m
+[32m+[m[32m- **Future images**: Only essential logo files will be proce
